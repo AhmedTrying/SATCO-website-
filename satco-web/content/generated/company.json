@@ -1,0 +1,26 @@
+{
+  "title": "Company information",
+  "paragraphs": [
+    "SATCO is a Saudi-owned infrastructure and services company delivering complex projects that support the Kingdom’s long-term development. Established in 1975, SATCO has evolved from a traditional contractor into a fully integrated operating platform with the scale, expertise, and partnerships required to deliver, operate, as well as sustain critical assets.",
+    "Today, SATCO operates across four core platforms: Airport Infrastructure & Operations, Construction, Integrated Operations & Support Services, and Public–Private Partnerships (PPP). Together, these capabilities enable SATCO to provide end-to-end solutions spanning development, construction, long-term operations, as well as asset stewardship.",
+    "Grounded in deep local market knowledge and strengthened through decades of collaboration with leading international firms, SATCO combines global best practices with a practical understanding of regional dynamics. This balance allows the company to navigate complex regulatory environments, manage large as well as diverse workforces, and deliver reliably at scale.",
+    "SATCO’s longevity is defined not simply by time, but by adaptability—its ability to respond to changing economic cycles, evolving client needs, and increasingly sophisticated infrastructure requirements. This resilience, coupled with disciplined execution as well as a long-term partnership mindset, has positioned SATCO as a trusted partner to public and private stakeholders across the region."
+  ],
+  "eyebrow": "Our story",
+  "heading": "Five decades of building at national scale",
+  "facts": [
+    {
+      "value": "1975",
+      "label": "Established"
+    },
+    {
+      "value": "4",
+      "label": "Operating sectors"
+    }
+  ],
+  "image": {
+    "src": "neom",
+    "alt": "Aerial view of a SATCO integrated development"
+  },
+  "sectorsLinkHeading": "One group, four connected sectors"
+}

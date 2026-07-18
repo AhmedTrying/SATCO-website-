@@ -1,0 +1,218 @@
+[
+  {
+    "id": "spm-construction",
+    "slug": "senior-project-manager-construction",
+    "title": "Senior Project Manager – Construction",
+    "location": "Saudi Arabia",
+    "sector": "construction",
+    "discipline": "Project Management",
+    "experienceLevel": "senior",
+    "summary": "Lead the end-to-end delivery of a large-scale construction program, coordinating design, procurement, and site execution to meet cost, schedule, and quality targets.",
+    "responsibilities": [
+      "Own project delivery from mobilization through handover across cost, schedule, quality, and safety",
+      "Coordinate consultants, subcontractors, and international partners under a single program plan",
+      "Manage risk, change, and reporting for client and executive stakeholders",
+      "Ensure compliance with Saudi regulations and SATCO HSE standards"
+    ],
+    "requirements": [
+      "12+ years in construction delivery, including 5+ leading large programs",
+      "Degree in Civil Engineering, Construction Management, or a related field",
+      "Track record delivering integrated communities or infrastructure at scale",
+      "PMP or equivalent; familiarity with FIDIC contracts"
+    ],
+    "applyHref": "https://careers.satco.com.sa/apply",
+    "source": "mock",
+    "state": "open",
+    "createdAt": "2026-07-18T14:26:59.833Z",
+    "updatedAt": "2026-07-18T14:26:59.833Z"
+  },
+  {
+    "id": "fm-engineer",
+    "slug": "facilities-management-engineer",
+    "title": "Facilities Management Engineer",
+    "location": "KSA / Regional",
+    "sector": "operations",
+    "discipline": "Facilities",
+    "experienceLevel": "mid",
+    "summary": "Support the operation and maintenance of complex assets, ensuring uptime, safety, and long-term performance across facilities management contracts.",
+    "responsibilities": [
+      "Plan and supervise preventive and corrective maintenance programs",
+      "Monitor asset performance and coordinate specialist vendors",
+      "Uphold HSE and quality standards across sites",
+      "Support mobilization of new O&M mandates"
+    ],
+    "requirements": [
+      "5+ years in facilities or asset management",
+      "Degree in Mechanical, Electrical, or Facilities Engineering",
+      "Working knowledge of CAFM systems and planned maintenance",
+      "Strong coordination and reporting skills"
+    ],
+    "applyHref": "https://careers.satco.com.sa/apply",
+    "source": "mock",
+    "state": "open",
+    "createdAt": "2026-07-18T14:26:59.833Z",
+    "updatedAt": "2026-07-18T14:26:59.833Z"
+  },
+  {
+    "id": "airport-tech",
+    "slug": "airport-systems-technician",
+    "title": "Airport Systems Technician",
+    "location": "KSA",
+    "sector": "airports",
+    "discipline": "Technical",
+    "experienceLevel": "mid",
+    "summary": "Operate and maintain airside and terminal systems in live airport environments, keeping mission-critical equipment available around the clock.",
+    "responsibilities": [
+      "Maintain PBBs, GPUs, PCA, and visual docking-guidance systems",
+      "Diagnose and resolve faults with minimal disruption to operations",
+      "Maintain accurate service and compliance records",
+      "Work within airport safety and security protocols"
+    ],
+    "requirements": [
+      "3+ years maintaining airport or heavy electromechanical systems",
+      "Technical diploma in Electrical, Mechanical, or Mechatronics",
+      "Ability to work shifts in a live-airport environment",
+      "Strong fault-finding and safety discipline"
+    ],
+    "applyHref": "https://careers.satco.com.sa/apply",
+    "source": "mock",
+    "state": "open",
+    "createdAt": "2026-07-18T14:26:59.833Z",
+    "updatedAt": "2026-07-18T14:26:59.833Z"
+  },
+  {
+    "id": "ppp-analyst",
+    "slug": "ppp-investment-analyst",
+    "title": "PPP Investment Analyst",
+    "location": "Riyadh, Saudi Arabia",
+    "sector": "ppp",
+    "discipline": "Finance",
+    "experienceLevel": "mid",
+    "summary": "Support origination and structuring of public–private partnership projects, building the financial analysis that informs investment decisions.",
+    "responsibilities": [
+      "Build and maintain project-finance models for PPP opportunities",
+      "Support due diligence, risk allocation, and bid preparation",
+      "Prepare investment materials for internal and partner review",
+      "Track market and regulatory developments across the Kingdom"
+    ],
+    "requirements": [
+      "3+ years in project finance, infrastructure investment, or advisory",
+      "Degree in Finance, Economics, or Engineering",
+      "Strong financial modeling and analytical skills",
+      "Interest in infrastructure and giga-project delivery"
+    ],
+    "applyHref": "https://careers.satco.com.sa/apply",
+    "source": "mock",
+    "state": "open",
+    "createdAt": "2026-07-18T14:26:59.833Z",
+    "updatedAt": "2026-07-18T14:26:59.833Z"
+  },
+  {
+    "id": "civil-engineer",
+    "slug": "site-civil-engineer",
+    "title": "Site Civil Engineer",
+    "location": "Saudi Arabia",
+    "sector": "construction",
+    "discipline": "Engineering",
+    "experienceLevel": "mid",
+    "summary": "Deliver civil works on site, translating designs into built infrastructure while maintaining quality, safety, and program.",
+    "responsibilities": [
+      "Supervise civil and structural works on site",
+      "Coordinate subcontractors and verify quality against specifications",
+      "Track progress and support the project schedule",
+      "Enforce HSE requirements on site"
+    ],
+    "requirements": [
+      "4+ years in site civil engineering",
+      "Degree in Civil Engineering",
+      "Experience with earthworks, roads, and utilities",
+      "Familiarity with QA/QC procedures"
+    ],
+    "applyHref": "https://careers.satco.com.sa/apply",
+    "source": "mock",
+    "state": "open",
+    "createdAt": "2026-07-18T14:26:59.833Z",
+    "updatedAt": "2026-07-18T14:26:59.833Z"
+  },
+  {
+    "id": "bhs-engineer",
+    "slug": "baggage-systems-commissioning-engineer",
+    "title": "Baggage Systems Commissioning Engineer",
+    "location": "KSA",
+    "sector": "airports",
+    "discipline": "Engineering",
+    "experienceLevel": "senior",
+    "summary": "Commission baggage handling and terminal systems in live and greenfield environments, integrating controls, SCADA, and mechanical works through to handover.",
+    "responsibilities": [
+      "Plan and execute commissioning of BHS, conveyors, and controls",
+      "Coordinate integration of SCADA, RFID, and BRS platforms",
+      "Manage testing, snagging, and handover documentation",
+      "Interface with OEMs and airport operations teams"
+    ],
+    "requirements": [
+      "6+ years in baggage or materials-handling systems",
+      "Degree in Mechanical, Electrical, or Control Engineering",
+      "Hands-on commissioning and integration experience",
+      "Ability to work within live terminal constraints"
+    ],
+    "applyHref": "https://careers.satco.com.sa/apply",
+    "source": "mock",
+    "state": "open",
+    "createdAt": "2026-07-18T14:26:59.833Z",
+    "updatedAt": "2026-07-18T14:26:59.833Z"
+  },
+  {
+    "id": "landscape-super",
+    "slug": "landscaping-operations-supervisor",
+    "title": "Landscaping Operations Supervisor",
+    "location": "KSA / Regional",
+    "sector": "operations",
+    "discipline": "Facilities",
+    "experienceLevel": "mid",
+    "summary": "Supervise landscaping and irrigation operations that sustain green, livable environments across SATCO-operated sites.",
+    "responsibilities": [
+      "Plan and supervise landscaping and irrigation maintenance",
+      "Manage crews, materials, and equipment",
+      "Monitor water use and plant health",
+      "Uphold safety and quality standards"
+    ],
+    "requirements": [
+      "4+ years in landscaping or grounds operations",
+      "Diploma or degree in Horticulture, Agriculture, or a related field",
+      "Experience managing teams in demanding climates",
+      "Knowledge of irrigation systems"
+    ],
+    "applyHref": "https://careers.satco.com.sa/apply",
+    "source": "mock",
+    "state": "open",
+    "createdAt": "2026-07-18T14:26:59.833Z",
+    "updatedAt": "2026-07-18T14:26:59.833Z"
+  },
+  {
+    "id": "procurement-lead",
+    "slug": "contracts-procurement-lead",
+    "title": "Contracts & Procurement Lead",
+    "location": "Riyadh, Saudi Arabia",
+    "sector": "ppp",
+    "discipline": "Project Management",
+    "experienceLevel": "senior",
+    "summary": "Lead contracts and procurement for partnership and infrastructure projects, securing value and managing supplier relationships across the lifecycle.",
+    "responsibilities": [
+      "Lead tendering, negotiation, and award of major packages",
+      "Manage contracts, claims, and supplier performance",
+      "Ensure compliance with procurement policy and governance",
+      "Provide commercial input to project-financed structures"
+    ],
+    "requirements": [
+      "10+ years in contracts and procurement for infrastructure",
+      "Degree in Engineering, Quantity Surveying, Law, or Business",
+      "Experience with FIDIC and project-financed contracts",
+      "Strong negotiation and stakeholder management"
+    ],
+    "applyHref": "https://careers.satco.com.sa/apply",
+    "source": "mock",
+    "state": "open",
+    "createdAt": "2026-07-18T14:26:59.833Z",
+    "updatedAt": "2026-07-18T14:26:59.833Z"
+  }
+]

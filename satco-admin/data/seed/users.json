@@ -1,0 +1,34 @@
+[
+  {
+    "id": "u-admin",
+    "name": "Amira Al-Rashid",
+    "email": "admin@satco.com.sa",
+    "role": "admin",
+    "active": true,
+    "createdAt": "2026-07-18T14:26:59.833Z"
+  },
+  {
+    "id": "u-publisher",
+    "name": "Bandar Al-Otaibi",
+    "email": "publisher@satco.com.sa",
+    "role": "publisher",
+    "active": true,
+    "createdAt": "2026-07-18T14:26:59.833Z"
+  },
+  {
+    "id": "u-editor",
+    "name": "Sultan Al-Ghamdi",
+    "email": "editor@satco.com.sa",
+    "role": "editor",
+    "active": true,
+    "createdAt": "2026-07-18T14:26:59.833Z"
+  },
+  {
+    "id": "u-viewer",
+    "name": "Tarek Hassan",
+    "email": "viewer@satco.com.sa",
+    "role": "viewer",
+    "active": true,
+    "createdAt": "2026-07-18T14:26:59.833Z"
+  }
+]

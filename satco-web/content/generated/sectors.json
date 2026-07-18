@@ -1,0 +1,246 @@
+{
+  "showPendingExperience": false,
+  "pendingExperienceCard": {
+    "heading": "Project experience — in preparation",
+    "body": "Selected project experience for this sector is being finalized for publication. For references and case studies in the interim, please",
+    "linkLabel": "contact the SATCO team"
+  },
+  "sectors": [
+    {
+      "slug": "airports",
+      "name": "Airport infrastructure & operations",
+      "shortName": "Airports",
+      "tagline": "Supporting the region’s most critical airport operations",
+      "overviewShort": "For over fifty years, SATCO has combined deep technical expertise, scale, and execution excellence to shape as well as support the region’s most critical airport operations.",
+      "overview": "SATCO delivers integrated airport infrastructure systems and long-term operational solutions for some of the region’s most demanding aviation environments. Combining deep technical expertise, large-scale execution capability, as well as long-standing partnerships with global system leaders, SATCO supports airports across the full asset lifecycle—from design and installation to operation, maintenance, including concession-based delivery.\n\nWith proven experience in live-airport environments, SATCO is trusted to deploy, operate, and sustain mission-critical airside as well as terminal systems while maintaining uninterrupted airport operations.",
+      "capabilities": [
+        {
+          "id": "boarding",
+          "title": "Passenger boarding & aircraft support systems",
+          "body": "Passenger Boarding Bridges (PBBs), Pre-Conditioned Air (PCA), Hose Retrievers (HR), as well as 400Hz Ground Power Units (GPU), delivered in bridge-mounted, mobile, and stand-alone configurations. SATCO provides full lifecycle responsibility covering design, supply, installation, operation, and maintenance through strategic alignments with leading global OEMs."
+        },
+        {
+          "id": "airside",
+          "title": "Airside & apron systems",
+          "body": "Advanced Visual Docking Guidance Systems (AVDGS), apron management systems, airfield lighting, and airside signage—supporting safe, precise aircraft movements as well as optimized apron operations."
+        },
+        {
+          "id": "terminal",
+          "title": "Terminal & baggage systems",
+          "body": "Turnkey delivery of baggage handling systems (BHS), conveyors, carousels, SCADA, RFID, and BRS platforms, alongside check-in counters, CUTE, FIDS, self-bag drop, and self-check-in solutions. SATCO integrates associated civil, MEP, and systems works within live terminal environments."
+        },
+        {
+          "id": "cargo",
+          "title": "Cargo & automated storage",
+          "body": "Design and delivery of air cargo handling as well as automated storage systems, developed in collaboration with international technology partners to support efficient airport logistics operations."
+        }
+      ],
+      "delivery": {
+        "heading": "Commercial flexibility across the asset lifecycle",
+        "models": [
+          "Design–Build",
+          "DBFOM",
+          "BOT",
+          "BTO"
+        ],
+        "description": "SATCO operates across flexible commercial and delivery models, including Design–Build, DBFOM, BOT, and BTO structures—enabling alignment with airport authorities, concession frameworks, as well as long-term operational requirements."
+      },
+      "experience": {
+        "status": "confirmed",
+        "body": "SATCO has delivered, operated, and maintained airport systems across Saudi Arabia and internationally. Experience includes long-term BOT concessions at King Khalid International Airport (Riyadh), Tabuk, and Arar airports; major system deployments at King Abdulaziz International Airport (Jeddah); and delivery of baggage handling systems and aircraft terminal interfaces across multiple domestic airports. SATCO has installed over 130 Passenger Boarding Bridges across the Kingdom’s airports. Internationally, SATCO has executed airport systems at Blaise Diagne International Airport in Senegal.\n\nToday, SATCO continues to deploy and operate PBBs, GPUs, PCA, VDGS, as well as BHSs under multi-year concession and O&M agreements.",
+        "projectsLink": {
+          "label": "Full project details",
+          "href": "/projects",
+          "disabled": true
+        }
+      },
+      "experienceHeading": "Delivered, operated, and maintained across the Kingdom and beyond",
+      "whySatco": "SATCO is distinguished by its ability to execute in live, high-traffic airport environments, operate and maintain legacy systems beyond OEM support, as well as partner effectively with global aviation system leaders—supported by deep concession and long-term O&M expertise.",
+      "mobileSummary": "SATCO delivers integrated airport infrastructure systems and long-term operational solutions for complex, high-traffic aviation environments. From design and installation to operation, maintenance, and concession-based delivery, SATCO supports airports across the full asset lifecycle.\n\nOur capabilities span passenger boarding bridges, aircraft ground power and pre-conditioned air systems, airside and apron technologies, terminal and baggage systems, and cargo and automated storage solutions—delivered in live-airport environments with zero tolerance for disruption.\n\nSATCO operates under flexible delivery models, including design–build and long-term BOT and BTO concessions, aligned with modern airport financing frameworks. Backed by deep regional experience and partnerships with global system leaders, SATCO is a trusted partner to airport authorities and operators across the Middle East and beyond.",
+      "hero": {
+        "src": "airport-1",
+        "alt": "A Saudia widebody aircraft docked to a SATCO passenger boarding bridge"
+      },
+      "heroPosition": "center 42%",
+      "card": {
+        "src": "airport-4",
+        "alt": "SATCO passenger boarding bridges on an airport apron"
+      },
+      "gallery": [
+        {
+          "src": "airport-3",
+          "alt": "A Saudia aircraft serviced at a SATCO boarding bridge and ground systems"
+        }
+      ],
+      "whyLabel": "airports",
+      "mobileCta": "View detailed capabilities & projects",
+      "contactCta": "Discuss an airport project",
+      "order": 1
+    },
+    {
+      "slug": "construction",
+      "name": "Construction",
+      "shortName": "Construction",
+      "tagline": "Delivering large-scale developments at national scale",
+      "overviewShort": "SATCO delivers turnkey, end-to-end construction of large-scale developments, including fully integrated villages serving between 10,000 - 50,000 residents, social infrastructure, and essential utilities. Through deep technical expertise, international partnerships, and execution at scale, SATCO supports national development priorities across housing, industrial, as well as critical infrastructure.",
+      "overview": "SATCO delivers turnkey, end-to-end construction solutions for large-scale, complex developments that support national growth and long-term infrastructure needs. Operating as an integrated EPC contractor, SATCO executes projects across housing, industrial facilities, social infrastructure, and utilities.\n\nWith proven experience delivering population-scale developments as well as mission-critical facilities, SATCO combines technical depth, disciplined execution, and delivery at scale—often in challenging environments under accelerated timelines.",
+      "capabilities": [
+        {
+          "id": "communities",
+          "title": "Large-scale & community developments",
+          "body": "Delivery of fully integrated residential and construction villages, social infrastructure, as well as community facilities for populations ranging from several thousand to tens of thousands of residents. SATCO manages complete development scopes, integrating buildings, services, and supporting infrastructure."
+        },
+        {
+          "id": "general",
+          "title": "General construction",
+          "body": "Construction of housing, mosques, administrative buildings, warehouses, schools, universities, offices, chiller, utility buildings—including prefabricated / modular building solutions—delivered under EPC and design–build models."
+        },
+        {
+          "id": "specialized",
+          "title": "Specialized infrastructure construction",
+          "body": "Execution of comprehensive infrastructure works including site preparation activities such as excavation, earthworks, grading, leveling, and backfilling; construction of sewage collection and conveyance networks; wastewater treatment plants; internal and external road networks; and associated civil, structural, and pavement works. The company’s capabilities include the delivery of facilities for automated utility control, monitoring, and critical systems, incorporating electromechanical, instrumentation, and control components. All works are designed and executed to meet stringent operational performance criteria, environmental compliance standards, health and safety requirements, and applicable local and international regulatory frameworks."
+        },
+        {
+          "id": "engineering",
+          "title": "Engineering & delivery scope",
+          "body": "SATCO delivers comprehensive engineering as well as construction scopes–including structural concrete works, steel works, architectural, interior design, MEP systems, HVAC, fire protection, electrical works, lighting, ICT, ELV, security systems, landscaping, automated irrigation, building envelopes, furnishing, appliances, and site-wide infrastructure works. This integrated delivery approach ensures consistency, schedule control, and cost certainty across complex, multi-discipline projects."
+        }
+      ],
+      "delivery": {
+        "heading": "Delivery models & partnerships",
+        "models": [
+          "EPC",
+          "Design–Build",
+          "DBFOM",
+          "Joint ventures",
+          "SPV"
+        ],
+        "description": "SATCO operates across EPC, Design–Build, DBFOM models, as well as joint ventures and SPV structures. Long-standing partnerships with leading international firms enable the adoption of advanced construction methodologies and alignment with global best practices."
+      },
+      "experience": {
+        "status": "pending-decision",
+        "body": "SATCO has delivered major housing, construction villages, and infrastructure projects across the region, supporting government programs, industrial developments, and giga-project environments.\n\nSelected experience includes the delivery of a large-scale government housing development comprising close to 800 villas across a site exceeding 600,000 square meters. In parallel, SATCO has executed multiple design-and-build construction village programs within the NEOM environment, delivering integrated residential communities accommodating approximately 25,000 residents in aggregate. Scope across these developments extended beyond buildings to include primary and secondary road networks; full MEP systems incorporating conventional and renewable energy solutions such as solar; potable water distribution; sewage networks and treatment infrastructure; and complete utilities and services. The projects also comprised diverse accommodation typologies, medical and commercial facilities, dining and catering infrastructure, and indoor and outdoor recreational amenities—demonstrating SATCO’s capability to deliver end-to-end, infrastructure-heavy EPC programs at scale within fast-track, mission-critical environments."
+      },
+      "whySatco": "SATCO is distinguished by its ability to deliver large-scale, population-based developments through integrated EPC execution, flexible commercial models, and deep regional experience—supported by global standards as well as long-term partnerships.",
+      "mobileSummary": "SATCO delivers turnkey, end-to-end construction solutions for large-scale, complex developments that support national growth and long-term infrastructure needs. Operating as an integrated EPC contractor, SATCO executes projects across housing, social infrastructure, utilities, and civil works.\n\nOur construction capabilities span population-scale residential and construction villages, institutional and industrial buildings, prefabricated and modular solutions, and critical infrastructure such as roads, wastewater systems, and utility networks. SATCO manages full engineering, procurement, and construction scopes, integrating buildings, services, and infrastructure within a single delivery framework.\n\nWith deep regional experience, flexible delivery models, and strong international partnerships, SATCO delivers complex developments with disciplined execution, schedule certainty, and long-term performance in demanding environments.",
+      "hero": {
+        "src": "construction-1",
+        "alt": "Aerial view of a large SATCO integrated residential construction village"
+      },
+      "heroPosition": "center 45%",
+      "card": {
+        "src": "construction-1",
+        "alt": "Aerial view of a large SATCO construction village"
+      },
+      "whyLabel": "construction",
+      "mobileCta": "View detailed construction capabilities",
+      "contactCta": "Discuss a construction project",
+      "order": 2
+    },
+    {
+      "slug": "operations",
+      "name": "Integrated operations & support services",
+      "shortName": "Operations",
+      "tagline": "Ensuring continuity and performance of complex assets",
+      "overviewShort": "SATCO delivers integrated operations and support services that ensure the continuity, safety, as well as long-term performance of complex assets. Our capabilities span facilities management, asset operations, community services, life support services, and landscaping systems—enabling reliable, efficient operations across industrial, institutional, as well as urban environments.",
+      "overview": "SATCO delivers integrated operations and support services that ensure the reliability, continuity, as well as long-term performance of complex assets and communities. Operating across the full lifecycle—from early design input through long-term operations—SATCO supports industrial, institutional, and urban environments with mission-critical services delivered at scale.\n\nBy combining facilities management, asset operations, community services, and environmental systems under a single platform, SATCO enables clients to maintain safe, efficient, as well as resilient environments aligned with modern operational, sustainability, and service-level expectations.",
+      "capabilities": [
+        {
+          "id": "fm",
+          "title": "Facilities management & asset operations",
+          "body": "SATCO provides comprehensive facilities management as well as operations and maintenance services across residential, commercial, industrial, as well as institutional assets. Capabilities span civil, structural, architectural, MEP systems, power generation as well as distribution, HVAC, chillers, elevators, vertical transport, fire, life safety, security, ICT, and building management systems. Services are delivered through structured service-level agreements, digital FM platforms, and lifecycle asset management frameworks focused on reliability, safety, as well as performance."
+        },
+        {
+          "id": "community",
+          "title": "Community & life support services",
+          "body": "SATCO delivers integrated community and life support services for large-scale developments, construction villages, industrial cities, as well as institutional environments. Services include food services, accommodation support, housekeeping, laundry, janitorial services, waste handling, logistics, recreation facilities, and essential community operations. Designed for population-scale environments, these services ensure operational continuity, workforce wellbeing, and service consistency across long-term, high-occupancy sites."
+        },
+        {
+          "id": "landscaping",
+          "title": "Landscaping, irrigation & environmental services",
+          "body": "SATCO delivers landscaping, irrigation, and environmental services tailored to arid as well as high-demand environments. Capabilities include design, construction, operation, and maintenance of landscapes as well as irrigation systems, nursery operations, sanitation, environmental management—optimized for efficiency, sustainability, and long-term asset performance."
+        }
+      ],
+      "delivery": {
+        "heading": "Integrated delivery approach",
+        "models": [
+          "DBOM",
+          "DBFOM",
+          "BOT",
+          "Concession"
+        ],
+        "description": "SATCO’s operations and support services are designed to integrate seamlessly with construction as well as PPP delivery models. Early involvement during design and construction phases enables optimized operational readiness, lifecycle cost control, as well as long-term performance—supporting DBOM, DBFOM, BOT, and concession-based structures.",
+        "secondary": {
+          "title": "Delivery environments",
+          "body": "SATCO operates across industrial cities, master-planned communities, construction villages, universities, public institutions, giga-projects, destination developments—often under long-term, performance-based contracts requiring high service reliability and adaptability."
+        }
+      },
+      "experience": {
+        "status": "pending-decision",
+        "body": "SATCO’s Integrated Operations & Support Services (IOSS) platform is focused on the long-term operation, maintenance, and performance optimization of large-scale community and industrial assets.\n\nSATCO provides end-to-end O&M across master-planned environments, including civil and utility infrastructure, facilities and asset management, landscaping and environmental services, waste management, parking, and city operational services. Within the Qiddiya master community, SATCO is responsible for the safe, reliable, and customer-centric operation of public-realm assets and services. Across industrial residential developments exceeding one million square meters, SATCO maintains built assets equivalent to more than sixty football fields while ensuring high availability and lifecycle integrity. SATCO also operates high-density residential villages accommodating over 10,000 residents, delivering continuous life-support services including power, water, medical, catering, recreation, and logistics. Environmental operations extend to large-scale landscaping, irrigation, and sanitation across Jubail Industrial City, with an overall footprint comparable in scale to Bahrain."
+      },
+      "whySatco": "SATCO is distinguished by its ability to operate population-scale environments through integrated service platforms, disciplined asset management, deep regional execution experience—delivering reliable, safe, and sustainable operations aligned with international best practices.",
+      "mobileSummary": "SATCO delivers integrated operations and support services that ensure the reliability, continuity, and long-term performance of complex assets and communities. Operating across the full lifecycle, SATCO supports industrial, institutional, and urban environments with mission-critical services delivered at scale.\n\nOur capabilities span facilities management and asset operations, community and life support services, and landscaping, irrigation, and environmental systems. Together, these services enable safe, efficient, and resilient environments for large populations, complex facilities, and public realms.\n\nDesigned to integrate seamlessly with construction and PPP delivery models, SATCO’s operations platform supports long-term performance, lifecycle asset management, and service-level reliability. Backed by deep regional experience and global best practices, SATCO is a trusted partner for operating large-scale developments and destination environments.",
+      "hero": {
+        "src": "ls-1",
+        "alt": "Aerial view of an institutional campus operated and maintained by SATCO"
+      },
+      "heroPosition": "center 40%",
+      "card": {
+        "src": "ls-1",
+        "alt": "Aerial view of an institutional campus operated by SATCO"
+      },
+      "whyLabel": "operations",
+      "mobileCta": "View detailed operations & support capabilities",
+      "contactCta": "Discuss an operations mandate",
+      "order": 3
+    },
+    {
+      "slug": "ppp",
+      "name": "Public–private partnerships (PPP)",
+      "shortName": "PPP",
+      "tagline": "Partnering in long-term infrastructure delivery",
+      "overviewShort": "SATCO originates, develops, and participates in public–private partnership projects that advance the Kingdom’s long-term development agenda. With a focus on non-recourse, project-financed structures, SATCO partners with government stakeholders together with global partners to deliver, operate, as well as sustain transformative infrastructure and giga-projects.",
+      "overview": "SATCO originates, develops, and participates in public–private partnership projects that support the Kingdom’s long-term development agenda. Positioned at the intersection of development, construction, operations, and finance, SATCO structures as well as delivers complex infrastructure projects under long-term, performance-based partnership models.\n\nWith a focus on non-recourse, project-financed structures, SATCO collaborates closely with public-sector stakeholders, lenders, together with global partners to deliver, operate, and sustain critical assets. This integrated approach aligns development objectives with lifecycle performance and long-term value creation.",
+      "capabilities": [],
+      "capabilitiesProse": "SATCO’s PPP capability spans the full project lifecycle, from early-stage origination and development through commercial structuring, risk allocation, as well as delivery. Leveraging in-house EPC and operations platforms, SATCO oversees design, construction, financing coordination, as well as long-term operations, ensuring alignment across technical, commercial, and operational objectives throughout the concession period.",
+      "delivery": {
+        "heading": "Structured for long-term partnership",
+        "models": [
+          "DBFOM",
+          "BOT",
+          "BOO",
+          "Hybrid availability-based"
+        ],
+        "description": "SATCO operates across a range of partnership as well as concession structures, including DBFOM, BOT, BOO, and hybrid availability-based models. This flexibility enables alignment with diverse government procurement frameworks, regulatory environments, and evolving infrastructure financing strategies across domestic as well as international markets.",
+        "secondary": {
+          "title": "Integrated platform advantage",
+          "body": "SATCO’s PPP platform is underpinned by its vertically integrated construction and operations capabilities. This integration provides tighter control over cost, schedule, and risk, while supporting bankability, operational readiness, as well as sustainable asset performance over multi-decade concession horizons."
+        }
+      },
+      "experience": {
+        "status": "pending-decision",
+        "body": "SATCO has participated in multiple PPP and concession-based projects across housing, construction villages, and airport infrastructure under BOT, BOO, as well as DBFOM structures, delivered through both corporate-financed and non-recourse models.\n\nSATCO was awarded the NEOM Residential Communities 9 PPP project with a capacity of 10,000 beds in a consortium with Tamasuk, and was part of the consortium that recently awarded the development of the Hadda independent Sewage Treatment Plant (ISTP) project with a treatment capacity target of 250,000 cubic meters per day in the Makkah province by the Saudi Partnerships Water Company."
+      },
+      "whySatco": "SATCO is distinguished by its ability to combine development insight, EPC execution, and long-term operations within a single platform—enabling the delivery of bankable, performance-driven PPP projects aligned with national priorities and international best practices. SATCO’s PPP leadership brings a proven record of 20+ project-financed transactions reaching financial close across Europe, the Middle East, Africa, and South Asia.",
+      "mobileSummary": "SATCO originates, develops, and participates in public–private partnership projects that support the Kingdom’s long-term development agenda. Positioned at the intersection of development, construction, operations, and finance, SATCO delivers complex infrastructure projects under long-term, performance-based partnership models.\n\nWith a focus on non-recourse, project-financed structures, SATCO works closely with public-sector stakeholders, lenders, and global partners to deliver, operate, and sustain critical assets. SATCO’s vertically integrated platform—spanning EPC execution and long-term operations—enables tighter risk control, operational readiness, and sustained asset performance over multi-decade concession periods.\n\nBacked by deep regional experience and aligned with international best practices, SATCO is a trusted partner for structuring and delivering bankable PPP projects.",
+      "hero": {
+        "src": "neom",
+        "alt": "Aerial view of a giga-project development delivered under a long-term partnership"
+      },
+      "heroPosition": "center 45%",
+      "card": {
+        "src": "neom",
+        "alt": "Aerial view of a giga-project development"
+      },
+      "whyLabel": "PPP",
+      "mobileCta": "View detailed PPP capabilities & projects",
+      "contactCta": "Discuss a partnership",
+      "order": 4
+    }
+  ],
+  "sectorsIntro": {
+    "heading": "Operating sectors",
+    "subhead": "An integrated platform spanning development, delivery, operations, and long-term partnership."
+  }
+}

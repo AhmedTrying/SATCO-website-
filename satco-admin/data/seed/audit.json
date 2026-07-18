@@ -1,0 +1,10 @@
+[
+  {
+    "id": "audit-0001",
+    "ts": "2026-07-18T14:26:59.833Z",
+    "actor": "seed",
+    "action": "seed.init",
+    "entity": "system",
+    "summary": "Local stores seeded from satco-web/content."
+  }
+]

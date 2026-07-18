@@ -1,0 +1,50 @@
+[
+  {
+    "id": "media-airport-1",
+    "path": "/images/airport-1-1080.jpg",
+    "filename": "airport-1-1080.jpg",
+    "alt": "A Saudia widebody aircraft docked to a SATCO passenger boarding bridge",
+    "bucket": "public-media",
+    "mimeType": "image/jpeg",
+    "sizeBytes": 0,
+    "category": "photo",
+    "uploadedAt": "2026-07-18T14:26:59.833Z",
+    "uploadedBy": "seed"
+  },
+  {
+    "id": "media-construction-1",
+    "path": "/images/construction-1-1080.jpg",
+    "filename": "construction-1-1080.jpg",
+    "alt": "Aerial view of a large SATCO integrated residential construction village",
+    "bucket": "public-media",
+    "mimeType": "image/jpeg",
+    "sizeBytes": 0,
+    "category": "photo",
+    "uploadedAt": "2026-07-18T14:26:59.833Z",
+    "uploadedBy": "seed"
+  },
+  {
+    "id": "media-ls-1",
+    "path": "/images/ls-1-1080.jpg",
+    "filename": "ls-1-1080.jpg",
+    "alt": "Aerial view of an institutional campus operated and maintained by SATCO",
+    "bucket": "public-media",
+    "mimeType": "image/jpeg",
+    "sizeBytes": 0,
+    "category": "photo",
+    "uploadedAt": "2026-07-18T14:26:59.833Z",
+    "uploadedBy": "seed"
+  },
+  {
+    "id": "media-neom",
+    "path": "/images/neom-1080.jpg",
+    "filename": "neom-1080.jpg",
+    "alt": "Aerial view of a giga-project development delivered under a long-term partnership",
+    "bucket": "public-media",
+    "mimeType": "image/jpeg",
+    "sizeBytes": 0,
+    "category": "photo",
+    "uploadedAt": "2026-07-18T14:26:59.833Z",
+    "uploadedBy": "seed"
+  }
+]

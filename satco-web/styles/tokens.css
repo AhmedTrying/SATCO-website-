@@ -1,0 +1,72 @@
+/*
+ * SATCO design tokens — approved Phase 0 plan §3.
+ * Single source of truth for brand identity values, imported before Tailwind theming.
+ *
+ * Split with app/globals.css:
+ *  - This file holds raw brand/semantic tokens with plan-native names (--bronze-800, --bg, …).
+ *  - Tailwind-namespaced scale tokens (--text-*, --radius-*, --shadow-*, --ease-*) live in the
+ *    @theme block in app/globals.css so their generated custom properties don't collide with
+ *    these names. Both are CSS custom properties at runtime.
+ */
+
+:root {
+  /* 3.1 Color — primary "Bronze" (from the logo emblem) */
+  --bronze-50: #fbf6ef;
+  --bronze-100: #f5e9d6;
+  --bronze-200: #edd2ab;
+  --bronze-300: #e2b26f;
+  --bronze-400: #dd902c;
+  --bronze-500: #c0720c;
+  --bronze-600: #a05c03;
+  --bronze-700: #8a4e00;
+  --bronze-800: #704000; /* brand anchor */
+  --bronze-900: #573000;
+  --bronze-950: #351e03;
+
+  /* 3.2 Color — neutral "Stone" (from the wordmark) */
+  --stone-50: #fbfaf8;
+  --stone-100: #f7f6f2;
+  --stone-200: #eae7e1;
+  --stone-300: #d8d3ca;
+  --stone-400: #b4ac9d;
+  --stone-500: #8f8570;
+  --stone-600: #726a5a;
+  --stone-700: #5b5548;
+  --stone-800: #454036;
+  --stone-900: #2e2a24;
+  --stone-950: #1d1a16;
+  --ink: #231f1a;
+  --sand: #f7f4ed;
+
+  /* 3.3 Semantic / functional */
+  --bg: var(--stone-50);
+  --surface: #ffffff;
+  --text: var(--stone-700);
+  --text-strong: var(--ink);
+  --text-muted: var(--stone-500);
+  --primary: var(--bronze-800);
+  --primary-hover: var(--bronze-700);
+  --border: var(--stone-200);
+  --focus-ring: var(--bronze-800);
+  --success: #3f6b2e;
+  --warning: #b4790c;
+  --error: #9b2c1e;
+  --info: #3a5566;
+
+  /* 3.5 Layout rhythm */
+  --section-y: clamp(4rem, 8vw, 8rem);
+  --container-x: clamp(1.25rem, 5vw, 2.5rem);
+  --container-max: 1200px;
+  --measure: 68ch;
+
+  /* 3.8 Motion */
+  --dur-fast: 150ms;
+  --dur-base: 250ms;
+  --dur-slow: 400ms;
+  --dur-xslow: 700ms;
+  --reveal-distance: 20px;
+  --stagger: 80ms;
+
+  /* Chrome */
+  --nav-h: 76px;
+}

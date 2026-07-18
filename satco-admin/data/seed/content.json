@@ -1,0 +1,1121 @@
+{
+  "site": {
+    "name": "SATCO",
+    "legalName": "Saudi Arabian Trading & Construction Co.",
+    "established": 1975,
+    "location": "Riyadh, Kingdom of Saudi Arabia",
+    "loadingText": "Celebrating over 50 years of excellence",
+    "description": "Saudi Arabian Trading & Construction Co. — a Saudi-owned infrastructure and services group delivering at national scale since 1975.",
+    "copyrightHolder": "Saudi Arabian Trading & Construction Co.",
+    "establishedLine": "Established 1975 · Riyadh, Kingdom of Saudi Arabia",
+    "contact": {
+      "addressLines": [
+        "King Fahd Road, Riyadh 12313",
+        "Kingdom of Saudi Arabia"
+      ],
+      "email": "info@satco.com.sa"
+    },
+    "flags": {
+      "showVendorsTab": false
+    }
+  },
+  "navigation": {
+    "primaryNav": [
+      {
+        "label": "Home",
+        "href": "/"
+      },
+      {
+        "label": "About us",
+        "href": "/about",
+        "children": [
+          {
+            "label": "Company information",
+            "href": "/about/company"
+          },
+          {
+            "label": "Key people & leadership",
+            "href": "/about/leadership"
+          },
+          {
+            "label": "Classifications, licenses & certifications",
+            "href": "/about/certifications"
+          },
+          {
+            "label": "Clients",
+            "href": "/about/clients"
+          }
+        ]
+      },
+      {
+        "label": "Operating sectors",
+        "href": "/sectors",
+        "wide": true,
+        "children": [
+          {
+            "label": "Airport infrastructure & operations",
+            "href": "/sectors/airports"
+          },
+          {
+            "label": "Construction",
+            "href": "/sectors/construction"
+          },
+          {
+            "label": "Integrated operations & support services",
+            "href": "/sectors/operations"
+          },
+          {
+            "label": "Public–private partnerships (PPP)",
+            "href": "/sectors/ppp"
+          }
+        ]
+      },
+      {
+        "label": "Careers",
+        "href": "/careers"
+      },
+      {
+        "label": "Contact us",
+        "href": "/contact"
+      }
+    ],
+    "footerColumns": [
+      {
+        "title": "About",
+        "links": [
+          {
+            "label": "Company information",
+            "href": "/about/company"
+          },
+          {
+            "label": "Key people & leadership",
+            "href": "/about/leadership"
+          },
+          {
+            "label": "Classifications & certifications",
+            "href": "/about/certifications"
+          },
+          {
+            "label": "Clients",
+            "href": "/about/clients"
+          }
+        ]
+      },
+      {
+        "title": "Operating sectors",
+        "links": [
+          {
+            "label": "Airport infrastructure & operations",
+            "href": "/sectors/airports"
+          },
+          {
+            "label": "Construction",
+            "href": "/sectors/construction"
+          },
+          {
+            "label": "Integrated operations & support",
+            "href": "/sectors/operations"
+          },
+          {
+            "label": "Public–private partnerships",
+            "href": "/sectors/ppp"
+          }
+        ]
+      },
+      {
+        "title": "Careers",
+        "links": [
+          {
+            "label": "Open roles",
+            "href": "/careers"
+          },
+          {
+            "label": "Life at SATCO",
+            "href": "/careers"
+          },
+          {
+            "label": "General application",
+            "href": "/careers"
+          }
+        ]
+      }
+    ],
+    "footerContactColumn": {
+      "title": "Contact",
+      "links": [
+        {
+          "label": "Contact us",
+          "href": "/contact"
+        }
+      ]
+    }
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Established 1975 · 50+ years of excellence",
+      "headline": "Delivering infrastructure at national scale.",
+      "explore": "Explore",
+      "regionLabel": "Operating sectors index"
+    },
+    "statBand": {
+      "eyebrow": "Proven at scale",
+      "heading": "A track record measured in decades and megaprojects"
+    },
+    "whoWeAre": {
+      "eyebrow": "Who we are",
+      "heading": "A single authority across the infrastructure lifecycle",
+      "body": "SATCO is a Saudi-owned infrastructure and services group operating across construction, airport infrastructure, operations and support services, as well as public–private partnerships (PPP). Established in 1975, SATCO supports complex projects that require scale, reliability, and long-term commitment.",
+      "cta": "Learn more about SATCO",
+      "imageCard": {
+        "value": "1975",
+        "label": "Year established"
+      }
+    },
+    "careersTeaser": {
+      "eyebrow": "Careers",
+      "heading": "Build a career on projects that matter",
+      "body": "SATCO offers opportunities to work on complex, large-scale projects that support national development and long-term infrastructure performance. Our teams operate across diverse environments, delivering projects that demand technical excellence and operational discipline.",
+      "cta": "Explore career opportunities"
+    },
+    "contactTeaser": {
+      "heading": "Connect with SATCO to discuss partnerships, opportunities, or general inquiries.",
+      "cta": "Get in touch"
+    }
+  },
+  "statPendingNote": "Figure pending",
+  "stats": [
+    {
+      "id": "communities",
+      "label": "Residential communities built",
+      "value": 6,
+      "display": "6",
+      "countUp": true
+    },
+    {
+      "id": "population",
+      "label": "Population capacity delivered & supported",
+      "value": 137,
+      "display": "137K+",
+      "suffix": "K+",
+      "unit": "Persons",
+      "countUp": true
+    },
+    {
+      "id": "assets",
+      "label": "Residential & community assets delivered",
+      "value": null,
+      "display": "—",
+      "unit": "Buildings",
+      "countUp": false
+    },
+    {
+      "id": "environments",
+      "label": "Built & maintained environments",
+      "value": 4.8,
+      "display": "4.8M+",
+      "suffix": "M+",
+      "unit": "sqm",
+      "decimals": 1,
+      "countUp": true
+    },
+    {
+      "id": "aircrafts",
+      "label": "Aircrafts served",
+      "value": 1.3,
+      "display": "1.3M+",
+      "suffix": "M+",
+      "decimals": 1,
+      "countUp": true
+    },
+    {
+      "id": "airports",
+      "label": "Airports supported",
+      "value": 9,
+      "display": "9",
+      "countUp": true
+    }
+  ],
+  "sectorsIntro": {
+    "heading": "Operating sectors",
+    "subhead": "An integrated platform spanning development, delivery, operations, and long-term partnership."
+  },
+  "showPendingExperience": false,
+  "pendingExperienceCard": {
+    "heading": "Project experience — in preparation",
+    "body": "Selected project experience for this sector is being finalized for publication. For references and case studies in the interim, please",
+    "linkLabel": "contact the SATCO team"
+  },
+  "sectors": [
+    {
+      "slug": "airports",
+      "name": "Airport infrastructure & operations",
+      "shortName": "Airports",
+      "tagline": "Supporting the region’s most critical airport operations",
+      "overviewShort": "For over fifty years, SATCO has combined deep technical expertise, scale, and execution excellence to shape as well as support the region’s most critical airport operations.",
+      "overview": "SATCO delivers integrated airport infrastructure systems and long-term operational solutions for some of the region’s most demanding aviation environments. Combining deep technical expertise, large-scale execution capability, as well as long-standing partnerships with global system leaders, SATCO supports airports across the full asset lifecycle—from design and installation to operation, maintenance, including concession-based delivery.\n\nWith proven experience in live-airport environments, SATCO is trusted to deploy, operate, and sustain mission-critical airside as well as terminal systems while maintaining uninterrupted airport operations.",
+      "capabilities": [
+        {
+          "id": "boarding",
+          "title": "Passenger boarding & aircraft support systems",
+          "body": "Passenger Boarding Bridges (PBBs), Pre-Conditioned Air (PCA), Hose Retrievers (HR), as well as 400Hz Ground Power Units (GPU), delivered in bridge-mounted, mobile, and stand-alone configurations. SATCO provides full lifecycle responsibility covering design, supply, installation, operation, and maintenance through strategic alignments with leading global OEMs."
+        },
+        {
+          "id": "airside",
+          "title": "Airside & apron systems",
+          "body": "Advanced Visual Docking Guidance Systems (AVDGS), apron management systems, airfield lighting, and airside signage—supporting safe, precise aircraft movements as well as optimized apron operations."
+        },
+        {
+          "id": "terminal",
+          "title": "Terminal & baggage systems",
+          "body": "Turnkey delivery of baggage handling systems (BHS), conveyors, carousels, SCADA, RFID, and BRS platforms, alongside check-in counters, CUTE, FIDS, self-bag drop, and self-check-in solutions. SATCO integrates associated civil, MEP, and systems works within live terminal environments."
+        },
+        {
+          "id": "cargo",
+          "title": "Cargo & automated storage",
+          "body": "Design and delivery of air cargo handling as well as automated storage systems, developed in collaboration with international technology partners to support efficient airport logistics operations."
+        }
+      ],
+      "delivery": {
+        "heading": "Commercial flexibility across the asset lifecycle",
+        "models": [
+          "Design–Build",
+          "DBFOM",
+          "BOT",
+          "BTO"
+        ],
+        "description": "SATCO operates across flexible commercial and delivery models, including Design–Build, DBFOM, BOT, and BTO structures—enabling alignment with airport authorities, concession frameworks, as well as long-term operational requirements."
+      },
+      "experience": {
+        "status": "confirmed",
+        "body": "SATCO has delivered, operated, and maintained airport systems across Saudi Arabia and internationally. Experience includes long-term BOT concessions at King Khalid International Airport (Riyadh), Tabuk, and Arar airports; major system deployments at King Abdulaziz International Airport (Jeddah); and delivery of baggage handling systems and aircraft terminal interfaces across multiple domestic airports. SATCO has installed over 130 Passenger Boarding Bridges across the Kingdom’s airports. Internationally, SATCO has executed airport systems at Blaise Diagne International Airport in Senegal.\n\nToday, SATCO continues to deploy and operate PBBs, GPUs, PCA, VDGS, as well as BHSs under multi-year concession and O&M agreements.",
+        "projectsLink": {
+          "label": "Full project details",
+          "href": "/projects",
+          "disabled": true
+        }
+      },
+      "experienceHeading": "Delivered, operated, and maintained across the Kingdom and beyond",
+      "whySatco": "SATCO is distinguished by its ability to execute in live, high-traffic airport environments, operate and maintain legacy systems beyond OEM support, as well as partner effectively with global aviation system leaders—supported by deep concession and long-term O&M expertise.",
+      "mobileSummary": "SATCO delivers integrated airport infrastructure systems and long-term operational solutions for complex, high-traffic aviation environments. From design and installation to operation, maintenance, and concession-based delivery, SATCO supports airports across the full asset lifecycle.\n\nOur capabilities span passenger boarding bridges, aircraft ground power and pre-conditioned air systems, airside and apron technologies, terminal and baggage systems, and cargo and automated storage solutions—delivered in live-airport environments with zero tolerance for disruption.\n\nSATCO operates under flexible delivery models, including design–build and long-term BOT and BTO concessions, aligned with modern airport financing frameworks. Backed by deep regional experience and partnerships with global system leaders, SATCO is a trusted partner to airport authorities and operators across the Middle East and beyond.",
+      "hero": {
+        "src": "airport-1",
+        "alt": "A Saudia widebody aircraft docked to a SATCO passenger boarding bridge"
+      },
+      "heroPosition": "center 42%",
+      "card": {
+        "src": "airport-4",
+        "alt": "SATCO passenger boarding bridges on an airport apron"
+      },
+      "gallery": [
+        {
+          "src": "airport-3",
+          "alt": "A Saudia aircraft serviced at a SATCO boarding bridge and ground systems"
+        }
+      ],
+      "whyLabel": "airports",
+      "mobileCta": "View detailed capabilities & projects",
+      "contactCta": "Discuss an airport project",
+      "order": 1
+    },
+    {
+      "slug": "construction",
+      "name": "Construction",
+      "shortName": "Construction",
+      "tagline": "Delivering large-scale developments at national scale",
+      "overviewShort": "SATCO delivers turnkey, end-to-end construction of large-scale developments, including fully integrated villages serving between 10,000 - 50,000 residents, social infrastructure, and essential utilities. Through deep technical expertise, international partnerships, and execution at scale, SATCO supports national development priorities across housing, industrial, as well as critical infrastructure.",
+      "overview": "SATCO delivers turnkey, end-to-end construction solutions for large-scale, complex developments that support national growth and long-term infrastructure needs. Operating as an integrated EPC contractor, SATCO executes projects across housing, industrial facilities, social infrastructure, and utilities.\n\nWith proven experience delivering population-scale developments as well as mission-critical facilities, SATCO combines technical depth, disciplined execution, and delivery at scale—often in challenging environments under accelerated timelines.",
+      "capabilities": [
+        {
+          "id": "communities",
+          "title": "Large-scale & community developments",
+          "body": "Delivery of fully integrated residential and construction villages, social infrastructure, as well as community facilities for populations ranging from several thousand to tens of thousands of residents. SATCO manages complete development scopes, integrating buildings, services, and supporting infrastructure."
+        },
+        {
+          "id": "general",
+          "title": "General construction",
+          "body": "Construction of housing, mosques, administrative buildings, warehouses, schools, universities, offices, chiller, utility buildings—including prefabricated / modular building solutions—delivered under EPC and design–build models."
+        },
+        {
+          "id": "specialized",
+          "title": "Specialized infrastructure construction",
+          "body": "Execution of comprehensive infrastructure works including site preparation activities such as excavation, earthworks, grading, leveling, and backfilling; construction of sewage collection and conveyance networks; wastewater treatment plants; internal and external road networks; and associated civil, structural, and pavement works. The company’s capabilities include the delivery of facilities for automated utility control, monitoring, and critical systems, incorporating electromechanical, instrumentation, and control components. All works are designed and executed to meet stringent operational performance criteria, environmental compliance standards, health and safety requirements, and applicable local and international regulatory frameworks."
+        },
+        {
+          "id": "engineering",
+          "title": "Engineering & delivery scope",
+          "body": "SATCO delivers comprehensive engineering as well as construction scopes–including structural concrete works, steel works, architectural, interior design, MEP systems, HVAC, fire protection, electrical works, lighting, ICT, ELV, security systems, landscaping, automated irrigation, building envelopes, furnishing, appliances, and site-wide infrastructure works. This integrated delivery approach ensures consistency, schedule control, and cost certainty across complex, multi-discipline projects."
+        }
+      ],
+      "delivery": {
+        "heading": "Delivery models & partnerships",
+        "models": [
+          "EPC",
+          "Design–Build",
+          "DBFOM",
+          "Joint ventures",
+          "SPV"
+        ],
+        "description": "SATCO operates across EPC, Design–Build, DBFOM models, as well as joint ventures and SPV structures. Long-standing partnerships with leading international firms enable the adoption of advanced construction methodologies and alignment with global best practices."
+      },
+      "experience": {
+        "status": "pending-decision",
+        "body": "SATCO has delivered major housing, construction villages, and infrastructure projects across the region, supporting government programs, industrial developments, and giga-project environments.\n\nSelected experience includes the delivery of a large-scale government housing development comprising close to 800 villas across a site exceeding 600,000 square meters. In parallel, SATCO has executed multiple design-and-build construction village programs within the NEOM environment, delivering integrated residential communities accommodating approximately 25,000 residents in aggregate. Scope across these developments extended beyond buildings to include primary and secondary road networks; full MEP systems incorporating conventional and renewable energy solutions such as solar; potable water distribution; sewage networks and treatment infrastructure; and complete utilities and services. The projects also comprised diverse accommodation typologies, medical and commercial facilities, dining and catering infrastructure, and indoor and outdoor recreational amenities—demonstrating SATCO’s capability to deliver end-to-end, infrastructure-heavy EPC programs at scale within fast-track, mission-critical environments."
+      },
+      "whySatco": "SATCO is distinguished by its ability to deliver large-scale, population-based developments through integrated EPC execution, flexible commercial models, and deep regional experience—supported by global standards as well as long-term partnerships.",
+      "mobileSummary": "SATCO delivers turnkey, end-to-end construction solutions for large-scale, complex developments that support national growth and long-term infrastructure needs. Operating as an integrated EPC contractor, SATCO executes projects across housing, social infrastructure, utilities, and civil works.\n\nOur construction capabilities span population-scale residential and construction villages, institutional and industrial buildings, prefabricated and modular solutions, and critical infrastructure such as roads, wastewater systems, and utility networks. SATCO manages full engineering, procurement, and construction scopes, integrating buildings, services, and infrastructure within a single delivery framework.\n\nWith deep regional experience, flexible delivery models, and strong international partnerships, SATCO delivers complex developments with disciplined execution, schedule certainty, and long-term performance in demanding environments.",
+      "hero": {
+        "src": "construction-1",
+        "alt": "Aerial view of a large SATCO integrated residential construction village"
+      },
+      "heroPosition": "center 45%",
+      "card": {
+        "src": "construction-1",
+        "alt": "Aerial view of a large SATCO construction village"
+      },
+      "whyLabel": "construction",
+      "mobileCta": "View detailed construction capabilities",
+      "contactCta": "Discuss a construction project",
+      "order": 2
+    },
+    {
+      "slug": "operations",
+      "name": "Integrated operations & support services",
+      "shortName": "Operations",
+      "tagline": "Ensuring continuity and performance of complex assets",
+      "overviewShort": "SATCO delivers integrated operations and support services that ensure the continuity, safety, as well as long-term performance of complex assets. Our capabilities span facilities management, asset operations, community services, life support services, and landscaping systems—enabling reliable, efficient operations across industrial, institutional, as well as urban environments.",
+      "overview": "SATCO delivers integrated operations and support services that ensure the reliability, continuity, as well as long-term performance of complex assets and communities. Operating across the full lifecycle—from early design input through long-term operations—SATCO supports industrial, institutional, and urban environments with mission-critical services delivered at scale.\n\nBy combining facilities management, asset operations, community services, and environmental systems under a single platform, SATCO enables clients to maintain safe, efficient, as well as resilient environments aligned with modern operational, sustainability, and service-level expectations.",
+      "capabilities": [
+        {
+          "id": "fm",
+          "title": "Facilities management & asset operations",
+          "body": "SATCO provides comprehensive facilities management as well as operations and maintenance services across residential, commercial, industrial, as well as institutional assets. Capabilities span civil, structural, architectural, MEP systems, power generation as well as distribution, HVAC, chillers, elevators, vertical transport, fire, life safety, security, ICT, and building management systems. Services are delivered through structured service-level agreements, digital FM platforms, and lifecycle asset management frameworks focused on reliability, safety, as well as performance."
+        },
+        {
+          "id": "community",
+          "title": "Community & life support services",
+          "body": "SATCO delivers integrated community and life support services for large-scale developments, construction villages, industrial cities, as well as institutional environments. Services include food services, accommodation support, housekeeping, laundry, janitorial services, waste handling, logistics, recreation facilities, and essential community operations. Designed for population-scale environments, these services ensure operational continuity, workforce wellbeing, and service consistency across long-term, high-occupancy sites."
+        },
+        {
+          "id": "landscaping",
+          "title": "Landscaping, irrigation & environmental services",
+          "body": "SATCO delivers landscaping, irrigation, and environmental services tailored to arid as well as high-demand environments. Capabilities include design, construction, operation, and maintenance of landscapes as well as irrigation systems, nursery operations, sanitation, environmental management—optimized for efficiency, sustainability, and long-term asset performance."
+        }
+      ],
+      "delivery": {
+        "heading": "Integrated delivery approach",
+        "models": [
+          "DBOM",
+          "DBFOM",
+          "BOT",
+          "Concession"
+        ],
+        "description": "SATCO’s operations and support services are designed to integrate seamlessly with construction as well as PPP delivery models. Early involvement during design and construction phases enables optimized operational readiness, lifecycle cost control, as well as long-term performance—supporting DBOM, DBFOM, BOT, and concession-based structures.",
+        "secondary": {
+          "title": "Delivery environments",
+          "body": "SATCO operates across industrial cities, master-planned communities, construction villages, universities, public institutions, giga-projects, destination developments—often under long-term, performance-based contracts requiring high service reliability and adaptability."
+        }
+      },
+      "experience": {
+        "status": "pending-decision",
+        "body": "SATCO’s Integrated Operations & Support Services (IOSS) platform is focused on the long-term operation, maintenance, and performance optimization of large-scale community and industrial assets.\n\nSATCO provides end-to-end O&M across master-planned environments, including civil and utility infrastructure, facilities and asset management, landscaping and environmental services, waste management, parking, and city operational services. Within the Qiddiya master community, SATCO is responsible for the safe, reliable, and customer-centric operation of public-realm assets and services. Across industrial residential developments exceeding one million square meters, SATCO maintains built assets equivalent to more than sixty football fields while ensuring high availability and lifecycle integrity. SATCO also operates high-density residential villages accommodating over 10,000 residents, delivering continuous life-support services including power, water, medical, catering, recreation, and logistics. Environmental operations extend to large-scale landscaping, irrigation, and sanitation across Jubail Industrial City, with an overall footprint comparable in scale to Bahrain."
+      },
+      "whySatco": "SATCO is distinguished by its ability to operate population-scale environments through integrated service platforms, disciplined asset management, deep regional execution experience—delivering reliable, safe, and sustainable operations aligned with international best practices.",
+      "mobileSummary": "SATCO delivers integrated operations and support services that ensure the reliability, continuity, and long-term performance of complex assets and communities. Operating across the full lifecycle, SATCO supports industrial, institutional, and urban environments with mission-critical services delivered at scale.\n\nOur capabilities span facilities management and asset operations, community and life support services, and landscaping, irrigation, and environmental systems. Together, these services enable safe, efficient, and resilient environments for large populations, complex facilities, and public realms.\n\nDesigned to integrate seamlessly with construction and PPP delivery models, SATCO’s operations platform supports long-term performance, lifecycle asset management, and service-level reliability. Backed by deep regional experience and global best practices, SATCO is a trusted partner for operating large-scale developments and destination environments.",
+      "hero": {
+        "src": "ls-1",
+        "alt": "Aerial view of an institutional campus operated and maintained by SATCO"
+      },
+      "heroPosition": "center 40%",
+      "card": {
+        "src": "ls-1",
+        "alt": "Aerial view of an institutional campus operated by SATCO"
+      },
+      "whyLabel": "operations",
+      "mobileCta": "View detailed operations & support capabilities",
+      "contactCta": "Discuss an operations mandate",
+      "order": 3
+    },
+    {
+      "slug": "ppp",
+      "name": "Public–private partnerships (PPP)",
+      "shortName": "PPP",
+      "tagline": "Partnering in long-term infrastructure delivery",
+      "overviewShort": "SATCO originates, develops, and participates in public–private partnership projects that advance the Kingdom’s long-term development agenda. With a focus on non-recourse, project-financed structures, SATCO partners with government stakeholders together with global partners to deliver, operate, as well as sustain transformative infrastructure and giga-projects.",
+      "overview": "SATCO originates, develops, and participates in public–private partnership projects that support the Kingdom’s long-term development agenda. Positioned at the intersection of development, construction, operations, and finance, SATCO structures as well as delivers complex infrastructure projects under long-term, performance-based partnership models.\n\nWith a focus on non-recourse, project-financed structures, SATCO collaborates closely with public-sector stakeholders, lenders, together with global partners to deliver, operate, and sustain critical assets. This integrated approach aligns development objectives with lifecycle performance and long-term value creation.",
+      "capabilities": [],
+      "capabilitiesProse": "SATCO’s PPP capability spans the full project lifecycle, from early-stage origination and development through commercial structuring, risk allocation, as well as delivery. Leveraging in-house EPC and operations platforms, SATCO oversees design, construction, financing coordination, as well as long-term operations, ensuring alignment across technical, commercial, and operational objectives throughout the concession period.",
+      "delivery": {
+        "heading": "Structured for long-term partnership",
+        "models": [
+          "DBFOM",
+          "BOT",
+          "BOO",
+          "Hybrid availability-based"
+        ],
+        "description": "SATCO operates across a range of partnership as well as concession structures, including DBFOM, BOT, BOO, and hybrid availability-based models. This flexibility enables alignment with diverse government procurement frameworks, regulatory environments, and evolving infrastructure financing strategies across domestic as well as international markets.",
+        "secondary": {
+          "title": "Integrated platform advantage",
+          "body": "SATCO’s PPP platform is underpinned by its vertically integrated construction and operations capabilities. This integration provides tighter control over cost, schedule, and risk, while supporting bankability, operational readiness, as well as sustainable asset performance over multi-decade concession horizons."
+        }
+      },
+      "experience": {
+        "status": "pending-decision",
+        "body": "SATCO has participated in multiple PPP and concession-based projects across housing, construction villages, and airport infrastructure under BOT, BOO, as well as DBFOM structures, delivered through both corporate-financed and non-recourse models.\n\nSATCO was awarded the NEOM Residential Communities 9 PPP project with a capacity of 10,000 beds in a consortium with Tamasuk, and was part of the consortium that recently awarded the development of the Hadda independent Sewage Treatment Plant (ISTP) project with a treatment capacity target of 250,000 cubic meters per day in the Makkah province by the Saudi Partnerships Water Company."
+      },
+      "whySatco": "SATCO is distinguished by its ability to combine development insight, EPC execution, and long-term operations within a single platform—enabling the delivery of bankable, performance-driven PPP projects aligned with national priorities and international best practices. SATCO’s PPP leadership brings a proven record of 20+ project-financed transactions reaching financial close across Europe, the Middle East, Africa, and South Asia.",
+      "mobileSummary": "SATCO originates, develops, and participates in public–private partnership projects that support the Kingdom’s long-term development agenda. Positioned at the intersection of development, construction, operations, and finance, SATCO delivers complex infrastructure projects under long-term, performance-based partnership models.\n\nWith a focus on non-recourse, project-financed structures, SATCO works closely with public-sector stakeholders, lenders, and global partners to deliver, operate, and sustain critical assets. SATCO’s vertically integrated platform—spanning EPC execution and long-term operations—enables tighter risk control, operational readiness, and sustained asset performance over multi-decade concession periods.\n\nBacked by deep regional experience and aligned with international best practices, SATCO is a trusted partner for structuring and delivering bankable PPP projects.",
+      "hero": {
+        "src": "neom",
+        "alt": "Aerial view of a giga-project development delivered under a long-term partnership"
+      },
+      "heroPosition": "center 45%",
+      "card": {
+        "src": "neom",
+        "alt": "Aerial view of a giga-project development"
+      },
+      "whyLabel": "PPP",
+      "mobileCta": "View detailed PPP capabilities & projects",
+      "contactCta": "Discuss a partnership",
+      "order": 4
+    }
+  ],
+  "company": {
+    "title": "Company information",
+    "paragraphs": [
+      "SATCO is a Saudi-owned infrastructure and services company delivering complex projects that support the Kingdom’s long-term development. Established in 1975, SATCO has evolved from a traditional contractor into a fully integrated operating platform with the scale, expertise, and partnerships required to deliver, operate, as well as sustain critical assets.",
+      "Today, SATCO operates across four core platforms: Airport Infrastructure & Operations, Construction, Integrated Operations & Support Services, and Public–Private Partnerships (PPP). Together, these capabilities enable SATCO to provide end-to-end solutions spanning development, construction, long-term operations, as well as asset stewardship.",
+      "Grounded in deep local market knowledge and strengthened through decades of collaboration with leading international firms, SATCO combines global best practices with a practical understanding of regional dynamics. This balance allows the company to navigate complex regulatory environments, manage large as well as diverse workforces, and deliver reliably at scale.",
+      "SATCO’s longevity is defined not simply by time, but by adaptability—its ability to respond to changing economic cycles, evolving client needs, and increasingly sophisticated infrastructure requirements. This resilience, coupled with disciplined execution as well as a long-term partnership mindset, has positioned SATCO as a trusted partner to public and private stakeholders across the region."
+    ],
+    "eyebrow": "Our story",
+    "heading": "Five decades of building at national scale",
+    "facts": [
+      {
+        "value": "1975",
+        "label": "Established"
+      },
+      {
+        "value": "4",
+        "label": "Operating sectors"
+      }
+    ],
+    "image": {
+      "src": "neom",
+      "alt": "Aerial view of a SATCO integrated development"
+    },
+    "sectorsLinkHeading": "One group, four connected sectors"
+  },
+  "certificationsPage": {
+    "intro": [
+      "SATCO maintains the highest level of regulatory classification and internationally recognized certifications across its core areas of operation. These credentials reflect the company’s technical capability, operational maturity, commitment to quality, safety, and environmental responsibility.",
+      "Our classifications / certifications are continually reviewed as well as expanded to align with evolving regulatory requirements, client expectations, and international best practices."
+    ],
+    "classificationsHeading": "Government classifications",
+    "classificationsLead": "SATCO is classified as Category 1 across the following activities:",
+    "licensesHeading": "Licenses",
+    "isoHeading": "Certifications",
+    "isoLead": "SATCO holds the following international management system certifications:",
+    "leedLead": "SATCO holds the following LEED certifications:",
+    "ongoingHeading": "Ongoing compliance",
+    "ongoing": "SATCO continuously maintains and enhances its classifications / certifications to meet regulatory requirements, client expectations, and evolving industry standards."
+  },
+  "classifications": [
+    {
+      "category": "Category 1",
+      "activities": [
+        "General construction",
+        "Operations and maintenance services",
+        "Hard and Soft Landscaping",
+        "Catering and food services"
+      ]
+    }
+  ],
+  "licenses": [
+    {
+      "name": "GACAR Part 151",
+      "scope": "SATCO holds a GACAR Part 151 license, authorizing airside and apron operations across airports throughout the Kingdom of Saudi Arabia."
+    }
+  ],
+  "certifications": [
+    {
+      "code": "ISO 9001:2015",
+      "title": "Quality Management",
+      "group": "iso"
+    },
+    {
+      "code": "ISO 10002:2018",
+      "title": "Customer Satisfaction & Complaints Handling",
+      "group": "iso"
+    },
+    {
+      "code": "ISO 14001:2015",
+      "title": "Environmental Management",
+      "group": "iso"
+    },
+    {
+      "code": "ISO 45001:2018",
+      "title": "Occupational Health & Safety",
+      "group": "iso"
+    },
+    {
+      "code": "ISO 55001:2014",
+      "title": "Asset Management- Management System",
+      "group": "iso"
+    },
+    {
+      "code": "LEED — Silver",
+      "title": "LEED Green Building Rating System Certificate for its Laydown Offices in Neom",
+      "group": "leed"
+    }
+  ],
+  "clientsPage": {
+    "title": "Clients",
+    "subline": "Organizations that have trusted SATCO across its operating sectors and delivery models.",
+    "selectedHeading": "Selected Clients",
+    "selectedSub": "A selection of organizations SATCO has delivered for across its sectors.",
+    "directoryHeading": "Full client list",
+    "searchLabel": "Search clients",
+    "emptyMessage": "No clients match that search.",
+    "disclaimer": "Client names and logos are the property of their respective owners and are used for identification purposes only. Their inclusion does not imply endorsement, sponsorship, or an ongoing relationship unless expressly stated."
+  },
+  "clients": [
+    {
+      "id": "sel-0",
+      "name": "Aviation Authority",
+      "tier": "selected"
+    },
+    {
+      "id": "sel-1",
+      "name": "Airport Co.",
+      "tier": "selected"
+    },
+    {
+      "id": "sel-2",
+      "name": "Ministry of Transport",
+      "tier": "selected"
+    },
+    {
+      "id": "sel-3",
+      "name": "Giga-project Sponsor",
+      "tier": "selected"
+    },
+    {
+      "id": "sel-4",
+      "name": "Rail Company",
+      "tier": "selected"
+    },
+    {
+      "id": "sel-5",
+      "name": "Port Authority",
+      "tier": "selected"
+    },
+    {
+      "id": "sel-6",
+      "name": "Energy Company",
+      "tier": "selected"
+    },
+    {
+      "id": "sel-7",
+      "name": "Housing Fund",
+      "tier": "selected"
+    },
+    {
+      "id": "sel-8",
+      "name": "Defense Agency",
+      "tier": "selected"
+    },
+    {
+      "id": "sel-9",
+      "name": "Health Cluster",
+      "tier": "selected"
+    },
+    {
+      "id": "sel-10",
+      "name": "National University",
+      "tier": "selected"
+    },
+    {
+      "id": "sel-11",
+      "name": "City Municipality",
+      "tier": "selected"
+    },
+    {
+      "id": "sel-12",
+      "name": "Water Authority",
+      "tier": "selected"
+    },
+    {
+      "id": "sel-13",
+      "name": "Logistics Group",
+      "tier": "selected"
+    },
+    {
+      "id": "sel-14",
+      "name": "Development Fund",
+      "tier": "selected"
+    },
+    {
+      "id": "sel-15",
+      "name": "Holding Group",
+      "tier": "selected"
+    },
+    {
+      "id": "sel-16",
+      "name": "National Airline",
+      "tier": "selected"
+    },
+    {
+      "id": "sel-17",
+      "name": "Industrial City",
+      "tier": "selected"
+    },
+    {
+      "id": "sel-18",
+      "name": "Tourism Authority",
+      "tier": "selected"
+    },
+    {
+      "id": "sel-19",
+      "name": "Infrastructure Fund",
+      "tier": "selected"
+    },
+    {
+      "id": "dir-0",
+      "name": "Al-Faisaliah Development Authority",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-1",
+      "name": "Arabian Ports Company",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-2",
+      "name": "Arar Regional Airport",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-3",
+      "name": "Aseer Development Authority",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-4",
+      "name": "Aviation Systems Holding",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-5",
+      "name": "Blue Horizon Utilities",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-6",
+      "name": "Central Housing Fund",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-7",
+      "name": "Coastal Rail Company",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-8",
+      "name": "Desert Energy Corporation",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-9",
+      "name": "Diriyah Gate Authority",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-10",
+      "name": "Eastern Province Municipality",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-11",
+      "name": "Emerald Utilities Co.",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-12",
+      "name": "Falcon Aviation Services",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-13",
+      "name": "Future Cities Program",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-14",
+      "name": "Grand Mosque Services",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-15",
+      "name": "Gulf Logistics Group",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-16",
+      "name": "Hail Development Authority",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-17",
+      "name": "Highland Water Co.",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-18",
+      "name": "Industrial Cities Authority",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-19",
+      "name": "Integrated Transport Authority",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-20",
+      "name": "Jeddah Airports Company",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-21",
+      "name": "Jubail Industrial Authority",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-22",
+      "name": "KAFD Development Co.",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-23",
+      "name": "King Abdullah Economic City",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-24",
+      "name": "Kingdom Infrastructure Fund",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-25",
+      "name": "Landmark Real Estate",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-26",
+      "name": "Madinah Region Cluster",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-27",
+      "name": "Ministry of Health Facilities",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-28",
+      "name": "National Housing Company",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-29",
+      "name": "National Water Authority",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-30",
+      "name": "Neom Development Company",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-31",
+      "name": "Northern Borders Municipality",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-32",
+      "name": "Oasis Facilities Group",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-33",
+      "name": "Olaya Holding Group",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-34",
+      "name": "Peninsula Energy Co.",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-35",
+      "name": "Pilgrim Services Authority",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-36",
+      "name": "Public Investment Projects",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-37",
+      "name": "Qassim Regional Cluster",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-38",
+      "name": "Qiddiya Investment Co.",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-39",
+      "name": "Red Sea Development Co.",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-40",
+      "name": "Riyadh Airports Company",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-41",
+      "name": "Riyadh Metro Company",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-42",
+      "name": "Royal Commission for Jubail",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-43",
+      "name": "Sakaka Solar Company",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-44",
+      "name": "Saudi Grid Company",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-45",
+      "name": "Saudi Ports Authority",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-46",
+      "name": "Southern Cement Co.",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-47",
+      "name": "Tabuk Municipality",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-48",
+      "name": "Taif Regional Cluster",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-49",
+      "name": "Tourism Development Fund",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-50",
+      "name": "Trans-Peninsula Rail",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-51",
+      "name": "United Facilities Co.",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-52",
+      "name": "Uptown Development Co.",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-53",
+      "name": "Vantage Infrastructure",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-54",
+      "name": "Vision Housing Company",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-55",
+      "name": "Western Region Utilities",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-56",
+      "name": "Yanbu Industrial City",
+      "tier": "directory"
+    },
+    {
+      "id": "dir-57",
+      "name": "Zone Logistics Authority",
+      "tier": "directory"
+    }
+  ],
+  "leadershipPage": {
+    "title": "Key people & leadership",
+    "subline": "The leadership team guiding SATCO’s strategy, governance, and long-term direction.",
+    "pendingNote": "Leadership profiles are being finalized. Content coming soon.",
+    "placeholderCount": 6
+  },
+  "leadership": [],
+  "careersPage": {
+    "title": "Careers",
+    "intro": [
+      "SATCO offers opportunities to work on complex, large-scale projects that support national development and long-term infrastructure performance. Operating across construction, airport infrastructure, operations and support services, as well as public–private partnerships, SATCO provides professionals with exposure to challenging environments, multidisciplinary teams, and long-term career growth.",
+      "We seek individuals who value execution, accountability, as well as collaboration—and who want to contribute to projects that matter."
+    ],
+    "life": {
+      "eyebrow": "Life at SATCO",
+      "heading": "Work where technical excellence meets national scale",
+      "paragraphs": [
+        "Working at SATCO means being part of an integrated platform delivering, operating, and sustaining critical assets. Our teams work across diverse environments—from construction sites and industrial cities to airports as well as master-planned developments—often under demanding schedules and high standards.",
+        "SATCO invests in capability, safety, and professional development, creating an environment where technical expertise as well as operational discipline are valued and rewarded."
+      ]
+    },
+    "roles": {
+      "heading": "Current opportunities",
+      "note": "Live roles are published via SATCO’s ATS / LinkedIn. Listings below are illustrative.",
+      "emptyMessage": "No roles match your filters. Try broadening your search or",
+      "emptyLinkLabel": "submit a general application"
+    },
+    "howWeHire": {
+      "heading": "How we hire",
+      "paragraphs": [
+        "Our recruitment process is structured, transparent, and role-specific. Shortlisted candidates are evaluated based on technical capability, relevant experience, and alignment with SATCO’s operational standards as well as values.",
+        "Depending on the role, the process may include technical interviews, assessments, and project-based discussions."
+      ],
+      "steps": [
+        {
+          "title": "Apply",
+          "body": "Submit your application for a specific role or as a general profile."
+        },
+        {
+          "title": "Review",
+          "body": "Our talent team reviews your experience against current and upcoming needs."
+        },
+        {
+          "title": "Interview",
+          "body": "Meet the team through technical and competency-based conversations."
+        },
+        {
+          "title": "Offer",
+          "body": "Receive an offer and onboarding plan to set you up for success."
+        }
+      ]
+    },
+    "generalApplication": {
+      "heading": "General applications",
+      "body": "If you do not see a suitable role listed, you may submit a general application. Your profile will be reviewed and considered as future opportunities arise.",
+      "cta": "Submit your profile"
+    },
+    "detail": {
+      "summaryHeading": "Role summary",
+      "responsibilitiesHeading": "Responsibilities",
+      "requirementsHeading": "Requirements",
+      "locationHeading": "Location",
+      "applyLabel": "Apply for this role",
+      "applyNote": "Opens SATCO’s applicant tracking system / LinkedIn in a new tab.",
+      "backLabel": "All open roles"
+    },
+    "filters": {
+      "legend": "Filter roles",
+      "keyword": "Keyword",
+      "keywordPlaceholder": "Search roles",
+      "location": "Location",
+      "sector": "Operating sector",
+      "discipline": "Discipline / function",
+      "level": "Experience level"
+    }
+  },
+  "contactPage": {
+    "title": "Contact us",
+    "subline": "Connect with SATCO to discuss partnerships, opportunities, or general inquiries.",
+    "form": {
+      "heading": "Send a message",
+      "requiredNote": "* Required field",
+      "successMessage": "Thank you — your message has been received. A member of the SATCO team will respond shortly.",
+      "nameLabel": "Full name",
+      "nameError": "Please enter your name.",
+      "emailLabel": "Email",
+      "emailError": "Please enter a valid email address.",
+      "orgLabel": "Organization",
+      "inquiryLabel": "Inquiry type",
+      "routePrefix": "Routes to:",
+      "proposalNote": "Proposed routing — pending client sign-off.",
+      "messageLabel": "Message",
+      "messageError": "Please enter a message.",
+      "submitLabel": "Send message"
+    },
+    "inquiryOptions": [
+      {
+        "value": "partnerships",
+        "label": "Discuss partnerships",
+        "routesTo": "Business Development & Info"
+      },
+      {
+        "value": "opportunities",
+        "label": "Opportunities",
+        "routesTo": "Business Development & Info"
+      },
+      {
+        "value": "procurement",
+        "label": "Procurement",
+        "routesTo": "Procurement & Info"
+      },
+      {
+        "value": "careers",
+        "label": "Careers",
+        "routesTo": "Human Resources"
+      },
+      {
+        "value": "general",
+        "label": "General inquiries",
+        "routesTo": "Info (general)"
+      }
+    ],
+    "details": {
+      "heading": "Get in touch",
+      "officeLabel": "Head office",
+      "phoneLabel": "Phone",
+      "phone": "+966 11 200 0000",
+      "emailLabel": "Email",
+      "hoursLabel": "Hours",
+      "hours": "Sunday–Thursday, 8:00–17:00 (AST)"
+    },
+    "mapLabel": "Map placeholder — SATCO head office, Riyadh, Saudi Arabia",
+    "mapCaption": "Map — Riyadh, KSA"
+  },
+  "flags": {
+    "loading_duration_ms": 1200,
+    "show_review_control": false,
+    "show_vendor_tab": false,
+    "show_pending_experience": false,
+    "section_visibility": {
+      "statBand": true,
+      "whoWeAre": true,
+      "careersTeaser": true,
+      "contactTeaser": true
+    },
+    "careers_source": "dashboard",
+    "maintenance_banner": null
+  }
+}

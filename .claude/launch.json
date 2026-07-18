@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "satco-web",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "satco-web", "run", "dev"],
+      "port": 3000
+    },
+    {
+      "name": "satco-admin",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "satco-admin", "run", "dev"],
+      "port": 3100
+    }
+  ]
+}

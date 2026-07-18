@@ -1,0 +1,69 @@
+{
+  "title": "Careers",
+  "intro": [
+    "SATCO offers opportunities to work on complex, large-scale projects that support national development and long-term infrastructure performance. Operating across construction, airport infrastructure, operations and support services, as well as public–private partnerships, SATCO provides professionals with exposure to challenging environments, multidisciplinary teams, and long-term career growth.",
+    "We seek individuals who value execution, accountability, as well as collaboration—and who want to contribute to projects that matter."
+  ],
+  "life": {
+    "eyebrow": "Life at SATCO",
+    "heading": "Work where technical excellence meets national scale",
+    "paragraphs": [
+      "Working at SATCO means being part of an integrated platform delivering, operating, and sustaining critical assets. Our teams work across diverse environments—from construction sites and industrial cities to airports as well as master-planned developments—often under demanding schedules and high standards.",
+      "SATCO invests in capability, safety, and professional development, creating an environment where technical expertise as well as operational discipline are valued and rewarded."
+    ]
+  },
+  "roles": {
+    "heading": "Current opportunities",
+    "note": "Live roles are published via SATCO’s ATS / LinkedIn. Listings below are illustrative.",
+    "emptyMessage": "No roles match your filters. Try broadening your search or",
+    "emptyLinkLabel": "submit a general application"
+  },
+  "howWeHire": {
+    "heading": "How we hire",
+    "paragraphs": [
+      "Our recruitment process is structured, transparent, and role-specific. Shortlisted candidates are evaluated based on technical capability, relevant experience, and alignment with SATCO’s operational standards as well as values.",
+      "Depending on the role, the process may include technical interviews, assessments, and project-based discussions."
+    ],
+    "steps": [
+      {
+        "title": "Apply",
+        "body": "Submit your application for a specific role or as a general profile."
+      },
+      {
+        "title": "Review",
+        "body": "Our talent team reviews your experience against current and upcoming needs."
+      },
+      {
+        "title": "Interview",
+        "body": "Meet the team through technical and competency-based conversations."
+      },
+      {
+        "title": "Offer",
+        "body": "Receive an offer and onboarding plan to set you up for success."
+      }
+    ]
+  },
+  "generalApplication": {
+    "heading": "General applications",
+    "body": "If you do not see a suitable role listed, you may submit a general application. Your profile will be reviewed and considered as future opportunities arise.",
+    "cta": "Submit your profile"
+  },
+  "detail": {
+    "summaryHeading": "Role summary",
+    "responsibilitiesHeading": "Responsibilities",
+    "requirementsHeading": "Requirements",
+    "locationHeading": "Location",
+    "applyLabel": "Apply for this role",
+    "applyNote": "Opens SATCO’s applicant tracking system / LinkedIn in a new tab.",
+    "backLabel": "All open roles"
+  },
+  "filters": {
+    "legend": "Filter roles",
+    "keyword": "Keyword",
+    "keywordPlaceholder": "Search roles",
+    "location": "Location",
+    "sector": "Operating sector",
+    "discipline": "Discipline / function",
+    "level": "Experience level"
+  }
+}

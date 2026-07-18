@@ -1,0 +1,57 @@
+[
+  {
+    "id": "sub-1001",
+    "name": "Layla Al-Harbi",
+    "email": "l.alharbi@example-developer.sa",
+    "organization": "Coastal Development Authority",
+    "inquiryType": "partnerships",
+    "message": "We are evaluating delivery partners for an availability-based PPP and would like to discuss SATCO's PPP track record.",
+    "assignedDept": "Business Development & Info",
+    "status": "new",
+    "createdAt": "2026-07-18T14:26:59.833Z"
+  },
+  {
+    "id": "sub-1002",
+    "name": "Omar Nasser",
+    "email": "omar.nasser@example-contractor.com",
+    "organization": "Nasser Trading Est.",
+    "inquiryType": "procurement",
+    "message": "Requesting vendor pre-qualification details for MEP subcontracting on upcoming construction packages.",
+    "assignedDept": "Procurement & Info",
+    "status": "in-progress",
+    "assignee": "publisher@satco.com.sa",
+    "createdAt": "2026-07-18T14:26:59.833Z"
+  },
+  {
+    "id": "sub-1003",
+    "name": "Fatimah Al-Qahtani",
+    "email": "fatimah.q@example-mail.com",
+    "inquiryType": "careers",
+    "message": "I have 8 years in facilities management and would like to understand current openings in your operations sector.",
+    "assignedDept": "Human Resources",
+    "status": "new",
+    "createdAt": "2026-07-18T14:26:59.833Z"
+  },
+  {
+    "id": "sub-1004",
+    "name": "David Chen",
+    "email": "d.chen@example-systems.com",
+    "organization": "Global Airport Systems",
+    "inquiryType": "opportunities",
+    "message": "Exploring OEM collaboration for passenger boarding bridges and 400Hz ground power across the Kingdom.",
+    "assignedDept": "Business Development & Info",
+    "status": "handled",
+    "assignee": "admin@satco.com.sa",
+    "createdAt": "2026-07-18T14:26:59.833Z"
+  },
+  {
+    "id": "sub-1005",
+    "name": "Sara Ibrahim",
+    "email": "sara.ibrahim@example.org",
+    "inquiryType": "general",
+    "message": "General question about SATCO's certifications and ISO scope.",
+    "assignedDept": "Info (general)",
+    "status": "new",
+    "createdAt": "2026-07-18T14:26:59.833Z"
+  }
+]

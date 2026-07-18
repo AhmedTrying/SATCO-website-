@@ -1,0 +1,26 @@
+# Dependencies (workspace-hoisted root + per-app; kept out of OneDrive via junctions)
+/node_modules/
+satco-web/node_modules/
+satco-admin/node_modules/
+packages/*/node_modules/
+
+# Next.js build output
+satco-web/.next/
+satco-web/out/
+satco-admin/.next/
+
+# TypeScript incremental
+*.tsbuildinfo
+
+# Dashboard local stores (mutable runtime data — the Supabase stand-in)
+satco-admin/data/store/
+satco-admin/public/uploads/
+
+# Env & logs
+*.log
+.env*
+!.env.example
+
+# OS
+Thumbs.db
+.DS_Store

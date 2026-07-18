@@ -1,0 +1,22 @@
+[
+  {
+    "id": "gen-3001",
+    "applicantName": "Ahmed Farouk",
+    "email": "a.farouk@example-mail.com",
+    "phone": "+966 53 222 1111",
+    "discipline": "Electrical Engineering",
+    "sector": "operations",
+    "note": "Open to facilities and asset-operations roles across the Kingdom.",
+    "status": "new",
+    "createdAt": "2026-07-18T14:26:59.833Z"
+  },
+  {
+    "id": "gen-3002",
+    "applicantName": "Mariam Zayd",
+    "email": "mariam.zayd@example-mail.com",
+    "discipline": "Quantity Surveying",
+    "sector": "construction",
+    "status": "reviewing",
+    "createdAt": "2026-07-18T14:26:59.833Z"
+  }
+]

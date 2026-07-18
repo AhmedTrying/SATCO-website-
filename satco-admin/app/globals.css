@@ -1,0 +1,300 @@
+@import "tailwindcss";
+
+/*
+ * SATCO admin — reuses the site's bronze/stone brand tokens (plan §3) so the
+ * dashboard is on-brand, but denser and more utilitarian than the marketing site.
+ */
+
+@theme {
+  /* Disable Tailwind's default palette — only SATCO brand colours exist. */
+  --color-*: initial;
+
+  /* Bronze (logo emblem) */
+  --color-bronze-50: #fbf6ef;
+  --color-bronze-100: #f5e9d6;
+  --color-bronze-200: #edd2ab;
+  --color-bronze-300: #e2b26f;
+  --color-bronze-400: #dd902c;
+  --color-bronze-500: #c0720c;
+  --color-bronze-600: #a05c03;
+  --color-bronze-700: #8a4e00;
+  --color-bronze-800: #704000;
+  --color-bronze-900: #573000;
+  --color-bronze-950: #351e03;
+
+  /* Stone (wordmark) */
+  --color-stone-50: #fbfaf8;
+  --color-stone-100: #f7f6f2;
+  --color-stone-200: #eae7e1;
+  --color-stone-300: #d8d3ca;
+  --color-stone-400: #b4ac9d;
+  --color-stone-500: #8f8570;
+  --color-stone-600: #726a5a;
+  --color-stone-700: #5b5548;
+  --color-stone-800: #454036;
+  --color-stone-900: #2e2a24;
+  --color-stone-950: #1d1a16;
+  --color-ink: #231f1a;
+  --color-sand: #f7f4ed;
+  --color-white: #ffffff;
+
+  /* Semantic roles */
+  --color-bg: #f7f6f2;
+  --color-surface: #ffffff;
+  --color-body: #5b5548;
+  --color-strong: #231f1a;
+  --color-muted: #8f8570;
+  --color-primary: #704000;
+  --color-primary-hover: #8a4e00;
+  --color-border: #eae7e1;
+
+  /* State colours (warm-tuned to match the site) */
+  --color-success: #3f6b2e;
+  --color-warning: #b4790c;
+  --color-error: #9b2c1e;
+  --color-info: #3a5566;
+
+  /* Radius — restrained/institutional */
+  --radius-*: initial;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  /* Shadows — warm, low alpha */
+  --shadow-*: initial;
+  --shadow-xs: 0 1px 2px rgb(45 42 36 / 0.06);
+  --shadow-sm: 0 2px 6px rgb(45 42 36 / 0.08);
+  --shadow-md: 0 6px 16px rgb(45 42 36 / 0.1);
+  --shadow-lg: 0 16px 40px rgb(45 42 36 / 0.12);
+}
+
+@layer base {
+  :root {
+    --nav-w: 256px;
+    --topbar-h: 56px;
+  }
+
+  html,
+  body {
+    background: var(--color-bg);
+    color: var(--color-body);
+    font-family:
+      ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica,
+      Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--color-strong);
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  /* Visible bronze focus ring everywhere (WCAG AA — the dashboard is AA too). */
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Dark sidebar switches the ring to bronze-300 (≥3:1 on stone-900). */
+  .on-dark :focus-visible {
+    outline-color: var(--color-bronze-300);
+  }
+
+  ::selection {
+    background: var(--color-bronze-200);
+    color: var(--color-ink);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xs);
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    justify-content: center;
+    padding: 0.5rem 0.85rem;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition:
+      background 150ms ease,
+      border-color 150ms ease,
+      color 150ms ease;
+    white-space: nowrap;
+  }
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .btn-primary {
+    background: var(--color-primary);
+    color: #fff;
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: var(--color-primary-hover);
+  }
+  .btn-secondary {
+    background: var(--color-surface);
+    color: var(--color-strong);
+    border-color: var(--color-border);
+  }
+  .btn-secondary:hover:not(:disabled) {
+    background: var(--color-stone-100);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-body);
+  }
+  .btn-ghost:hover:not(:disabled) {
+    background: var(--color-stone-100);
+  }
+  .btn-danger {
+    background: var(--color-error);
+    color: #fff;
+  }
+
+  /* Form controls */
+  .input,
+  .textarea,
+  .select {
+    width: 100%;
+    background: var(--color-surface);
+    border: 1px solid var(--color-stone-300);
+    border-radius: var(--radius-sm);
+    padding: 0.5rem 0.6rem;
+    font-size: 0.875rem;
+    color: var(--color-strong);
+  }
+  .input:focus,
+  .textarea:focus,
+  .select:focus {
+    border-color: var(--color-primary);
+    outline: 2px solid var(--color-primary);
+    outline-offset: 0;
+  }
+  .textarea {
+    line-height: 1.55;
+    resize: vertical;
+  }
+  .label {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-strong);
+    margin-bottom: 0.3rem;
+  }
+  .hint {
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    margin-top: 0.3rem;
+  }
+  .field-error {
+    font-size: 0.75rem;
+    color: var(--color-error);
+    margin-top: 0.3rem;
+  }
+
+  /* Pills / badges */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-full);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    border: 1px solid var(--color-border);
+    background: var(--color-stone-100);
+    color: var(--color-stone-700);
+  }
+  .badge-green {
+    background: #eaf2e4;
+    color: #2f5122;
+    border-color: #cfe3c1;
+  }
+  .badge-amber {
+    background: #f8edd4;
+    color: #7a5209;
+    border-color: #eecf8f;
+  }
+  .badge-red {
+    background: #f6e0dc;
+    color: #7c2418;
+    border-color: #e6bcb3;
+  }
+  .badge-stone {
+    background: var(--color-stone-100);
+    color: var(--color-stone-600);
+  }
+
+  /* Sidebar drawer: off-canvas on mobile, always visible on lg+.
+     Uses `transform` + [data-open] (the site's proven pattern) rather than
+     Tailwind's translate utility, which is unreliable for the negative case in v4. */
+  .admin-drawer {
+    transform: translateX(-100%);
+  }
+  [dir="rtl"] .admin-drawer {
+    transform: translateX(100%);
+  }
+  .admin-drawer[data-open] {
+    transform: translateX(0);
+  }
+  @media (min-width: 1024px) {
+    .admin-drawer {
+      transform: none;
+    }
+  }
+
+  /* Data tables */
+  .tbl {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8125rem;
+  }
+  .tbl th {
+    text-align: start;
+    font-weight: 600;
+    color: var(--color-muted);
+    padding: 0.55rem 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+  }
+  .tbl td {
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+  }
+  .tbl tr:hover td {
+    background: var(--color-stone-50);
+  }
+}

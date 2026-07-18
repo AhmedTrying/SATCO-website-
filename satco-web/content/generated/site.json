@@ -1,0 +1,20 @@
+{
+  "name": "SATCO",
+  "legalName": "Saudi Arabian Trading & Construction Co.",
+  "established": 1975,
+  "location": "Riyadh, Kingdom of Saudi Arabia",
+  "loadingText": "Celebrating over 50 years of excellence",
+  "description": "Saudi Arabian Trading & Construction Co. — a Saudi-owned infrastructure and services group delivering at national scale since 1975.",
+  "copyrightHolder": "Saudi Arabian Trading & Construction Co.",
+  "establishedLine": "Established 1975 · Riyadh, Kingdom of Saudi Arabia",
+  "contact": {
+    "addressLines": [
+      "King Fahd Road, Riyadh 12313",
+      "Kingdom of Saudi Arabia"
+    ],
+    "email": "info@satco.com.sa"
+  },
+  "flags": {
+    "showVendorsTab": false
+  }
+}

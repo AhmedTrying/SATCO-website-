@@ -1,0 +1,23 @@
+{
+  "name": "satco-monorepo",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "satco-web",
+    "satco-admin"
+  ],
+  "scripts": {
+    "dev:web": "npm --workspace satco-web run dev",
+    "dev:admin": "npm --workspace satco-admin run dev",
+    "build:web": "npm --workspace satco-web run build",
+    "build:admin": "npm --workspace satco-admin run build",
+    "lint:web": "npm --workspace satco-web run lint",
+    "lint:admin": "npm --workspace satco-admin run lint",
+    "typecheck": "npm --workspace satco-web run typecheck && npm --workspace satco-admin run typecheck",
+    "seed": "tsx satco-admin/scripts/seed.mts"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2"
+  }
+}

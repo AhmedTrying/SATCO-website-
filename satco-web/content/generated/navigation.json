@@ -1,0 +1,131 @@
+{
+  "primaryNav": [
+    {
+      "label": "Home",
+      "href": "/"
+    },
+    {
+      "label": "About us",
+      "href": "/about",
+      "children": [
+        {
+          "label": "Company information",
+          "href": "/about/company"
+        },
+        {
+          "label": "Key people & leadership",
+          "href": "/about/leadership"
+        },
+        {
+          "label": "Classifications, licenses & certifications",
+          "href": "/about/certifications"
+        },
+        {
+          "label": "Clients",
+          "href": "/about/clients"
+        }
+      ]
+    },
+    {
+      "label": "Operating sectors",
+      "href": "/sectors",
+      "wide": true,
+      "children": [
+        {
+          "label": "Airport infrastructure & operations",
+          "href": "/sectors/airports"
+        },
+        {
+          "label": "Construction",
+          "href": "/sectors/construction"
+        },
+        {
+          "label": "Integrated operations & support services",
+          "href": "/sectors/operations"
+        },
+        {
+          "label": "Public–private partnerships (PPP)",
+          "href": "/sectors/ppp"
+        }
+      ]
+    },
+    {
+      "label": "Careers",
+      "href": "/careers"
+    },
+    {
+      "label": "Contact us",
+      "href": "/contact"
+    }
+  ],
+  "footerColumns": [
+    {
+      "title": "About",
+      "links": [
+        {
+          "label": "Company information",
+          "href": "/about/company"
+        },
+        {
+          "label": "Key people & leadership",
+          "href": "/about/leadership"
+        },
+        {
+          "label": "Classifications & certifications",
+          "href": "/about/certifications"
+        },
+        {
+          "label": "Clients",
+          "href": "/about/clients"
+        }
+      ]
+    },
+    {
+      "title": "Operating sectors",
+      "links": [
+        {
+          "label": "Airport infrastructure & operations",
+          "href": "/sectors/airports"
+        },
+        {
+          "label": "Construction",
+          "href": "/sectors/construction"
+        },
+        {
+          "label": "Integrated operations & support",
+          "href": "/sectors/operations"
+        },
+        {
+          "label": "Public–private partnerships",
+          "href": "/sectors/ppp"
+        }
+      ]
+    },
+    {
+      "title": "Careers",
+      "links": [
+        {
+          "label": "Open roles",
+          "href": "/careers"
+        },
+        {
+          "label": "Life at SATCO",
+          "href": "/careers"
+        },
+        {
+          "label": "General application",
+          "href": "/careers"
+        }
+      ]
+    }
+  ],
+  "footerContactColumn": {
+    "title": "Contact",
+    "links": [
+      {
+        "label": "Contact us",
+        "href": "/contact"
+      }
+    ]
+  }
+}

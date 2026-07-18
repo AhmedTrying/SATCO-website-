@@ -1,0 +1,33 @@
+[
+  {
+    "id": "app-2001",
+    "jobId": "spm-construction",
+    "jobTitle": "Senior Project Manager – Construction",
+    "applicantName": "Khalid Mansour",
+    "email": "k.mansour@example-mail.com",
+    "phone": "+966 55 123 4567",
+    "coverNote": "14 years delivering integrated communities; led a 25,000-resident NEOM village program.",
+    "status": "reviewing",
+    "createdAt": "2026-07-18T14:26:59.833Z"
+  },
+  {
+    "id": "app-2002",
+    "jobId": "airport-tech",
+    "jobTitle": "Airport Systems Technician",
+    "applicantName": "Yousef Al-Dossary",
+    "email": "yousef.d@example-mail.com",
+    "phone": "+966 50 987 6543",
+    "status": "new",
+    "createdAt": "2026-07-18T14:26:59.833Z"
+  },
+  {
+    "id": "app-2003",
+    "jobId": "ppp-analyst",
+    "jobTitle": "PPP Investment Analyst",
+    "applicantName": "Noura Saleh",
+    "email": "noura.saleh@example-mail.com",
+    "coverNote": "Project-finance background across MENA infrastructure.",
+    "status": "shortlisted",
+    "createdAt": "2026-07-18T14:26:59.833Z"
+  }
+]

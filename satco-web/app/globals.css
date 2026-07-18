@@ -1,0 +1,220 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+
+@theme {
+  /*
+   * Disable Tailwind's entire default palette — only SATCO brand tokens exist,
+   * so no off-brand colour can leak into utilities (plan §3 / kickoff §4).
+   */
+  --color-*: initial;
+}
+
+@theme inline {
+  /* Brand scales (values live in styles/tokens.css) */
+  --color-bronze-50: var(--bronze-50);
+  --color-bronze-100: var(--bronze-100);
+  --color-bronze-200: var(--bronze-200);
+  --color-bronze-300: var(--bronze-300);
+  --color-bronze-400: var(--bronze-400);
+  --color-bronze-500: var(--bronze-500);
+  --color-bronze-600: var(--bronze-600);
+  --color-bronze-700: var(--bronze-700);
+  --color-bronze-800: var(--bronze-800);
+  --color-bronze-900: var(--bronze-900);
+  --color-bronze-950: var(--bronze-950);
+  --color-stone-50: var(--stone-50);
+  --color-stone-100: var(--stone-100);
+  --color-stone-200: var(--stone-200);
+  --color-stone-300: var(--stone-300);
+  --color-stone-400: var(--stone-400);
+  --color-stone-500: var(--stone-500);
+  --color-stone-600: var(--stone-600);
+  --color-stone-700: var(--stone-700);
+  --color-stone-800: var(--stone-800);
+  --color-stone-900: var(--stone-900);
+  --color-stone-950: var(--stone-950);
+  --color-ink: var(--ink);
+  --color-sand: var(--sand);
+  --color-white: #ffffff;
+
+  /* Semantic roles */
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-body: var(--text);
+  --color-strong: var(--text-strong);
+  --color-muted: var(--text-muted);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-border: var(--border);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --color-info: var(--info);
+
+  /* Typography — Pairing A (Archivo display / Inter body), self-hosted via next/font */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-archivo), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+@theme {
+  /* Type scale — plan §3.4 */
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.5;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.5;
+  --text-base: 1rem;
+  --text-base--line-height: 1.65;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.6;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.5;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 1.35;
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: 1.25;
+  --text-4xl: clamp(2rem, 4vw, 2.5rem);
+  --text-4xl--line-height: 1.15;
+  --text-5xl: clamp(2.5rem, 6vw, 3.25rem);
+  --text-5xl--line-height: 1.08;
+  --text-6xl: clamp(3rem, 8vw, 4.5rem);
+  --text-6xl--line-height: 1.05;
+
+  /* Radius — plan §3.6 (restrained, institutional) */
+  --radius-*: initial;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* Shadows — plan §3.7 (warm-tinted, low alpha) */
+  --shadow-*: initial;
+  --shadow-xs: 0 1px 2px rgb(45 42 36 / 0.06);
+  --shadow-sm: 0 2px 6px rgb(45 42 36 / 0.08);
+  --shadow-md: 0 6px 16px rgb(45 42 36 / 0.1);
+  --shadow-lg: 0 16px 40px rgb(45 42 36 / 0.12);
+  --shadow-focus: 0 0 0 3px rgb(112 64 0 / 0.35);
+
+  /* Easings — plan §3.8 */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Breakpoints: Tailwind defaults match plan §8 (640/768/1024/1280/1536).
+     `nav` is the desktop-nav collapse point from the approved design. */
+  --breakpoint-nav: 820px;
+}
+
+@layer base {
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    font-size: 1rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-archivo), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    color: var(--text-strong);
+  }
+
+  a {
+    color: var(--primary);
+  }
+  a:hover {
+    color: var(--primary-hover);
+  }
+
+  /* Solid ring ≥3:1 on light surfaces (plan §9); dark containers set
+     --focus-ring-color to bronze-300 (7.35:1 on stone-900, §3.3 table). */
+  :focus-visible {
+    outline: 3px solid var(--focus-ring-color, var(--focus-ring));
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  .on-dark {
+    --focus-ring-color: var(--bronze-300);
+  }
+
+  /* Programmatic focus target on route change — no visible ring (plan §9) */
+  main h1:focus,
+  main h1:focus-visible {
+    outline: none;
+  }
+
+  ::selection {
+    background: var(--bronze-200);
+    color: var(--ink);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Scroll-aware nav chrome: transparent over the home hero, solid elsewhere/after scroll.
+     Colour swap runs through CSS variables so the emblem/wordmark follow automatically. */
+  .nav-chrome {
+    --navfg: var(--stone-50);
+    --navmut: rgb(251 250 248 / 0.85);
+    --wordmark: var(--stone-50);
+    --emblem-disc: var(--bronze-300);
+    --emblem-land: var(--stone-300);
+    /* transparent state sits over the dark hero — light focus ring */
+    --focus-ring-color: var(--bronze-300);
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    transition:
+      background var(--dur-base) ease,
+      box-shadow var(--dur-base) ease,
+      border-color var(--dur-base) ease;
+  }
+  .nav-chrome[data-solid] {
+    background: rgb(251 250 248 / 0.9);
+    backdrop-filter: saturate(1.15) blur(9px);
+    -webkit-backdrop-filter: saturate(1.15) blur(9px);
+    border-bottom-color: var(--border);
+    box-shadow: 0 1px 0 rgb(45 42 36 / 0.05);
+    --navfg: var(--ink);
+    --navmut: var(--stone-700);
+    --wordmark: var(--bronze-800);
+    --emblem-disc: var(--bronze-800);
+    --emblem-land: var(--stone-600);
+    --focus-ring-color: var(--focus-ring);
+  }
+
+  /* Mobile drawer: slides from the inline-end edge; visibility flips after the
+     transform transition so the closed drawer is unfocusable and hidden. */
+  .drawer {
+    transform: translateX(100%);
+    visibility: hidden;
+    transition:
+      transform 0.3s var(--ease-standard),
+      visibility 0s linear 0.32s;
+  }
+  [dir="rtl"] .drawer {
+    transform: translateX(-100%);
+  }
+  .drawer[data-open] {
+    transform: translateX(0);
+    visibility: visible;
+    transition: transform 0.3s var(--ease-standard);
+  }
+}

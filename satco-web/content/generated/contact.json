@@ -1,0 +1,58 @@
+{
+  "title": "Contact us",
+  "subline": "Connect with SATCO to discuss partnerships, opportunities, or general inquiries.",
+  "form": {
+    "heading": "Send a message",
+    "requiredNote": "* Required field",
+    "successMessage": "Thank you — your message has been received. A member of the SATCO team will respond shortly.",
+    "nameLabel": "Full name",
+    "nameError": "Please enter your name.",
+    "emailLabel": "Email",
+    "emailError": "Please enter a valid email address.",
+    "orgLabel": "Organization",
+    "inquiryLabel": "Inquiry type",
+    "routePrefix": "Routes to:",
+    "proposalNote": "Proposed routing — pending client sign-off.",
+    "messageLabel": "Message",
+    "messageError": "Please enter a message.",
+    "submitLabel": "Send message"
+  },
+  "inquiryOptions": [
+    {
+      "value": "partnerships",
+      "label": "Discuss partnerships",
+      "routesTo": "Business Development & Info"
+    },
+    {
+      "value": "opportunities",
+      "label": "Opportunities",
+      "routesTo": "Business Development & Info"
+    },
+    {
+      "value": "procurement",
+      "label": "Procurement",
+      "routesTo": "Procurement & Info"
+    },
+    {
+      "value": "careers",
+      "label": "Careers",
+      "routesTo": "Human Resources"
+    },
+    {
+      "value": "general",
+      "label": "General inquiries",
+      "routesTo": "Info (general)"
+    }
+  ],
+  "details": {
+    "heading": "Get in touch",
+    "officeLabel": "Head office",
+    "phoneLabel": "Phone",
+    "phone": "+966 11 200 0000",
+    "emailLabel": "Email",
+    "hoursLabel": "Hours",
+    "hours": "Sunday–Thursday, 8:00–17:00 (AST)"
+  },
+  "mapLabel": "Map placeholder — SATCO head office, Riyadh, Saudi Arabia",
+  "mapCaption": "Map — Riyadh, KSA"
+}
