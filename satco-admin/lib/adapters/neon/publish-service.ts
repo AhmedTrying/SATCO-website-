@@ -61,6 +61,22 @@ async function computeDiff(): Promise<PublishDiffEntry[]> {
   }));
 }
 
+/**
+ * Ping the Vercel deploy hook (if VERCEL_DEPLOY_HOOK_URL is set) so the live site
+ * rebuilds and its prebuild step pulls the freshly-published content from Neon.
+ * Optional and non-fatal — a publish still succeeds if the trigger fails.
+ */
+async function fireDeployHook(): Promise<void> {
+  const hook = process.env.VERCEL_DEPLOY_HOOK_URL;
+  if (!hook) return;
+  try {
+    const res = await fetch(hook, { method: "POST" });
+    if (!res.ok) console.warn(`[publish] deploy hook returned HTTP ${res.status}`);
+  } catch (err) {
+    console.warn("[publish] deploy hook request failed:", err);
+  }
+}
+
 export const neonPublishService: PublishService = {
   diff(): Promise<PublishDiffEntry[]> {
     return computeDiff();
@@ -107,6 +123,10 @@ export const neonPublishService: PublishService = {
       summary: record.summary,
       diff: { changedKeys: record.changedKeys },
     });
+
+    // 5. Trigger a live rebuild — the satco-web build pulls the published bundle
+    //    from Neon (prebuild fetch). Non-fatal: publish succeeds even if it fails.
+    await fireDeployHook();
 
     return record;
   },

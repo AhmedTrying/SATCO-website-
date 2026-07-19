@@ -9,7 +9,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 
-import type { ContentBundle } from "@satco/shared";
+import { splitBundle, type ContentBundle } from "@satco/shared";
 
 // process.cwd() is the satco-admin project dir under `next dev`/`next build`.
 const ADMIN_ROOT = process.cwd();
@@ -25,38 +25,10 @@ export const GENERATED_DIR = path.join(
   "generated",
 );
 
-/**
- * Split the in-memory bundle into the per-section JSON files satco-web imports
- * (kickoff §2.2: content/generated/*.json). Each file maps 1:1 to a content/*.ts
- * module's exports so the site tree-shakes per page — no whole-bundle bloat.
- * This mapping is the single source of truth for the site↔dashboard file layout.
- */
-export function splitBundle(b: ContentBundle): Record<string, unknown> {
-  return {
-    "site.json": b.site,
-    "home.json": b.home,
-    "stats.json": { statPendingNote: b.statPendingNote, stats: b.stats },
-    "navigation.json": b.navigation,
-    "company.json": b.company,
-    "certifications.json": {
-      certificationsPage: b.certificationsPage,
-      classifications: b.classifications,
-      licenses: b.licenses,
-      certifications: b.certifications,
-    },
-    "clients.json": { clientsPage: b.clientsPage, clients: b.clients },
-    "leadership.json": { leadershipPage: b.leadershipPage, leadership: b.leadership },
-    "contact.json": b.contactPage,
-    "careers.json": b.careersPage,
-    "sectors.json": {
-      showPendingExperience: b.showPendingExperience,
-      pendingExperienceCard: b.pendingExperienceCard,
-      sectors: b.sectors,
-      sectorsIntro: b.sectorsIntro,
-    },
-    "flags.json": b.flags,
-  };
-}
+// splitBundle (the per-section file layout) now lives in @satco/shared so the
+// dashboard writer and the site's Neon fetch (satco-web/scripts/fetch-content.mts)
+// share ONE definition and can never drift. Re-exported for existing callers.
+export { splitBundle };
 
 export async function readStore<T>(name: string): Promise<T> {
   const storePath = path.join(STORE_DIR, name);

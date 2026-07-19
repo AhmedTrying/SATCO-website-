@@ -8,4 +8,5 @@
 
 export * from "./types";
 export * from "./content";
+export * from "./content-layout";
 export * from "./cms";

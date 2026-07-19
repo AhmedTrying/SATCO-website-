@@ -19,9 +19,11 @@ function isActive(pathname: string, href: string): boolean {
 
 export function Shell({
   session,
+  backend,
   children,
 }: {
   session: Session;
+  backend: string;
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
@@ -100,7 +102,7 @@ export function Shell({
         </nav>
 
         <div className="border-t border-stone-800 px-4 py-3 text-[0.7rem] text-stone-500">
-          Local backend · Supabase deferred
+          {backend === "neon" ? "Neon Postgres backend" : "Local JSON backend"}
         </div>
       </aside>
 

@@ -9,9 +9,10 @@ const nextConfig: NextConfig = {
   // at runtime instead (DATA_BACKEND=neon).
   serverExternalPackages: ["@neondatabase/serverless"],
   // Local Windows dev ONLY (see satco-web/next.config.ts): the .next/node_modules
-  // junctions need Turbopack's root at the drive root. Omitted on Linux CI so the
-  // Vercel build works.
-  ...(process.platform === "win32" ? { turbopack: { root: "C:\\" } } : {}),
+  // junctions need Turbopack's root at the project's drive root (D:) — an ancestor
+  // of both the project and the D:\satco-dev junction targets. Omitted on Linux CI
+  // so the Vercel build works.
+  ...(process.platform === "win32" ? { turbopack: { root: "D:\\" } } : {}),
 };
 
 export default nextConfig;

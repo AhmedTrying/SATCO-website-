@@ -7,5 +7,10 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   const session = await requireSession();
-  return <Shell session={session}>{children}</Shell>;
+  const backend = process.env.DATA_BACKEND ?? "local";
+  return (
+    <Shell session={session} backend={backend}>
+      {children}
+    </Shell>
+  );
 }

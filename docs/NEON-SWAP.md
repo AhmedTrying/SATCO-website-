@@ -52,12 +52,20 @@ and finish the site integration:
 - [ ] **Deploy the admin** as a Vercel **server** app (its own project; root dir
       `satco-admin`; not the static-export project). Set `DATA_BACKEND` + `DATABASE_URL`
       in that project's env (the Vercel ↔ Neon integration can inject `DATABASE_URL`).
-- [ ] **Publish path on serverless.** A deployed dashboard has a read-only FS, so
-      `PublishService` can't write `satco-web/content/generated/*.json` in place. Switch
-      to: publish flips the `content_bundle` published row → fires a **debounced deploy
-      hook**; the site's build runs a **prebuild fetch** (`fetch-content`) that pulls the
-      published bundle → writes the same per-section JSON (identical shape, `content/*.ts`
-      loaders unchanged). Keep the committed snapshot as the offline fallback.
+- [x] **Live content pipeline (dashboard → site) — WIRED.** `satco-web` has a **prebuild
+      Neon fetch** (`scripts/fetch-content.mts`, run by the `prebuild` script) that pulls
+      the published `content_bundle` → writes `content/generated/*.json` (shared
+      `splitBundle` layout from `@satco/shared`; the committed JSON is the offline fallback
+      if Neon is unreachable — the build never breaks). The Neon `PublishService` fires a
+      **Vercel deploy hook** (`VERCEL_DEPLOY_HOOK_URL`) on publish. **To activate, set two
+      things in Vercel on the `satco-website` project:** (1) a `DATABASE_URL` env var (so
+      the build fetches from Neon), and (2) a **Deploy Hook** (Settings → Git → Deploy
+      Hooks) whose URL goes in `satco-admin/.env.local` as `VERCEL_DEPLOY_HOOK_URL`. Then
+      the loop is: dashboard edit → Publish → Neon updated + hook fired → Vercel rebuilds,
+      fetching from Neon → live (~1–2 min). Note: JSONB doesn't preserve key order, so the
+      fetched JSON is key-reordered vs the committed fallback (semantically identical — the
+      loaders read by key). A deployed admin (read-only FS) also relies on this hook path
+      rather than the local `writeGeneratedContent` write.
 - [ ] **Public-site forms** (contact + applications): submit → `INSERT` into
       `contact_submissions` / `job_applications` / `general_applications`. On a static
       site this needs a small serverless endpoint (or the deployed admin) since Neon

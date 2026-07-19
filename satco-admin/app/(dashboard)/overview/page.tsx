@@ -47,7 +47,7 @@ export default async function OverviewPage() {
     <>
       <PageHeader
         title={`Welcome, ${session.name.split(" ")[0]}`}
-        description="Snapshot of content, careers and contact activity. Publishing is a local stand-in until Supabase lands."
+        description="Snapshot of content, careers and contact activity. Publishing is a local stand-in until the deploy hook lands."
       />
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">

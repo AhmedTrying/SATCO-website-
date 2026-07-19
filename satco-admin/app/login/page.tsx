@@ -34,7 +34,7 @@ export default async function LoginPage() {
         <div className="card p-5">
           <h1 className="text-base font-semibold text-strong">Sign in</h1>
           <p className="mt-1 text-xs text-muted">
-            Mock authentication (Supabase Auth deferred). Choose a demo account —
+            Mock authentication (real sign-in deferred). Choose a demo account —
             you can switch roles anytime from the top bar.
           </p>
 
