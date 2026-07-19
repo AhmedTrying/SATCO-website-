@@ -15,7 +15,10 @@
     "lint:web": "npm --workspace satco-web run lint",
     "lint:admin": "npm --workspace satco-admin run lint",
     "typecheck": "npm --workspace satco-web run typecheck && npm --workspace satco-admin run typecheck",
-    "seed": "tsx satco-admin/scripts/seed.mts"
+    "seed": "tsx satco-admin/scripts/seed.mts",
+    "db:migrate": "tsx satco-admin/scripts/db-migrate.mts",
+    "db:seed": "tsx satco-admin/scripts/db-seed.mts",
+    "db:setup": "npm run db:migrate && npm run db:seed"
   },
   "devDependencies": {
     "tsx": "^4.19.2"

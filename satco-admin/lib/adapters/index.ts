@@ -11,6 +11,7 @@ import { localJobStore } from "./local/job-store";
 import { localMediaStore } from "./local/media-store";
 import { localPublishService } from "./local/publish-service";
 import { localSubmissionStore } from "./local/submission-store";
+import { neonAdapters } from "./neon";
 import type { Adapters } from "./types";
 
 const backend = process.env.DATA_BACKEND ?? "local";
@@ -25,16 +26,24 @@ const localAdapters: Adapters = {
   publish: localPublishService,
 };
 
-// TODO(supabase): when DATA_BACKEND === "supabase", export a supabaseAdapters
-// bundle implementing the same interfaces (Auth, Postgres stores, Storage,
-// deploy-hook publish). Until then only "local" is wired.
-if (backend !== "local") {
-  console.warn(
-    `[adapters] DATA_BACKEND="${backend}" not implemented yet — using local.`,
-  );
+// DATA_BACKEND selects the store implementation:
+//   local (default) — JSON files under data/ (offline dev, committed seed)
+//   neon            — Postgres via @neondatabase/serverless (needs DATABASE_URL)
+// Both satisfy the same Adapters interface, so no screen changes either way.
+// (A future Supabase bundle would slot in here identically.)
+function selectAdapters(): Adapters {
+  switch (backend) {
+    case "neon":
+      return neonAdapters;
+    case "local":
+      return localAdapters;
+    default:
+      console.warn(`[adapters] DATA_BACKEND="${backend}" is unknown — using local.`);
+      return localAdapters;
+  }
 }
 
-export const adapters: Adapters = localAdapters;
+export const adapters: Adapters = selectAdapters();
 
 export type { Adapters } from "./types";
 export type { Session } from "./types";

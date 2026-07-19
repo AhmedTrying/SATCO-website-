@@ -8,8 +8,8 @@ Corporate website for SATCO (Saudi Arabian Trading & Construction Co.) **plus it
 
 - `satco-web/` — the public site (Next.js static export).
 - `satco-admin/` — the authenticated control dashboard (Next.js App Router server app — **not** static export; runs on `:3100`).
-- `packages/shared/` — `@satco/shared`: the content-model types (moved from `satco-web/lib/types.ts`), page-copy + CMS types, zod schemas (`@satco/shared/schemas`). Consumed as TS source via `transpilePackages`. Both apps and (later) the Supabase schema agree on these shapes.
-- `docs/SUPABASE-SWAP.md` — the checklist for replacing the dashboard's local adapters with Supabase.
+- `packages/shared/` — `@satco/shared`: the content-model types (moved from `satco-web/lib/types.ts`), page-copy + CMS types, zod schemas (`@satco/shared/schemas`). Consumed as TS source via `transpilePackages`. Both apps and the Neon schema (`satco-admin/db/schema.sql`) agree on these shapes.
+- `docs/NEON-SWAP.md` — the **Neon (Vercel + Postgres)** backend: what's wired (schema, `neon/` adapters, seed) and what remains for production. This is the chosen backend. (`docs/SUPABASE-SWAP.md` is the earlier Supabase plan, kept for reference.)
 
 Everything else at the repo root is **source material, not code**:
 
@@ -38,7 +38,7 @@ npm run seed                         # regenerate satco-admin/data/seed/*.json f
 
 There are no tests yet.
 
-**Dashboard ↔ site link (DA3):** the dashboard's Publish writes `satco-web/content/generated/*.json` (per-section); `satco-web/content/*.ts` are thin loaders that re-export those JSON slices with the same names/types, so components are unchanged. A committed snapshot ships as the offline fallback. Edit in the dashboard → Publish → `npm run build:web` → live. Everything sits behind typed adapters in `satco-admin/lib/adapters/` (`DATA_BACKEND=local` now → `supabase` later; see `docs/SUPABASE-SWAP.md`). Verified: the loader refactor is byte-for-byte identical to the pre-refactor build.
+**Dashboard ↔ site link (DA3):** the dashboard's Publish writes `satco-web/content/generated/*.json` (per-section); `satco-web/content/*.ts` are thin loaders that re-export those JSON slices with the same names/types, so components are unchanged. A committed snapshot ships as the offline fallback. Edit in the dashboard → Publish → `npm run build:web` → live. Everything sits behind typed adapters in `satco-admin/lib/adapters/` (`DATA_BACKEND=local` = JSON files → `neon` = Postgres; see `docs/NEON-SWAP.md`). Verified: the loader refactor is byte-for-byte identical to the pre-refactor build.
 
 ## Critical environment quirks
 
@@ -62,7 +62,7 @@ There are no tests yet.
 
 ## Dashboard (`satco-admin/`)
 
-- **Not static export** — App Router server app with server actions + local file I/O (Node `fs`), reusing the site's bronze/stone tokens (denser/utilitarian). Everything hosted sits behind typed **adapter interfaces** (`lib/adapters/types.ts`) with **local impls** (`lib/adapters/local/`), selected by `DATA_BACKEND` in `lib/adapters/index.ts`. Swapping to Supabase = implement each interface + flip the env; no screen changes. See `docs/SUPABASE-SWAP.md`.
+- **Not static export** — App Router server app with server actions + local file I/O (Node `fs`), reusing the site's bronze/stone tokens (denser/utilitarian). Everything hosted sits behind typed **adapter interfaces** (`lib/adapters/types.ts`) with two impls — **local** (`lib/adapters/local/`, JSON files) and **Neon** (`lib/adapters/neon/`, Postgres via `@neondatabase/serverless`) — selected by `DATA_BACKEND` in `lib/adapters/index.ts` (`local` | `neon`). Switching backends flips the env var; no screen changes. See `docs/NEON-SWAP.md`.
 - **Local stores** live in `satco-admin/data/`: committed `seed/*.json` (generated from `satco-web/content` via `npm run seed`) + gitignored runtime `store/*.json` (write-through; reads fall back to seed). Uploads go to gitignored `public/uploads/`.
 - **Auth is mocked** (`MockAuth`, cookie session) with a **role switcher** in the top bar to preview viewer/editor/publisher/admin. Route gating is real: pages call `requireCapability()` server-side (redirects to `/denied`), and nav visibility is filtered by `roleCan()`. This all stays when Supabase Auth lands.
 - **Publish** (`lib/adapters/local/publish-service.ts`) writes `satco-web/content/generated/*.json` via `splitBundle()` (the single source of truth for the per-section file layout — mirror it if you add content sections), snapshots draft→published, and audits. Rebuild is manual (`npm run build:web`).
