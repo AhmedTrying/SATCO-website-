@@ -125,6 +125,12 @@ export interface Client {
   /** Required when tier === 'selected'; rendered GRAYSCALE, normalized height, NEVER linked */
   logo?: ImageRef;
   sector?: SectorSlug[];
+  /**
+   * Directory display taxonomy (Clients 4A design): Aviation | Infrastructure |
+   * Energy & utilities | Government | Development. Distinct from `sector`
+   * (site sector slugs). PLACEHOLDER mapping pending client confirmation.
+   */
+  sectorTag?: string;
   geography?: string;
 }
 

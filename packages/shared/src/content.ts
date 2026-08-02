@@ -28,7 +28,8 @@ import type {
 
 export interface HomeContent {
   hero: { eyebrow: string; headline: string; explore: string; regionLabel: string };
-  statBand: { eyebrow: string; heading: string };
+  /** `lede` is the supporting paragraph added by the approved 1C band design */
+  statBand: { eyebrow: string; heading: string; lede?: string };
   whoWeAre: {
     eyebrow: string;
     heading: string;
@@ -72,6 +73,20 @@ export interface ClientsPageCopy {
   emptyMessage: string;
   /** Verbatim legal line (docx comment #31) — must not be auto-"improved" */
   disclaimer: string;
+  /* 4A design additions — optional so pre-4A drafts still validate/publish */
+  /** h2 under the locked "Selected Clients" eyebrow */
+  selectedTitle?: string;
+  /** eyebrow above the directory heading */
+  directoryEyebrow?: string;
+  /** hero stat labels (numbers are derived from the client list, never stored) */
+  statClientsLabel?: string;
+  statSectorsLabel?: string;
+  /** "All" sector-filter chip */
+  allChipLabel?: string;
+  /** suffix of the live result count line ("58 clients") */
+  countLabel?: string;
+  /** singular suffix ("1 client") */
+  countLabelSingular?: string;
 }
 
 export interface LeadershipPageCopy {
@@ -126,6 +141,12 @@ export interface ContactPageCopy {
   };
   mapLabel: string;
   mapCaption: string;
+  /**
+   * Google Maps embed URL (keyless `output=embed` form) for the head-office
+   * pin — client-supplied location. When absent the designed placeholder
+   * block renders instead (plan §12 Q6).
+   */
+  mapEmbedUrl?: string;
 }
 
 export interface CareersPageCopy {
@@ -166,6 +187,8 @@ export interface NavigationContent {
 }
 
 export interface SectorsIntroContent {
+  /** optional kicker above the heading, added by the approved 2A band design */
+  eyebrow?: string;
   heading: string;
   subhead: string;
 }

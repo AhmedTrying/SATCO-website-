@@ -23,9 +23,9 @@ export function PublishPanel({
         <div>
           <h2 className="text-sm font-semibold text-strong">Publish to the site</h2>
           <p className="mt-0.5 text-xs text-muted">
-            Writes <code>satco-web/content/generated/*.json</code>. Then rebuild the
-            site: <code>npm --workspace satco-web run build</code>. (Later: a
-            debounced deploy hook does this automatically.)
+            Publishes the draft — updates Neon and the site content bundle. With a
+            Vercel deploy hook configured, the live site rebuilds automatically in
+            ~1-2 min; otherwise run <code>npm run build:web</code>.
           </p>
         </div>
         <button

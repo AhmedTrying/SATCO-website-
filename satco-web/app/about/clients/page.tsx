@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { clients, clientsPage } from "@/content/clients";
 import { Container } from "@/components/layout/Container";
-import { PageHeader } from "@/components/ui/PageHeader";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { Reveal } from "@/components/motion/Reveal";
 import { ClientDirectory } from "@/components/about/ClientDirectory";
 
@@ -11,21 +11,47 @@ export const metadata: Metadata = {
 };
 
 /*
- * LOCKED page spec (docx comment #31): "Selected Clients" label exactly (never
- * "All Clients"); 18–24 logos, hard max 30; grid 6/3/2; grayscale; UNLINKED;
- * no animation beyond a subtle fade-in; then the searchable text directory;
- * then the verbatim disclaimer. Logos are placeholders — list not provided.
+ * Clients page — 4A redesign (approved handoff, 2026-08-02): dark hero with
+ * derived proof stats, hairline logo grid, filterable alphabetical directory.
+ *
+ * LOCKED content rules kept (docx comment #31): "Selected Clients" label
+ * exactly (rendered as the section eyebrow); hard max 30 logos; grid 6/3/2
+ * (the 4A prototype's 7-up is switched to 6-up so 18 marks divide evenly —
+ * the handoff explicitly allows changing columns to avoid a ragged row);
+ * UNLINKED; no animation beyond a subtle fade-in; searchable text directory;
+ * verbatim disclaimer.
+ *
+ * OVERRIDE (user direction, 2026-08-02): logos render in FULL COLOR,
+ * deviating from the docx-#31 grayscale lock — flag for client
+ * re-confirmation. Revert = add `grayscale` to the tile div below.
+ *
+ * OVERRIDE (user direction, 2026-08-02): the verbatim legal disclaimer is
+ * NOT rendered, deviating from docx #31 ("then the verbatim disclaimer") —
+ * the copy stays in clientsPage.disclaimer; flag for client re-confirmation
+ * (it is the identification-only shield for the third-party logos shown
+ * above). Restore = re-render it after <ClientDirectory /> below.
+ *
+ * ⚠ SAMPLE DATA — PENDING CLIENT APPROVAL: the client has not supplied the
+ * approved list. Selected-tier entries are real Saudi organizations chosen
+ * from the placeholder directory + entities named in the approved sector
+ * copy, logos sourced from Wikimedia Commons (per user direction). Directory
+ * sector tags are the 4A prototype's placeholder mapping. The client must
+ * approve list, mapping, and logo usage before launch.
+ *
+ * AA note: the 4A palette's small-text grays (#9a9384, #b3ab99) fail 4.5:1
+ * on the canvas; captions/tags/count/disclaimer use the palette's darker
+ * "Muted" #6b665c instead.
  */
 
 const selected = clients.filter((c) => c.tier === "selected");
-const directory = clients.filter((c) => c.tier === "directory").map((c) => c.name);
+const directory = clients.filter((c) => c.tier === "directory");
+const sectorCount = new Set(directory.map((c) => c.sectorTag).filter(Boolean)).size;
 
 /*
- * Monogram for the placeholder tiles: initials of the first two significant
- * words ("Ministry of Transport" → MT). The client list is PLACEHOLDER data
- * (plan §12 Q3) — real trademarks are deliberately NOT used until the client
- * supplies the approved list and logo files; these tiles then swap 1:1 for
- * grayscale logo images.
+ * Monogram fallback for entries without a logo file: initials of the first
+ * two significant words ("Ministry of Transport" → MT). Selected-tier entries
+ * normally carry `logo` (public-root path in src, e.g. "/logos/x.png" —
+ * plain <img>, not the Picture/variants pipeline).
  */
 const MINOR_WORDS = new Set(["of", "the", "for", "and", "&"]);
 function monogram(name: string): string {
@@ -42,59 +68,111 @@ if (selected.length > 30) {
 
 export default function ClientsPage() {
   return (
-    <>
-      <PageHeader
-        crumbs={[
-          { label: "Home", href: "/" },
-          { label: "About us", href: "/about" },
-          { label: "Clients" },
-        ]}
-        title={clientsPage.title}
-        headingId="clients-h"
-        lead={clientsPage.subline}
-      />
-      <Container className="py-[clamp(3.5rem,7vw,6rem)]">
-        <section aria-labelledby="sel-clients-h" className="mb-[clamp(3.5rem,6vw,5rem)]">
+    <div className="bg-[#fdfcfa]">
+      {/* 1 — Dark hero: breadcrumb, title + subline, derived proof stats */}
+      <div className="on-dark bg-[#191712]">
+        <Container className="pb-[clamp(3rem,5.5vw,5rem)] pt-[clamp(2.25rem,4.5vw,3.5rem)]">
+          <Breadcrumbs
+            onDark
+            className="mb-9"
+            items={[
+              { label: "Home", href: "/" },
+              { label: "About us", href: "/about" },
+              { label: clientsPage.title },
+            ]}
+          />
+          <div className="grid items-end gap-x-20 gap-y-9 lg:grid-cols-[minmax(0,1fr)_auto]">
+            <div>
+              <h1
+                id="clients-h"
+                className="mb-[22px] mt-0 font-expanded text-[clamp(2.5rem,4.2vw,3.75rem)] font-semibold leading-[1.05] text-[#f5f1e8]"
+              >
+                {clientsPage.title}
+              </h1>
+              <p className="m-0 max-w-[560px] text-[17px] leading-[1.65] text-[#a49c8d]">
+                {clientsPage.subline}
+              </p>
+            </div>
+            {/* Derived counts — never stored, so they can't drift (4A handoff) */}
+            <div className="flex gap-12 pb-1.5">
+              {[
+                { value: directory.length, label: clientsPage.statClientsLabel },
+                { value: sectorCount, label: clientsPage.statSectorsLabel },
+              ].map((stat) =>
+                stat.label ? (
+                  <div key={stat.label}>
+                    <div className="font-expanded text-[clamp(3.25rem,5vw,4.375rem)] font-bold leading-none text-[#c9a24b] tabular-nums">
+                      {stat.value}
+                    </div>
+                    <div className="mt-2 text-[12px] uppercase tracking-[0.1em] text-[#8c8578]">
+                      {stat.label}
+                    </div>
+                  </div>
+                ) : null,
+              )}
+            </div>
+          </div>
+        </Container>
+      </div>
+
+      {/* 2 — Selected clients: hairline logo grid (1px gaps over the rule tint) */}
+      <Container className="pt-[clamp(3.5rem,6vw,5.5rem)]">
+        <section aria-labelledby="sel-clients-h">
           <Reveal>
+            <p className="mb-3.5 mt-0 text-[13px] font-semibold uppercase tracking-[0.18em] text-[#8a6a1f]">
+              {clientsPage.selectedHeading}
+            </p>
             <h2
               id="sel-clients-h"
-              className="mb-1.5 mt-0 font-display text-[clamp(1.4rem,2.6vw,1.9rem)] font-bold text-strong"
+              className="mb-11 mt-0 font-expanded text-[clamp(1.5rem,2.4vw,2.125rem)] font-semibold leading-[1.15] text-[#1c1a16]"
             >
-              {clientsPage.selectedHeading}
+              {clientsPage.selectedTitle ?? clientsPage.selectedSub}
             </h2>
-            <p className="mb-7 mt-0 text-[14.5px] text-stone-600">{clientsPage.selectedSub}</p>
           </Reveal>
-          <ul className="m-0 grid list-none grid-cols-2 gap-3.5 p-0 md:grid-cols-3 lg:grid-cols-6">
+          <ul className="m-0 grid list-none grid-cols-2 gap-px border border-[#e6e1d6] bg-[#e6e1d6] p-0 md:grid-cols-3 lg:grid-cols-6">
             {selected.map((client, i) => (
               <li key={client.id} aria-label={`${client.name} logo`}>
                 {/* fadeOnly — locked: "no animation beyond a subtle fade-in" */}
-                <Reveal fadeOnly delay={(i % 6) * 40}>
-                  {/* Placeholder logo mark — swaps 1:1 for the grayscale logo
-                      image when the approved files arrive. Locked: grayscale,
-                      unlinked, fade-only. */}
-                  <div className="flex h-[104px] flex-col items-center justify-center gap-1.5 rounded-md border border-border bg-surface p-3 text-center grayscale">
-                    <span
-                      aria-hidden="true"
-                      className="flex h-11 w-11 items-center justify-center rounded-full border-[1.5px] border-stone-300 font-display text-[15px] font-bold tracking-[0.04em] text-stone-500"
-                    >
-                      {monogram(client.name)}
-                    </span>
-                    <span className="font-display text-[11.5px] font-semibold leading-[1.25] tracking-[0.02em] text-stone-500">
+                <Reveal fadeOnly delay={(i % 6) * 40} className="h-full">
+                  <div className="flex aspect-[3/2] h-full flex-col items-center justify-center gap-3 bg-[#fdfcfa] p-5 text-center transition-colors duration-[250ms] hover:bg-[#f4f0e7]">
+                    <div className="flex h-11 w-24 items-center justify-center">
+                      {client.logo ? (
+                        /* eslint-disable-next-line @next/next/no-img-element -- static export, unoptimized logo asset */
+                        <img
+                          src={client.logo.src}
+                          alt=""
+                          aria-hidden="true"
+                          loading="lazy"
+                          className="max-h-full max-w-full object-contain"
+                        />
+                      ) : (
+                        <span
+                          aria-hidden="true"
+                          className="flex h-11 w-11 items-center justify-center rounded-full border-[1.5px] border-[#ddd7ca] font-display text-[15px] font-bold tracking-[0.04em] text-[#6b665c]"
+                        >
+                          {monogram(client.name)}
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-[10.5px] leading-[1.35] tracking-[0.04em] text-[#6b665c]">
                       {client.name}
-                    </span>
+                    </div>
                   </div>
                 </Reveal>
               </li>
             ))}
           </ul>
         </section>
-
-        <ClientDirectory names={directory} />
-
-        <p className="m-0 max-w-[80ch] border-t border-border pt-5 text-[12.5px] leading-[1.6] text-stone-500">
-          {clientsPage.disclaimer}
-        </p>
       </Container>
-    </>
+
+      {/* 3 — Full client list (disclaimer withheld per override note above) */}
+      <Container className="pb-[clamp(3.5rem,6vw,6rem)] pt-[clamp(3.5rem,6vw,5.5rem)]">
+        <div className="border-t border-[#e0dbd0] pt-14">
+          <ClientDirectory
+            clients={directory.map((c) => ({ name: c.name, sectorTag: c.sectorTag }))}
+          />
+        </div>
+      </Container>
+    </div>
   );
 }

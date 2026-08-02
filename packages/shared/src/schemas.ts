@@ -115,6 +115,8 @@ export const clientSchema = z.object({
   tier: z.enum(["selected", "directory"]),
   logo: imageRefSchema.optional(),
   sector: z.array(sectorSlugSchema).optional(),
+  // 4A directory taxonomy tag (display-only; placeholder mapping)
+  sectorTag: z.string().optional(),
   geography: z.string().optional(),
 });
 

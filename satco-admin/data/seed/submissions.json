@@ -8,7 +8,7 @@
     "message": "We are evaluating delivery partners for an availability-based PPP and would like to discuss SATCO's PPP track record.",
     "assignedDept": "Business Development & Info",
     "status": "new",
-    "createdAt": "2026-08-01T14:33:31.034Z"
+    "createdAt": "2026-08-02T11:07:32.674Z"
   },
   {
     "id": "sub-1002",
@@ -20,7 +20,7 @@
     "assignedDept": "Procurement & Info",
     "status": "in-progress",
     "assignee": "publisher@satco.com.sa",
-    "createdAt": "2026-08-01T14:33:31.034Z"
+    "createdAt": "2026-08-02T11:07:32.674Z"
   },
   {
     "id": "sub-1003",
@@ -30,7 +30,7 @@
     "message": "I have 8 years in facilities management and would like to understand current openings in your operations sector.",
     "assignedDept": "Human Resources",
     "status": "new",
-    "createdAt": "2026-08-01T14:33:31.034Z"
+    "createdAt": "2026-08-02T11:07:32.674Z"
   },
   {
     "id": "sub-1004",
@@ -42,7 +42,7 @@
     "assignedDept": "Business Development & Info",
     "status": "handled",
     "assignee": "admin@satco.com.sa",
-    "createdAt": "2026-08-01T14:33:31.034Z"
+    "createdAt": "2026-08-02T11:07:32.674Z"
   },
   {
     "id": "sub-1005",
@@ -52,6 +52,6 @@
     "message": "General question about SATCO's certifications and ISO scope.",
     "assignedDept": "Info (general)",
     "status": "new",
-    "createdAt": "2026-08-01T14:33:31.034Z"
+    "createdAt": "2026-08-02T11:07:32.674Z"
   }
 ]

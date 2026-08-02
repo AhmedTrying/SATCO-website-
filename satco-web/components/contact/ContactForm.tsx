@@ -45,8 +45,12 @@ export function ContactForm() {
   const statusRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
-  const routesTo =
-    contactPage.inquiryOptions.find((o) => o.value === inquiry)?.routesTo ?? "";
+  /*
+   * OVERRIDE (user direction, 2026-08-02): the visible "Routes to: …" line and
+   * the "Proposed routing — pending client sign-off." note (docx comment #22)
+   * are no longer rendered under the inquiry select. The routesTo mapping
+   * stays in content/inquiryOptions for the submission pipeline.
+   */
 
   // Focus management runs after commit so the targets exist in the DOM
   useEffect(() => {
@@ -179,7 +183,6 @@ export function ContactForm() {
               name="inquiry"
               value={inquiry}
               onChange={(e) => setInquiry(e.target.value)}
-              aria-describedby={`${id}-route`}
               className={`${fieldClass} appearance-none pe-10`}
             >
               {contactPage.inquiryOptions.map((o) => (
@@ -204,12 +207,6 @@ export function ContactForm() {
               <path d="m4 6.2 4 4 4-4" />
             </svg>
           </div>
-          <p id={`${id}-route`} className="mb-0 mt-2 text-[12.5px] text-stone-600">
-            {f.routePrefix}{" "}
-            <strong className="font-semibold text-bronze-800">{routesTo}</strong>
-          </p>
-          {/* Routing proposal — docx comment #22, pending Bandar's sign-off */}
-          <p className="mb-0 mt-[5px] text-[11.5px] italic text-stone-600">{f.proposalNote}</p>
         </div>
         <div className="sm:col-span-2">
           <label htmlFor={`${id}-message`} className={labelClass}>

@@ -7,398 +7,525 @@
     "directoryHeading": "Full client list",
     "searchLabel": "Search clients",
     "emptyMessage": "No clients match that search.",
-    "disclaimer": "Client names and logos are the property of their respective owners and are used for identification purposes only. Their inclusion does not imply endorsement, sponsorship, or an ongoing relationship unless expressly stated."
+    "disclaimer": "Client names and logos are the property of their respective owners and are used for identification purposes only. Their inclusion does not imply endorsement, sponsorship, or an ongoing relationship unless expressly stated.",
+    "selectedTitle": "Organizations SATCO has delivered for",
+    "directoryEyebrow": "Directory",
+    "statClientsLabel": "Clients served",
+    "statSectorsLabel": "Sectors",
+    "allChipLabel": "All",
+    "countLabel": "clients",
+    "countLabelSingular": "client"
   },
   "clients": [
     {
       "id": "sel-0",
-      "name": "Aviation Authority",
-      "tier": "selected"
+      "name": "General Authority of Civil Aviation",
+      "tier": "selected",
+      "logo": {
+        "src": "/logos/gaca.png",
+        "alt": "General Authority of Civil Aviation logo"
+      }
     },
     {
       "id": "sel-1",
-      "name": "Airport Co.",
-      "tier": "selected"
+      "name": "Riyadh Airports Company",
+      "tier": "selected",
+      "logo": {
+        "src": "/logos/riyadh-airports.png",
+        "alt": "Riyadh Airports Company logo"
+      }
     },
     {
       "id": "sel-2",
-      "name": "Ministry of Transport",
-      "tier": "selected"
+      "name": "Saudia",
+      "tier": "selected",
+      "logo": {
+        "src": "/logos/saudia.png",
+        "alt": "Saudia logo"
+      }
     },
     {
       "id": "sel-3",
-      "name": "Giga-project Sponsor",
-      "tier": "selected"
+      "name": "Saudi Ports Authority (Mawani)",
+      "tier": "selected",
+      "logo": {
+        "src": "/logos/mawani.png",
+        "alt": "Saudi Ports Authority (Mawani) logo"
+      }
     },
     {
       "id": "sel-4",
-      "name": "Rail Company",
-      "tier": "selected"
+      "name": "Saudi Arabia Railways (SAR)",
+      "tier": "selected",
+      "logo": {
+        "src": "/logos/sar.png",
+        "alt": "Saudi Arabia Railways (SAR) logo"
+      }
     },
     {
       "id": "sel-5",
-      "name": "Port Authority",
-      "tier": "selected"
+      "name": "Riyadh Metro",
+      "tier": "selected",
+      "logo": {
+        "src": "/logos/riyadh-metro.png",
+        "alt": "Riyadh Metro logo"
+      }
     },
     {
       "id": "sel-6",
-      "name": "Energy Company",
-      "tier": "selected"
+      "name": "NEOM",
+      "tier": "selected",
+      "logo": {
+        "src": "/logos/neom.png",
+        "alt": "NEOM logo"
+      }
     },
     {
       "id": "sel-7",
-      "name": "Housing Fund",
-      "tier": "selected"
+      "name": "Red Sea Global",
+      "tier": "selected",
+      "logo": {
+        "src": "/logos/red-sea-global.png",
+        "alt": "Red Sea Global logo"
+      }
     },
     {
       "id": "sel-8",
-      "name": "Defense Agency",
-      "tier": "selected"
+      "name": "King Abdullah Economic City",
+      "tier": "selected",
+      "logo": {
+        "src": "/logos/kaec.png",
+        "alt": "King Abdullah Economic City logo"
+      }
     },
     {
       "id": "sel-9",
-      "name": "Health Cluster",
-      "tier": "selected"
+      "name": "Royal Commission for Jubail & Yanbu",
+      "tier": "selected",
+      "logo": {
+        "src": "/logos/rcjy.png",
+        "alt": "Royal Commission for Jubail & Yanbu logo"
+      }
     },
     {
       "id": "sel-10",
-      "name": "National University",
-      "tier": "selected"
+      "name": "Royal Commission for Riyadh City",
+      "tier": "selected",
+      "logo": {
+        "src": "/logos/rcrc.png",
+        "alt": "Royal Commission for Riyadh City logo"
+      }
     },
     {
       "id": "sel-11",
-      "name": "City Municipality",
-      "tier": "selected"
+      "name": "National Housing Company",
+      "tier": "selected",
+      "logo": {
+        "src": "/logos/nhc.png",
+        "alt": "National Housing Company logo"
+      }
     },
     {
       "id": "sel-12",
-      "name": "Water Authority",
-      "tier": "selected"
+      "name": "Saudi Aramco",
+      "tier": "selected",
+      "logo": {
+        "src": "/logos/aramco.png",
+        "alt": "Saudi Aramco logo"
+      }
     },
     {
       "id": "sel-13",
-      "name": "Logistics Group",
-      "tier": "selected"
+      "name": "SABIC",
+      "tier": "selected",
+      "logo": {
+        "src": "/logos/sabic.png",
+        "alt": "SABIC logo"
+      }
     },
     {
       "id": "sel-14",
-      "name": "Development Fund",
-      "tier": "selected"
+      "name": "Ma’aden",
+      "tier": "selected",
+      "logo": {
+        "src": "/logos/maaden.png",
+        "alt": "Ma’aden logo"
+      }
     },
     {
       "id": "sel-15",
-      "name": "Holding Group",
-      "tier": "selected"
+      "name": "Saudi Electricity Company",
+      "tier": "selected",
+      "logo": {
+        "src": "/logos/sec.png",
+        "alt": "Saudi Electricity Company logo"
+      }
     },
     {
       "id": "sel-16",
-      "name": "National Airline",
-      "tier": "selected"
+      "name": "ACWA Power",
+      "tier": "selected",
+      "logo": {
+        "src": "/logos/acwa.png",
+        "alt": "ACWA Power logo"
+      }
     },
     {
       "id": "sel-17",
-      "name": "Industrial City",
-      "tier": "selected"
-    },
-    {
-      "id": "sel-18",
-      "name": "Tourism Authority",
-      "tier": "selected"
-    },
-    {
-      "id": "sel-19",
-      "name": "Infrastructure Fund",
-      "tier": "selected"
+      "name": "Saudi Water Authority",
+      "tier": "selected",
+      "logo": {
+        "src": "/logos/swa.png",
+        "alt": "Saudi Water Authority logo"
+      }
     },
     {
       "id": "dir-0",
       "name": "Al-Faisaliah Development Authority",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Development"
     },
     {
       "id": "dir-1",
       "name": "Arabian Ports Company",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Infrastructure"
     },
     {
       "id": "dir-2",
       "name": "Arar Regional Airport",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Aviation"
     },
     {
       "id": "dir-3",
       "name": "Aseer Development Authority",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Development"
     },
     {
       "id": "dir-4",
       "name": "Aviation Systems Holding",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Aviation"
     },
     {
       "id": "dir-5",
       "name": "Blue Horizon Utilities",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Energy & utilities"
     },
     {
       "id": "dir-6",
       "name": "Central Housing Fund",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Government"
     },
     {
       "id": "dir-7",
       "name": "Coastal Rail Company",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Infrastructure"
     },
     {
       "id": "dir-8",
       "name": "Desert Energy Corporation",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Energy & utilities"
     },
     {
       "id": "dir-9",
       "name": "Diriyah Gate Authority",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Development"
     },
     {
       "id": "dir-10",
       "name": "Eastern Province Municipality",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Government"
     },
     {
       "id": "dir-11",
       "name": "Emerald Utilities Co.",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Energy & utilities"
     },
     {
       "id": "dir-12",
       "name": "Falcon Aviation Services",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Aviation"
     },
     {
       "id": "dir-13",
       "name": "Future Cities Program",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Development"
     },
     {
       "id": "dir-14",
       "name": "Grand Mosque Services",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Government"
     },
     {
       "id": "dir-15",
       "name": "Gulf Logistics Group",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Infrastructure"
     },
     {
       "id": "dir-16",
       "name": "Hail Development Authority",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Development"
     },
     {
       "id": "dir-17",
       "name": "Highland Water Co.",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Energy & utilities"
     },
     {
       "id": "dir-18",
       "name": "Industrial Cities Authority",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Government"
     },
     {
       "id": "dir-19",
       "name": "Integrated Transport Authority",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Infrastructure"
     },
     {
       "id": "dir-20",
       "name": "Jeddah Airports Company",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Aviation"
     },
     {
       "id": "dir-21",
       "name": "Jubail Industrial Authority",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Government"
     },
     {
       "id": "dir-22",
       "name": "KAFD Development Co.",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Development"
     },
     {
       "id": "dir-23",
       "name": "King Abdullah Economic City",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Development"
     },
     {
       "id": "dir-24",
       "name": "Kingdom Infrastructure Fund",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Infrastructure"
     },
     {
       "id": "dir-25",
       "name": "Landmark Real Estate",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Development"
     },
     {
       "id": "dir-26",
       "name": "Madinah Region Cluster",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Government"
     },
     {
       "id": "dir-27",
       "name": "Ministry of Health Facilities",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Government"
     },
     {
       "id": "dir-28",
       "name": "National Housing Company",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Development"
     },
     {
       "id": "dir-29",
       "name": "National Water Authority",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Energy & utilities"
     },
     {
       "id": "dir-30",
       "name": "Neom Development Company",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Development"
     },
     {
       "id": "dir-31",
       "name": "Northern Borders Municipality",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Government"
     },
     {
       "id": "dir-32",
       "name": "Oasis Facilities Group",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Infrastructure"
     },
     {
       "id": "dir-33",
       "name": "Olaya Holding Group",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Infrastructure"
     },
     {
       "id": "dir-34",
       "name": "Peninsula Energy Co.",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Energy & utilities"
     },
     {
       "id": "dir-35",
       "name": "Pilgrim Services Authority",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Government"
     },
     {
       "id": "dir-36",
       "name": "Public Investment Projects",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Government"
     },
     {
       "id": "dir-37",
       "name": "Qassim Regional Cluster",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Government"
     },
     {
       "id": "dir-38",
       "name": "Qiddiya Investment Co.",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Development"
     },
     {
       "id": "dir-39",
       "name": "Red Sea Development Co.",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Development"
     },
     {
       "id": "dir-40",
       "name": "Riyadh Airports Company",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Aviation"
     },
     {
       "id": "dir-41",
       "name": "Riyadh Metro Company",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Infrastructure"
     },
     {
       "id": "dir-42",
       "name": "Royal Commission for Jubail",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Government"
     },
     {
       "id": "dir-43",
       "name": "Sakaka Solar Company",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Energy & utilities"
     },
     {
       "id": "dir-44",
       "name": "Saudi Grid Company",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Energy & utilities"
     },
     {
       "id": "dir-45",
       "name": "Saudi Ports Authority",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Infrastructure"
     },
     {
       "id": "dir-46",
       "name": "Southern Cement Co.",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Infrastructure"
     },
     {
       "id": "dir-47",
       "name": "Tabuk Municipality",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Government"
     },
     {
       "id": "dir-48",
       "name": "Taif Regional Cluster",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Government"
     },
     {
       "id": "dir-49",
       "name": "Tourism Development Fund",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Development"
     },
     {
       "id": "dir-50",
       "name": "Trans-Peninsula Rail",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Infrastructure"
     },
     {
       "id": "dir-51",
       "name": "United Facilities Co.",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Infrastructure"
     },
     {
       "id": "dir-52",
       "name": "Uptown Development Co.",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Development"
     },
     {
       "id": "dir-53",
       "name": "Vantage Infrastructure",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Infrastructure"
     },
     {
       "id": "dir-54",
       "name": "Vision Housing Company",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Development"
     },
     {
       "id": "dir-55",
       "name": "Western Region Utilities",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Energy & utilities"
     },
     {
       "id": "dir-56",
       "name": "Yanbu Industrial City",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Government"
     },
     {
       "id": "dir-57",
       "name": "Zone Logistics Authority",
-      "tier": "directory"
+      "tier": "directory",
+      "sectorTag": "Infrastructure"
     }
   ]
 }

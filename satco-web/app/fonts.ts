@@ -23,3 +23,20 @@ export const archivo = localFont({
   variable: "--font-archivo",
   display: "swap",
 });
+
+/*
+ * Archivo Expanded (wdth 125) — variable wght woff2, latin subset, self-hosted
+ * like the rest (OFL). Introduced by the approved Clients-page 4A design for
+ * display headings / stat numerals / letter markers.
+ */
+export const archivoExpanded = localFont({
+  src: [
+    {
+      path: "../public/fonts/archivo-expanded-var.woff2",
+      weight: "600 700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-archivo-expanded",
+  display: "swap",
+});

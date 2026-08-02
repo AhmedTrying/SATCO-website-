@@ -54,6 +54,8 @@
   /* Typography — Pairing A (Archivo display / Inter body), self-hosted via next/font */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-archivo), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  /* Archivo Expanded (Clients 4A design) — display headings / stat numerals */
+  --font-expanded: var(--font-archivo-expanded), var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
 }
 
 @theme {

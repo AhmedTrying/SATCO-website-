@@ -5,17 +5,23 @@ import { cn } from "@/lib/utils";
 export function ArrowLink({
   href,
   className,
+  tone = "light",
   children,
 }: {
   href: string;
   className?: string;
+  /** "dark" flips to the bronze-300 on-dark palette (AA on stone-950) */
+  tone?: "light" | "dark";
   children: React.ReactNode;
 }) {
   return (
     <Link
       href={href}
       className={cn(
-        "inline-flex items-center gap-[7px] text-[15px] font-semibold text-bronze-800 no-underline transition-[gap,color] duration-[var(--dur-base)] hover:gap-3 hover:text-bronze-700",
+        "inline-flex items-center gap-[7px] text-[15px] font-semibold no-underline transition-[gap,color] duration-[var(--dur-base)] hover:gap-3",
+        tone === "dark"
+          ? "text-bronze-300 hover:text-bronze-200"
+          : "text-bronze-800 hover:text-bronze-700",
         className,
       )}
     >

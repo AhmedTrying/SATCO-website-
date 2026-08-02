@@ -142,9 +142,22 @@ export default function ContactPage() {
             </div>
           </Reveal>
           <Reveal delay={200}>
-            {/* Map placeholder — a designed block (grid + crosshair + pin), still
-                a placeholder per plan §12 Q6. Children are presentational under
-                role="img"; the aria-label carries the meaning. */}
+            {contactPage.mapEmbedUrl ? (
+              /* Live head-office map (client-supplied pin, 2026-08-02) —
+                 keyless Google embed; title carries the accessible name. */
+              <iframe
+                src={contactPage.mapEmbedUrl}
+                title={contactPage.mapLabel}
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+                className="block h-[clamp(220px,22vw,280px)] w-full rounded-lg border border-border bg-sand"
+              />
+            ) : (
+            /* Map placeholder — a designed block (grid + crosshair + pin), used
+                when no embed URL is published (plan §12 Q6). Children are
+                presentational under role="img"; the aria-label carries the
+                meaning. */
             <div
               role="img"
               aria-label={contactPage.mapLabel}
@@ -170,6 +183,7 @@ export default function ContactPage() {
                 </span>
               </div>
             </div>
+            )}
           </Reveal>
         </div>
       </Container>

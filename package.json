@@ -18,6 +18,7 @@
     "seed": "tsx satco-admin/scripts/seed.mts",
     "db:migrate": "tsx satco-admin/scripts/db-migrate.mts",
     "db:seed": "tsx satco-admin/scripts/db-seed.mts",
+    "db:content-resync": "tsx satco-admin/scripts/db-content-resync.mts",
     "db:setup": "npm run db:migrate && npm run db:seed"
   },
   "devDependencies": {

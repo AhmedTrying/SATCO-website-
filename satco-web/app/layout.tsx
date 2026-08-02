@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { archivo, inter } from "./fonts";
+import { archivo, archivoExpanded, inter } from "./fonts";
 import "./globals.css";
 import { site } from "@/content/site";
 import { SITE_URL } from "@/lib/seo";
@@ -36,7 +36,7 @@ export default function RootLayout({
     <html
       lang="en"
       dir="ltr"
-      className={`${inter.variable} ${archivo.variable} h-full antialiased`}
+      className={`${inter.variable} ${archivo.variable} ${archivoExpanded.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         {/* Without JS, framer-managed reveals must not hide content */}

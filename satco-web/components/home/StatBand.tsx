@@ -6,6 +6,11 @@ import { statPendingNote, stats } from "@/content/stats";
 import type { Stat } from "@/lib/types";
 import { Container } from "@/components/layout/Container";
 import { Reveal } from "@/components/motion/Reveal";
+import { LottieIcon } from "@/components/motion/LottieIcon";
+import communitiesAnim from "@/assets/lottie/communities.json";
+import populationAnim from "@/assets/lottie/population.json";
+import assetsAnim from "@/assets/lottie/assets.json";
+import environmentsAnim from "@/assets/lottie/environments.json";
 
 /*
  * Six count-up stats (plan §7): numbers animate 0→target once on scroll-into-
@@ -15,45 +20,27 @@ import { Reveal } from "@/components/motion/Reveal";
  */
 
 /*
- * Line icons per stat (UCC-reference upgrade) — presentation only, keyed by
- * stat id here rather than in the content model so the shared schema and
- * dashboard stay untouched. Decorative (aria-hidden): the labels carry meaning.
+ * Animated Lottie icons per stat (client-supplied, bronze-700 stroke +
+ * bronze-200 fill) — presentation only, keyed by stat id here rather than in
+ * the content model so the shared schema and dashboard stay untouched. They
+ * play once alongside the count-up. Stats not in this map fall back to the
+ * static line icons below until their JSON exports arrive (aircrafts,
+ * airports — the img/Icons GIF versions are off-brand and can't honor
+ * reduced motion, so they are deliberately not used).
+ */
+const STAT_LOTTIES: Record<string, object> = {
+  communities: communitiesAnim,
+  population: populationAnim,
+  assets: assetsAnim,
+  environments: environmentsAnim,
+};
+
+/*
+ * Static line icons (UCC-reference upgrade) — fallback for stats whose
+ * animated JSON hasn't been supplied yet. Decorative (aria-hidden): the
+ * labels carry meaning.
  */
 const STAT_ICONS: Record<string, React.ReactNode> = {
-  communities: (
-    // Two neighbouring houses
-    <>
-      <path d="M3.5 11.5 8.5 7l5 4.5" />
-      <path d="M5 10.2V19h7v-8.8" />
-      <path d="M12 19h7v-6.2L15.7 9.9 13.4 12" />
-    </>
-  ),
-  population: (
-    // People group
-    <>
-      <circle cx="9" cy="8" r="3" />
-      <path d="M3.5 19c.6-3 2.9-4.6 5.5-4.6s4.9 1.6 5.5 4.6" />
-      <circle cx="16.8" cy="9.6" r="2.3" />
-      <path d="M15.6 14.8c2.4.3 4.2 1.7 4.9 4.2" />
-    </>
-  ),
-  assets: (
-    // Building blocks
-    <>
-      <path d="M3 19.5h18" />
-      <rect x="4.5" y="8" width="6" height="11.5" />
-      <rect x="13.5" y="4.5" width="6.5" height="15" />
-      <path d="M6.5 11h2M6.5 14h2M15.7 8h2M15.7 11h2M15.7 14h2" />
-    </>
-  ),
-  environments: (
-    // Stacked built area (sqm)
-    <>
-      <path d="M12 3.5 20 8l-8 4.5L4 8z" />
-      <path d="M4 12.5 12 17l8-4.5" />
-      <path d="M4 17 12 21.5 20 17" />
-    </>
-  ),
   aircrafts: (
     // Aircraft taking off
     <>
@@ -73,21 +60,33 @@ const STAT_ICONS: Record<string, React.ReactNode> = {
   ),
 };
 
+/*
+ * Small-caps caption under each label (1C band design). Uses the stat's
+ * content `unit` when present; these are presentation-only fallbacks (same
+ * pattern as STAT_LOTTIES/STAT_ICONS) for stats that carry no unit in the
+ * content model — they echo the label, they are not data claims.
+ */
+const STAT_UNIT_FALLBACK: Record<string, string> = {
+  communities: "Communities",
+  aircrafts: "Aircraft",
+  airports: "Airports",
+};
+
 function StatIcon({ id }: { id: string }) {
   const icon = STAT_ICONS[id];
   if (!icon) return null;
   return (
     <svg
       aria-hidden="true"
-      width="30"
-      height="30"
+      width="28"
+      height="28"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
       strokeWidth="1.6"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="mb-3.5 text-bronze-700"
+      className="shrink-0 text-bronze-700"
     >
       {icon}
     </svg>
@@ -134,15 +133,18 @@ function StatNumber({ stat, run }: { stat: Stat; run: boolean }) {
   if (stat.value === null) {
     // Placeholder — never an invented number; announced meaningfully to AT
     return (
-      <div className="font-display text-[clamp(2.1rem,4vw,3rem)] font-bold leading-none text-stone-600 tabular-nums">
+      <div className="font-display text-[clamp(1.9rem,2.6vw,2.4rem)] font-bold leading-none text-bronze-700 tabular-nums">
         <span aria-hidden="true">{stat.display}</span>
         <span className="sr-only">{statPendingNote}</span>
       </div>
     );
   }
+  // 1C band design: a trailing "+" renders as a smaller raised glyph
+  const plus = display.endsWith("+");
   return (
-    <div className="font-display text-[clamp(2.1rem,4vw,3rem)] font-bold leading-none text-bronze-800 tabular-nums">
-      {display}
+    <div className="font-display text-[clamp(1.9rem,2.6vw,2.4rem)] font-bold leading-none text-bronze-700 tabular-nums">
+      {plus ? display.slice(0, -1) : display}
+      {plus ? <span className="align-super text-[0.55em]">+</span> : null}
     </div>
   );
 }
@@ -170,38 +172,73 @@ export function StatBand() {
   }, []);
 
   return (
-    <section aria-labelledby="stat-h" className="border-b border-border bg-surface">
+    <section aria-labelledby="stat-h" className="border-b border-border bg-bg">
       <Container className="py-[clamp(3rem,6vw,5rem)]">
-        <Reveal>
-          <p className="mb-1.5 mt-0 font-display text-[13px] font-semibold uppercase tracking-[0.14em] text-bronze-700">
-            {home.statBand.eyebrow}
-          </p>
-        </Reveal>
-        <Reveal delay={60}>
-          <h2
-            id="stat-h"
-            className="mb-9 mt-0 font-display text-[clamp(1.5rem,2.6vw,1.9rem)] font-bold tracking-[-0.01em] text-strong"
-          >
-            {home.statBand.heading}
-          </h2>
-        </Reveal>
-        <ul
-          ref={bandRef}
-          className="m-0 grid list-none grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-[2px] overflow-hidden rounded-md border border-border bg-border p-0"
-        >
-          {stats.map((stat, i) => (
-            <li key={stat.id} className="bg-surface px-[22px] py-[26px]">
-              <Reveal delay={i * 70}>
-                <StatIcon id={stat.id} />
-                <StatNumber stat={stat} run={run} />
-                <div className="mt-2.5 text-sm leading-[1.4] text-stone-600">
-                  {stat.label}
-                  {stat.unit ? <span> · {stat.unit}</span> : null}
-                </div>
+        <div className="grid gap-x-[clamp(2.5rem,5vw,4.5rem)] gap-y-11 lg:grid-cols-[minmax(0,4fr)_minmax(0,9fr)]">
+          {/* Title block (1C band design) */}
+          <div>
+            <Reveal>
+              <div aria-hidden="true" className="mb-4 h-[3px] w-9 rounded-full bg-bronze-600" />
+            </Reveal>
+            <Reveal delay={40}>
+              <p className="mb-2 mt-0 font-display text-[13px] font-semibold uppercase tracking-[0.14em] text-bronze-700">
+                {home.statBand.eyebrow}
+              </p>
+            </Reveal>
+            <Reveal delay={80}>
+              <h2
+                id="stat-h"
+                className="my-0 font-display text-[clamp(1.6rem,2.4vw,2.1rem)] font-bold leading-[1.16] tracking-[-0.015em] text-strong"
+              >
+                {home.statBand.heading}
+              </h2>
+            </Reveal>
+            {home.statBand.lede ? (
+              <Reveal delay={120}>
+                <p className="mb-0 mt-4 max-w-[40ch] text-[15px] leading-[1.65] text-stone-600">
+                  {home.statBand.lede}
+                </p>
               </Reveal>
-            </li>
-          ))}
-        </ul>
+            ) : null}
+          </div>
+          {/* Ruled stat rows, two columns */}
+          <ul
+            ref={bandRef}
+            className="m-0 grid list-none grid-cols-1 content-start gap-x-12 gap-y-7 p-0 sm:grid-cols-2"
+          >
+            {stats.map((stat, i) => (
+              <li key={stat.id} className="border-t border-border pt-[18px]">
+                <Reveal delay={i * 70}>
+                  <div className="flex items-start gap-3.5">
+                    {STAT_LOTTIES[stat.id] ? (
+                      <LottieIcon
+                        data={STAT_LOTTIES[stat.id]}
+                        play={run}
+                        size={28}
+                        className="shrink-0"
+                      />
+                    ) : (
+                      <StatIcon id={stat.id} />
+                    )}
+                    <div className="min-w-0 flex-1">
+                      <div className="text-sm font-medium leading-[1.35] text-strong">
+                        {stat.label}
+                      </div>
+                      {(stat.unit ?? STAT_UNIT_FALLBACK[stat.id]) ? (
+                        <div className="mt-1 text-[11.5px] font-semibold uppercase tracking-[0.1em] text-stone-600">
+                          {stat.unit ?? STAT_UNIT_FALLBACK[stat.id]}
+                        </div>
+                      ) : null}
+                    </div>
+                    <div className="shrink-0 text-end">
+                      <StatNumber stat={stat} run={run} />
+                    </div>
+                  </div>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+        </div>
       </Container>
     </section>
   );

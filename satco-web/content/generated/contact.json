@@ -53,6 +53,7 @@
     "hoursLabel": "Hours",
     "hours": "Sunday–Thursday, 8:00–17:00 (AST)"
   },
-  "mapLabel": "Map placeholder — SATCO head office, Riyadh, Saudi Arabia",
-  "mapCaption": "Map — Riyadh, KSA"
+  "mapLabel": "SATCO head office on Google Maps — Riyadh, Saudi Arabia",
+  "mapCaption": "Map — Riyadh, KSA",
+  "mapEmbedUrl": "https://maps.google.com/maps?cid=9970614259089175645&hl=en&output=embed"
 }
