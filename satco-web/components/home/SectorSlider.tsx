@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { motion, type Easing } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { home } from "@/content/home";
 import { sectors } from "@/content/sectors";
+import { ease } from "@/lib/motion";
 import { Picture } from "@/components/ui/Picture";
 
 /*
@@ -12,9 +14,21 @@ import { Picture } from "@/components/ui/Picture";
  * aria-live announcements, and a visible pause control (plan §7 / WCAG 2.2.2 —
  * added over the design, which had hover-pause only). Autoplay is disabled
  * entirely under prefers-reduced-motion.
+ *
+ * Cinematic layer (UCC-reference upgrade): Ken Burns drift on the active slide
+ * and an autoplay progress fill in the active dot (both CSS, globals.css —
+ * covered by the global reduced-motion clamp), plus a rise-in on the sector
+ * text at each slide change (Framer, stripped to fade by MotionConfig under
+ * reduced motion). The first paint never animates, so exported HTML carries no
+ * hidden state.
  */
 
 const AUTO_MS = 6000;
+
+// Module flag, same pattern as app/template.tsx: false during build/SSR and the
+// hydration render (so exported HTML never hides the hero text), true from the
+// first client mount onward — slide changes and client-side revisits animate.
+let heroHydrated = false;
 
 const circleButton =
   "inline-flex h-12 w-12 cursor-pointer items-center justify-center rounded-[50%] border border-bronze-100/40 bg-stone-950/35 text-white transition-colors hover:border-bronze-300 hover:bg-bronze-800/65";
@@ -27,6 +41,10 @@ export function SectorSlider() {
   const reduced = useRef(false);
   const hovering = useRef(false);
   const timer = useRef<number | undefined>(undefined);
+  const animateText = heroHydrated;
+  useEffect(() => {
+    heroHydrated = true;
+  }, []);
 
   const go = useCallback(
     (next: number, announce = true) => {
@@ -63,6 +81,7 @@ export function SectorSlider() {
       aria-roledescription="carousel"
       aria-label={home.hero.regionLabel}
       tabIndex={0}
+      data-paused={paused || undefined}
       className="on-dark relative -mt-[var(--nav-h)] flex min-h-[min(92vh,820px)] items-end overflow-hidden bg-stone-950"
       onKeyDown={(e) => {
         // Direction-aware for the RTL seam: "forward" follows reading direction
@@ -101,14 +120,18 @@ export function SectorSlider() {
             zIndex: i === index ? 2 : 1,
           }}
         >
-          <Picture
-            image={sector.hero}
-            sizes="100vw"
-            priority={i === 0}
-            className="absolute inset-0"
-            imgClassName="h-full w-full object-cover"
-            style={{ height: "100%", width: "100%", objectFit: "cover" }}
-          />
+          {/* .kenburns is present only while active — re-adding the class on a
+              later activation restarts the drift from scale(1). */}
+          <div className={i === index ? "kenburns absolute inset-0" : "absolute inset-0"}>
+            <Picture
+              image={sector.hero}
+              sizes="100vw"
+              priority={i === 0}
+              className="absolute inset-0"
+              imgClassName="h-full w-full object-cover"
+              style={{ height: "100%", width: "100%", objectFit: "cover" }}
+            />
+          </div>
         </div>
       ))}
 
@@ -133,15 +156,24 @@ export function SectorSlider() {
 
         <div className="flex flex-wrap items-end justify-between gap-7 border-t border-bronze-100/25 pt-[clamp(1.4rem,3vw,2rem)]">
           <div className="max-w-[600px]">
-            <p className="mb-2.5 mt-0 font-display text-[12.5px] font-semibold tracking-[0.16em] text-bronze-200 tabular-nums">
-              Sector {String(index + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
-            </p>
-            <h2 className="mb-2.5 mt-0 font-display text-[clamp(1.55rem,3.4vw,2.35rem)] font-bold leading-[1.12] tracking-[-0.01em] text-white">
-              {current.name}
-            </h2>
-            <p className="mb-5 mt-0 text-[clamp(1rem,1.5vw,1.15rem)] leading-[1.5] text-stone-50/90">
-              {current.tagline}
-            </p>
+            {/* Keyed by slide: remounts and rises in on every change. The CTA
+                stays OUTSIDE so keyboard focus is never dropped mid-cycle. */}
+            <motion.div
+              key={current.slug}
+              initial={animateText ? { opacity: 0, y: 18 } : false}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, ease: ease.outExpo as unknown as Easing }}
+            >
+              <p className="mb-2.5 mt-0 font-display text-[12.5px] font-semibold tracking-[0.16em] text-bronze-200 tabular-nums">
+                Sector {String(index + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
+              </p>
+              <h2 className="mb-2.5 mt-0 font-display text-[clamp(1.55rem,3.4vw,2.35rem)] font-bold leading-[1.12] tracking-[-0.01em] text-white">
+                {current.name}
+              </h2>
+              <p className="mb-5 mt-0 text-[clamp(1rem,1.5vw,1.15rem)] leading-[1.5] text-stone-50/90">
+                {current.tagline}
+              </p>
+            </motion.div>
             <Link
               href={`/sectors/${current.slug}`}
               className="inline-flex items-center gap-2 rounded-sm bg-white px-[22px] py-[13px] text-[15px] font-semibold text-bronze-800 no-underline transition-[gap,background-color] duration-[var(--dur-base)] hover:gap-[13px] hover:bg-bronze-50 hover:text-bronze-800"
@@ -205,12 +237,22 @@ export function SectorSlider() {
                 >
                   <span
                     aria-hidden="true"
-                    className="block h-2.5 rounded-[5px] transition-[width,background-color] duration-300"
+                    className="block h-2.5 overflow-hidden rounded-[5px] transition-[width,background-color] duration-300"
                     style={{
-                      width: i === index ? 30 : 10,
-                      background: i === index ? "var(--bronze-100)" : "rgb(245 233 214 / 0.4)",
+                      width: i === index ? 34 : 10,
+                      background: i === index ? "rgb(245 233 214 / 0.28)" : "rgb(245 233 214 / 0.4)",
                     }}
-                  />
+                  >
+                    {i === index ? (
+                      // Autoplay progress: refills each cycle (keyed remount).
+                      // While paused it reads as the solid active pill; CSS in
+                      // globals.css freezes it on hover/focus/pause.
+                      <span
+                        key={paused ? "static" : `cycle-${index}`}
+                        className={`block h-full rounded-[5px] bg-bronze-100 ${paused ? "" : "dot-progress"}`}
+                      />
+                    ) : null}
+                  </span>
                 </button>
               ))}
             </div>

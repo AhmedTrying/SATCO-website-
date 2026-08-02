@@ -14,6 +14,86 @@ import { Reveal } from "@/components/motion/Reveal";
  * Reduced motion: final values immediately.
  */
 
+/*
+ * Line icons per stat (UCC-reference upgrade) — presentation only, keyed by
+ * stat id here rather than in the content model so the shared schema and
+ * dashboard stay untouched. Decorative (aria-hidden): the labels carry meaning.
+ */
+const STAT_ICONS: Record<string, React.ReactNode> = {
+  communities: (
+    // Two neighbouring houses
+    <>
+      <path d="M3.5 11.5 8.5 7l5 4.5" />
+      <path d="M5 10.2V19h7v-8.8" />
+      <path d="M12 19h7v-6.2L15.7 9.9 13.4 12" />
+    </>
+  ),
+  population: (
+    // People group
+    <>
+      <circle cx="9" cy="8" r="3" />
+      <path d="M3.5 19c.6-3 2.9-4.6 5.5-4.6s4.9 1.6 5.5 4.6" />
+      <circle cx="16.8" cy="9.6" r="2.3" />
+      <path d="M15.6 14.8c2.4.3 4.2 1.7 4.9 4.2" />
+    </>
+  ),
+  assets: (
+    // Building blocks
+    <>
+      <path d="M3 19.5h18" />
+      <rect x="4.5" y="8" width="6" height="11.5" />
+      <rect x="13.5" y="4.5" width="6.5" height="15" />
+      <path d="M6.5 11h2M6.5 14h2M15.7 8h2M15.7 11h2M15.7 14h2" />
+    </>
+  ),
+  environments: (
+    // Stacked built area (sqm)
+    <>
+      <path d="M12 3.5 20 8l-8 4.5L4 8z" />
+      <path d="M4 12.5 12 17l8-4.5" />
+      <path d="M4 17 12 21.5 20 17" />
+    </>
+  ),
+  aircrafts: (
+    // Aircraft taking off
+    <>
+      <path d="M3 20h18" />
+      <path d="M3.8 14.2l4.6 1.3 9.3-6.3c.9-.6 2.1-.4 2.7.4.6.9.3 2-.6 2.6l-11 6.3-6.4-1.8z" />
+    </>
+  ),
+  airports: (
+    // Control tower
+    <>
+      <path d="M8 8h8l-1.4 5.5H9.4z" />
+      <path d="M10.7 13.5V20M13.3 13.5V20" />
+      <path d="M8.8 8V5h6.4v3" />
+      <path d="M12 5V2.8" />
+      <path d="M8 20h8" />
+    </>
+  ),
+};
+
+function StatIcon({ id }: { id: string }) {
+  const icon = STAT_ICONS[id];
+  if (!icon) return null;
+  return (
+    <svg
+      aria-hidden="true"
+      width="30"
+      height="30"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="mb-3.5 text-bronze-700"
+    >
+      {icon}
+    </svg>
+  );
+}
+
 function format(value: number, decimals: number) {
   return value.toLocaleString("en-US", {
     minimumFractionDigits: decimals,
@@ -112,6 +192,7 @@ export function StatBand() {
           {stats.map((stat, i) => (
             <li key={stat.id} className="bg-surface px-[22px] py-[26px]">
               <Reveal delay={i * 70}>
+                <StatIcon id={stat.id} />
                 <StatNumber stat={stat} run={run} />
                 <div className="mt-2.5 text-sm leading-[1.4] text-stone-600">
                   {stat.label}

@@ -29,13 +29,18 @@ export function SectorsOverview() {
         </div>
         <div className="grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-6">
           {sectors.map((sector, i) => (
-            <Reveal key={sector.slug} delay={(i % 2) * 80}>
-              <article className="flex h-full flex-col overflow-hidden rounded-lg border border-border bg-surface">
+            <Reveal key={sector.slug} delay={(i % 2) * 80} className="h-full">
+              {/* Hover choreography (UCC-reference upgrade): card lifts, border
+                  warms, image zooms on a long ease. All CSS transitions —
+                  clamped instant under reduced motion. */}
+              {/* v4's -translate-y-1 sets the native `translate` property, so it
+                  (not `transform`) is what transitions */}
+              <article className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-surface transition-[translate,border-color,box-shadow] duration-[var(--dur-slow)] ease-[var(--ease-standard)] hover:-translate-y-1 hover:border-bronze-300 hover:shadow-md">
                 <div className="h-[190px] overflow-hidden">
                   <Picture
                     image={sector.card}
                     sizes="(min-width: 1024px) 33vw, 100vw"
-                    imgClassName="h-full w-full object-cover"
+                    imgClassName="h-full w-full object-cover transition-transform duration-[1.2s] ease-[var(--ease-out-expo)] group-hover:scale-[1.06]"
                     className="block h-full"
                   />
                 </div>

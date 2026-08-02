@@ -200,6 +200,43 @@
     --focus-ring-color: var(--focus-ring);
   }
 
+  /* ——— Motion accents (plan §7, UCC-reference upgrade) ———
+     All of these are decorative and rely on the global reduced-motion clamp in
+     @layer base: animations collapse to their end state instantly, which is
+     visually equivalent to "off" for each effect (ticker duplicates seamlessly,
+     progress holds full like today's solid pill, Ken Burns rests at a static crop). */
+
+  /* Hero: slow cinematic drift on the active slide. Duration outlasts the 6s
+     autoplay dwell (AUTO_MS in SectorSlider.tsx) so the zoom never settles
+     visibly before the crossfade. */
+  .kenburns {
+    animation: kenburns 8s var(--ease-standard) forwards;
+  }
+
+  /* Hero: autoplay progress fill inside the active dot. 6s = AUTO_MS — keep in
+     sync with SectorSlider.tsx. Paused exactly when autoplay is paused:
+     hover/focus anywhere in the region, or the explicit pause control. */
+  .dot-progress {
+    animation: slide-progress 6s linear forwards;
+  }
+  #hero:hover .dot-progress,
+  #hero:focus-within .dot-progress,
+  #hero[data-paused] .dot-progress {
+    animation-play-state: paused;
+  }
+
+  /* Sector ticker: continuous marquee. The track holds two identical copies,
+     so -50% loops seamlessly. Pauses on hover; direction flips for RTL. */
+  .ticker-track {
+    animation: ticker 38s linear infinite;
+  }
+  [dir="rtl"] .ticker-track {
+    animation-direction: reverse;
+  }
+  .ticker:hover .ticker-track {
+    animation-play-state: paused;
+  }
+
   /* Mobile drawer: slides from the inline-end edge; visibility flips after the
      transform transition so the closed drawer is unfocusable and hidden. */
   .drawer {
@@ -216,5 +253,30 @@
     transform: translateX(0);
     visibility: visible;
     transition: transform 0.3s var(--ease-standard);
+  }
+}
+
+/* Keyframes for the §7 motion accents (see @layer components above) */
+@keyframes kenburns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.07);
+  }
+}
+
+@keyframes slide-progress {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes ticker {
+  to {
+    transform: translateX(-50%);
   }
 }

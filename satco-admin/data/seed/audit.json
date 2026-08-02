@@ -1,7 +1,7 @@
 [
   {
     "id": "audit-0001",
-    "ts": "2026-07-18T14:26:59.833Z",
+    "ts": "2026-08-01T14:33:31.034Z",
     "actor": "seed",
     "action": "seed.init",
     "entity": "system",

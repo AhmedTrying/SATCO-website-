@@ -20,6 +20,22 @@ export const metadata: Metadata = {
 const selected = clients.filter((c) => c.tier === "selected");
 const directory = clients.filter((c) => c.tier === "directory").map((c) => c.name);
 
+/*
+ * Monogram for the placeholder tiles: initials of the first two significant
+ * words ("Ministry of Transport" → MT). The client list is PLACEHOLDER data
+ * (plan §12 Q3) — real trademarks are deliberately NOT used until the client
+ * supplies the approved list and logo files; these tiles then swap 1:1 for
+ * grayscale logo images.
+ */
+const MINOR_WORDS = new Set(["of", "the", "for", "and", "&"]);
+function monogram(name: string): string {
+  const words = name.split(/\s+/).filter((w) => !MINOR_WORDS.has(w.toLowerCase()));
+  return words
+    .slice(0, 2)
+    .map((w) => w[0]?.toUpperCase() ?? "")
+    .join("");
+}
+
 if (selected.length > 30) {
   throw new Error("Clients page: hard max of 30 selected logos exceeded (docx comment #31)");
 }
@@ -53,9 +69,19 @@ export default function ClientsPage() {
               <li key={client.id} aria-label={`${client.name} logo`}>
                 {/* fadeOnly — locked: "no animation beyond a subtle fade-in" */}
                 <Reveal fadeOnly delay={(i % 6) * 40}>
-                  {/* Placeholder tile — swap for the grayscale logo image when provided */}
-                  <div className="flex h-[88px] items-center justify-center rounded-md border border-border bg-stone-100 p-3 text-center font-display text-[13px] font-semibold tracking-[0.02em] text-stone-500 grayscale">
-                    {client.name}
+                  {/* Placeholder logo mark — swaps 1:1 for the grayscale logo
+                      image when the approved files arrive. Locked: grayscale,
+                      unlinked, fade-only. */}
+                  <div className="flex h-[104px] flex-col items-center justify-center gap-1.5 rounded-md border border-border bg-surface p-3 text-center grayscale">
+                    <span
+                      aria-hidden="true"
+                      className="flex h-11 w-11 items-center justify-center rounded-full border-[1.5px] border-stone-300 font-display text-[15px] font-bold tracking-[0.04em] text-stone-500"
+                    >
+                      {monogram(client.name)}
+                    </span>
+                    <span className="font-display text-[11.5px] font-semibold leading-[1.25] tracking-[0.02em] text-stone-500">
+                      {client.name}
+                    </span>
                   </div>
                 </Reveal>
               </li>

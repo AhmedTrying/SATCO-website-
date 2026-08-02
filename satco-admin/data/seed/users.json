@@ -5,7 +5,7 @@
     "email": "admin@satco.com.sa",
     "role": "admin",
     "active": true,
-    "createdAt": "2026-07-18T14:26:59.833Z"
+    "createdAt": "2026-08-01T14:33:31.034Z"
   },
   {
     "id": "u-publisher",
@@ -13,7 +13,7 @@
     "email": "publisher@satco.com.sa",
     "role": "publisher",
     "active": true,
-    "createdAt": "2026-07-18T14:26:59.833Z"
+    "createdAt": "2026-08-01T14:33:31.034Z"
   },
   {
     "id": "u-editor",
@@ -21,7 +21,7 @@
     "email": "editor@satco.com.sa",
     "role": "editor",
     "active": true,
-    "createdAt": "2026-07-18T14:26:59.833Z"
+    "createdAt": "2026-08-01T14:33:31.034Z"
   },
   {
     "id": "u-viewer",
@@ -29,6 +29,6 @@
     "email": "viewer@satco.com.sa",
     "role": "viewer",
     "active": true,
-    "createdAt": "2026-07-18T14:26:59.833Z"
+    "createdAt": "2026-08-01T14:33:31.034Z"
   }
 ]

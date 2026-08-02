@@ -12,6 +12,19 @@ const VARIANTS: Record<string, number[]> = {
   // ⚠ small portrait source (886×1195) — flagged as an imagery gap (plan §12 Q9)
   maintenance: [640, 886],
   neom: [640, 1080, 1600],
+  // Unsplash set (free license, 2026-08)
+  "terminal-1": [640, 1080, 1600, 2200],
+  "terminal-2": [640, 1080, 1600, 2200],
+  "apron-1": [640, 1080, 1600, 2200],
+  "tower-1": [640, 1080, 1600, 2200],
+  "construction-2": [640, 1080, 1600, 2200],
+  "construction-3": [640, 1080, 1600, 2200],
+  "team-1": [640, 1080, 1600, 2200],
+  "team-2": [640, 1080, 1600, 2200],
+  "riyadh-1": [640, 1080, 1600, 2200],
+  "riyadh-2": [640, 1080, 1600],
+  "highway-1": [640, 1080, 1600, 2200],
+  "plant-1": [640, 1080, 1600, 2200],
 };
 
 export function widthsFor(base: string): number[] {

@@ -32,9 +32,16 @@ export function CapabilityAccordion({
     <details
       ref={ref}
       open
-      className="group overflow-hidden rounded-lg border border-border bg-surface"
+      className="group relative h-full overflow-hidden rounded-lg border border-border bg-surface transition-[translate,border-color,box-shadow] duration-[var(--dur-slow)] ease-[var(--ease-standard)] hover:-translate-y-1 hover:border-bronze-300 hover:shadow-md"
     >
       <summary className="flex cursor-pointer items-start justify-between gap-4 px-[26px] py-6">
+        {/* Bronze accent draws across the top on hover (decorative). Lives
+            inside <summary> so it stays visible when the accordion is closed;
+            positioned against the card. origin pairs with an rtl: variant. */}
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-bronze-700 transition-transform duration-[var(--dur-slow)] ease-[var(--ease-standard)] group-hover:scale-x-100 rtl:origin-right"
+        />
         <span className="flex items-start gap-4">
           <span
             aria-hidden="true"

@@ -9,7 +9,12 @@ export const metadata: Metadata = {
   description: leadershipPage.subline,
 };
 
-/* Leadership — content TBD (plan §12 Q2): CMS-ready placeholder grid. */
+/*
+ * Leadership — content TBD (plan §12 Q2): CMS-ready placeholder grid. The
+ * placeholders stay honest (status note + skeleton bars + pending caption) but
+ * carry the finished card frame: portrait block with a quiet silhouette instead
+ * of hazard-stripe "PHOTO" tiles, staggered reveals matching the home rhythm.
+ */
 export default function LeadershipPage() {
   const placeholders = Array.from({
     length: Math.max(leadershipPage.placeholderCount - leadership.length, 0),
@@ -38,18 +43,31 @@ export default function LeadershipPage() {
         </Reveal>
         <ul className="m-0 grid list-none grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-[22px] p-0">
           {placeholders.map((_, i) => (
-            <li key={i}>
-              <Reveal delay={(i % 3) * 60}>
-                <div className="rounded-lg border border-border bg-surface p-7 text-center">
+            <li key={i} className="h-full">
+              <Reveal delay={(i % 3) * 70} className="h-full">
+                <div className="flex h-full flex-col overflow-hidden rounded-lg border border-border bg-surface">
+                  {/* Portrait placeholder — dignified silhouette on a soft
+                      stone wash; swaps for the member photo when content lands */}
                   <div
                     aria-hidden="true"
-                    className="mx-auto mb-[18px] flex h-24 w-24 items-center justify-center rounded-[50%] border border-border bg-[repeating-linear-gradient(135deg,var(--stone-100),var(--stone-100)_8px,var(--stone-50)_8px,var(--stone-50)_16px)] font-mono text-[11px] text-stone-400"
+                    className="relative flex aspect-[4/5] items-end justify-center overflow-hidden bg-[linear-gradient(180deg,var(--stone-50),var(--stone-200))]"
                   >
-                    PHOTO
+                    <svg
+                      viewBox="0 0 96 96"
+                      className="w-[58%] translate-y-[6%] text-stone-300"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <circle cx="48" cy="34" r="16" />
+                      <path d="M14 96c2.5-21 16-31 34-31s31.5 10 34 31z" />
+                    </svg>
                   </div>
-                  <div aria-hidden="true" className="mx-auto mb-2.5 h-3 w-[60%] rounded-[3px] bg-stone-200" />
-                  <div aria-hidden="true" className="mx-auto mb-4 h-2.5 w-[44%] rounded-[3px] bg-stone-100" />
-                  <p className="m-0 text-[13px] text-stone-600">Content coming soon</p>
+                  <div className="px-6 pb-6 pt-5">
+                    {/* name / role skeleton bars */}
+                    <div aria-hidden="true" className="mb-2.5 h-3 w-[64%] rounded-[3px] bg-stone-200" />
+                    <div aria-hidden="true" className="mb-4 h-2.5 w-[42%] rounded-[3px] bg-stone-100" />
+                    <p className="m-0 text-[13px] text-stone-600">Content coming soon</p>
+                  </div>
                 </div>
               </Reveal>
             </li>

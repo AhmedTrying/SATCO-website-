@@ -19,6 +19,19 @@ const IMAGES = [
   "ls-1",
   "maintenance",
   "neom",
+  // Unsplash set (free license, 2026-08) — sourced to fill the imagery gap
+  "terminal-1",
+  "terminal-2",
+  "apron-1",
+  "tower-1",
+  "construction-2",
+  "construction-3",
+  "team-1",
+  "team-2",
+  "riyadh-1",
+  "riyadh-2",
+  "highway-1",
+  "plant-1",
 ];
 
 await mkdir(OUT, { recursive: true });

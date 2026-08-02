@@ -70,6 +70,14 @@
         {
           "src": "airport-3",
           "alt": "A Saudia aircraft serviced at a SATCO boarding bridge and ground systems"
+        },
+        {
+          "src": "apron-1",
+          "alt": "Ground crew guiding an aircraft on the apron with a tow tractor"
+        },
+        {
+          "src": "tower-1",
+          "alt": "Airport control tower rising over a terminal jet bridge"
         }
       ],
       "whyLabel": "airports",
@@ -129,9 +137,19 @@
       },
       "heroPosition": "center 45%",
       "card": {
-        "src": "construction-1",
-        "alt": "Aerial view of a large SATCO construction village"
+        "src": "construction-2",
+        "alt": "Tower cranes over a large-scale construction site"
       },
+      "gallery": [
+        {
+          "src": "construction-3",
+          "alt": "High-rise structure under construction beside a tower crane"
+        },
+        {
+          "src": "team-1",
+          "alt": "Site engineers reviewing construction plans on-site"
+        }
+      ],
       "whyLabel": "construction",
       "mobileCta": "View detailed construction capabilities",
       "contactCta": "Discuss a construction project",
@@ -187,9 +205,19 @@
       },
       "heroPosition": "center 40%",
       "card": {
-        "src": "ls-1",
-        "alt": "Aerial view of an institutional campus operated by SATCO"
+        "src": "plant-1",
+        "alt": "Technician inspecting piping inside an industrial facility"
       },
+      "gallery": [
+        {
+          "src": "team-2",
+          "alt": "Operations team in hard hats coordinating on site"
+        },
+        {
+          "src": "plant-1",
+          "alt": "Technician inspecting piping inside an industrial facility"
+        }
+      ],
       "whyLabel": "operations",
       "mobileCta": "View detailed operations & support capabilities",
       "contactCta": "Discuss an operations mandate",
@@ -230,9 +258,19 @@
       },
       "heroPosition": "center 45%",
       "card": {
-        "src": "neom",
-        "alt": "Aerial view of a giga-project development"
+        "src": "highway-1",
+        "alt": "Aerial view of interlocking highway interchanges"
       },
+      "gallery": [
+        {
+          "src": "riyadh-1",
+          "alt": "Aerial view of a dense modern city skyline"
+        },
+        {
+          "src": "highway-1",
+          "alt": "Aerial view of interlocking highway interchanges"
+        }
+      ],
       "whyLabel": "PPP",
       "mobileCta": "View detailed PPP capabilities & projects",
       "contactCta": "Discuss a partnership",

@@ -56,7 +56,10 @@
   /* 3.5 Layout rhythm */
   --section-y: clamp(4rem, 8vw, 8rem);
   --container-x: clamp(1.25rem, 5vw, 2.5rem);
-  --container-max: 1200px;
+  /* Fluid container (client request: less side whitespace than the design's fixed 1200px).
+     Scales with the window: ~92% of the viewport, never narrower than 1500px of cap
+     (small screens just go full-width minus --container-x), never wider than 1900px. */
+  --container-max: clamp(1500px, 92vw, 1900px);
   --measure: 68ch;
 
   /* 3.8 Motion */

@@ -1,5 +1,6 @@
 import { home } from "@/content/home";
 import { Container } from "@/components/layout/Container";
+import { Parallax } from "@/components/motion/Parallax";
 import { Reveal } from "@/components/motion/Reveal";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -11,16 +12,19 @@ export function CareersTeaser() {
       aria-labelledby="careers-teaser-h"
       className="on-dark relative overflow-hidden bg-stone-950"
     >
-      <Picture
-        image={{
-          src: "maintenance",
-          alt: "",
-        }}
-        sizes="100vw"
-        className="absolute inset-0"
-        imgClassName="h-full w-full object-cover object-[center_30%]"
-        style={{ height: "100%", width: "100%" }}
-      />
+      {/* Background drifts slower than the scroll (scale hides the edges) */}
+      <Parallax strength={40} scale={1.12} className="absolute inset-0">
+        <Picture
+          image={{
+            src: "maintenance",
+            alt: "",
+          }}
+          sizes="100vw"
+          className="absolute inset-0"
+          imgClassName="h-full w-full object-cover object-[center_30%]"
+          style={{ height: "100%", width: "100%" }}
+        />
+      </Parallax>
       <div
         aria-hidden="true"
         className="absolute inset-0 bg-[linear-gradient(90deg,rgb(29_26_22/0.9),rgb(53_30_3/0.62)_55%,rgb(53_30_3/0.35))] rtl:bg-[linear-gradient(270deg,rgb(29_26_22/0.9),rgb(53_30_3/0.62)_55%,rgb(53_30_3/0.35))]"
