@@ -74,6 +74,12 @@ export const clientsPageSchema = z.object({
 export const leadershipPageSchema = z.object({
   title: z.string().min(1),
   subline: z.string().min(1),
+  featuredEyebrow: z.string().min(1),
+  featuredHeading: z.string().min(1),
+  executiveHeading: z.string().min(1),
+  functionalEyebrow: z.string().min(1),
+  functionalHeading: z.string().min(1),
+  functionalSubline: z.string().min(1),
   pendingNote: z.string().min(1),
   placeholderCount: z.number().int().min(0),
 });

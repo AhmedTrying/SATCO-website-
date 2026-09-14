@@ -124,6 +124,8 @@ export const leadershipMemberSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
   title: z.string().min(1),
+  department: z.string().optional(),
+  level: z.enum(["principal", "executive", "functional"]).optional(),
   bio: z.string().optional(),
   photo: imageRefSchema.optional(),
   order: z.number().int(),

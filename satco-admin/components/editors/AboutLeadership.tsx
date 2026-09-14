@@ -38,6 +38,7 @@ export function AboutLeadership({
         id: `person-${prev.length + 1}`,
         name: "",
         title: "",
+        level: "functional",
         order: prev.length + 1,
       },
     ]);
@@ -105,17 +106,91 @@ export function AboutLeadership({
               }}
             />
           </div>
-          <div>
-            <label className="label">Pending note</label>
-            <input
-              className="input"
-              aria-label="Pending note"
-              value={p.pendingNote}
-              onChange={(e) => {
-                setP({ ...p, pendingNote: e.target.value });
-                touch();
-              }}
-            />
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div>
+              <label className="label">Featured eyebrow</label>
+              <input
+                className="input"
+                aria-label="Featured eyebrow"
+                value={p.featuredEyebrow}
+                onChange={(e) => {
+                  setP({ ...p, featuredEyebrow: e.target.value });
+                  touch();
+                }}
+              />
+            </div>
+            <div>
+              <label className="label">Featured heading</label>
+              <input
+                className="input"
+                aria-label="Featured heading"
+                value={p.featuredHeading}
+                onChange={(e) => {
+                  setP({ ...p, featuredHeading: e.target.value });
+                  touch();
+                }}
+              />
+            </div>
+            <div>
+              <label className="label">Executive heading</label>
+              <input
+                className="input"
+                aria-label="Executive heading"
+                value={p.executiveHeading}
+                onChange={(e) => {
+                  setP({ ...p, executiveHeading: e.target.value });
+                  touch();
+                }}
+              />
+            </div>
+            <div>
+              <label className="label">Functional eyebrow</label>
+              <input
+                className="input"
+                aria-label="Functional eyebrow"
+                value={p.functionalEyebrow}
+                onChange={(e) => {
+                  setP({ ...p, functionalEyebrow: e.target.value });
+                  touch();
+                }}
+              />
+            </div>
+            <div>
+              <label className="label">Functional heading</label>
+              <input
+                className="input"
+                aria-label="Functional heading"
+                value={p.functionalHeading}
+                onChange={(e) => {
+                  setP({ ...p, functionalHeading: e.target.value });
+                  touch();
+                }}
+              />
+            </div>
+            <div>
+              <label className="label">Functional subline</label>
+              <input
+                className="input"
+                aria-label="Functional subline"
+                value={p.functionalSubline}
+                onChange={(e) => {
+                  setP({ ...p, functionalSubline: e.target.value });
+                  touch();
+                }}
+              />
+            </div>
+            <div>
+              <label className="label">Empty-state note</label>
+              <input
+                className="input"
+                aria-label="Empty-state note"
+                value={p.pendingNote}
+                onChange={(e) => {
+                  setP({ ...p, pendingNote: e.target.value });
+                  touch();
+                }}
+              />
+            </div>
           </div>
         </section>
 
@@ -148,7 +223,7 @@ export function AboutLeadership({
                     ✕ Remove
                   </button>
                 </div>
-                <div className="grid gap-3 sm:grid-cols-3">
+                <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
                   <div>
                     <label className="label">Name</label>
                     <input
@@ -166,6 +241,34 @@ export function AboutLeadership({
                       value={m.title}
                       onChange={(e) => setMember(i, { title: e.target.value })}
                     />
+                  </div>
+                  <div>
+                    <label className="label">Department</label>
+                    <input
+                      className="input"
+                      aria-label="Department"
+                      value={m.department ?? ""}
+                      onChange={(e) =>
+                        setMember(i, { department: e.target.value || undefined })
+                      }
+                    />
+                  </div>
+                  <div>
+                    <label className="label">Page level</label>
+                    <select
+                      className="input"
+                      aria-label="Page level"
+                      value={m.level ?? "functional"}
+                      onChange={(e) =>
+                        setMember(i, {
+                          level: e.target.value as NonNullable<LeadershipMember["level"]>,
+                        })
+                      }
+                    >
+                      <option value="principal">Principal</option>
+                      <option value="executive">Executive</option>
+                      <option value="functional">Functional</option>
+                    </select>
                   </div>
                   <div>
                     <label className="label">Order</label>

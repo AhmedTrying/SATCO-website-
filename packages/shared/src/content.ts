@@ -92,6 +92,12 @@ export interface ClientsPageCopy {
 export interface LeadershipPageCopy {
   title: string;
   subline: string;
+  featuredEyebrow: string;
+  featuredHeading: string;
+  executiveHeading: string;
+  functionalEyebrow: string;
+  functionalHeading: string;
+  functionalSubline: string;
   pendingNote: string;
   placeholderCount: number;
 }

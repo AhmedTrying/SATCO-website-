@@ -157,6 +157,10 @@ export interface LeadershipMember {
   id: string;
   name: string;
   title: string;
+  /** Directory function shown as a quiet label on the public profile card. */
+  department?: string;
+  /** Controls the profile's visual prominence on the leadership page. */
+  level?: "principal" | "executive" | "functional";
   bio?: string;
   photo?: ImageRef;
   order: number;

@@ -1,24 +1,61 @@
 import type { Metadata } from "next";
 import { leadership, leadershipPage } from "@/content/leadership";
+import {
+  ExecutiveLeadershipCard,
+  FunctionalLeadershipCard,
+  PrincipalLeadershipCard,
+} from "@/components/about/LeadershipCard";
 import { Container } from "@/components/layout/Container";
-import { PageHeader } from "@/components/ui/PageHeader";
 import { Reveal } from "@/components/motion/Reveal";
+import { Eyebrow } from "@/components/ui/Eyebrow";
+import { PageHeader } from "@/components/ui/PageHeader";
 
 export const metadata: Metadata = {
   title: "Key people & leadership",
   description: leadershipPage.subline,
 };
 
-/*
- * Leadership — content TBD (plan §12 Q2): CMS-ready placeholder grid. The
- * placeholders stay honest (status note + skeleton bars + pending caption) but
- * carry the finished card frame: portrait block with a quiet silhouette instead
- * of hazard-stripe "PHOTO" tiles, staggered reveals matching the home rhythm.
- */
+const orderedLeadership = [...leadership].sort((a, b) => a.order - b.order);
+const principals = orderedLeadership.filter((member) => member.level === "principal");
+const executives = orderedLeadership.filter((member) => member.level === "executive");
+const functionalLeaders = orderedLeadership.filter(
+  (member) => member.level === "functional" || !member.level,
+);
+
+function displayNumber(order: number) {
+  return String(order).padStart(2, "0");
+}
+
+function EmptyLeadership() {
+  const placeholders = Array.from({ length: leadershipPage.placeholderCount });
+
+  return (
+    <Container className="py-[clamp(3.5rem,7vw,6rem)]">
+      <Reveal>
+        <div
+          role="status"
+          className="mb-9 flex max-w-[640px] items-center gap-3 rounded-md border border-bronze-100 bg-bronze-50 px-5 py-4"
+        >
+          <span aria-hidden="true" className="h-2.5 w-2.5 flex-none rounded-full bg-bronze-500" />
+          <p className="m-0 text-[14.5px] text-stone-700">{leadershipPage.pendingNote}</p>
+        </div>
+      </Reveal>
+      <ul className="m-0 grid list-none grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-[22px] p-0">
+        {placeholders.map((_, index) => (
+          <li key={index} className="overflow-hidden rounded-lg border border-border bg-surface">
+            <div aria-hidden="true" className="aspect-[4/3] bg-stone-100" />
+            <div className="p-6">
+              <div aria-hidden="true" className="mb-3 h-3 w-2/3 rounded-sm bg-stone-200" />
+              <div aria-hidden="true" className="h-2.5 w-2/5 rounded-sm bg-stone-100" />
+            </div>
+          </li>
+        ))}
+      </ul>
+    </Container>
+  );
+}
+
 export default function LeadershipPage() {
-  const placeholders = Array.from({
-    length: Math.max(leadershipPage.placeholderCount - leadership.length, 0),
-  });
   return (
     <>
       <PageHeader
@@ -28,52 +65,108 @@ export default function LeadershipPage() {
           { label: "Key people & leadership" },
         ]}
         title={leadershipPage.title}
-        headingId="lead-h"
+        headingId="leadership-h"
         lead={leadershipPage.subline}
       />
-      <Container className="py-[clamp(3.5rem,7vw,6rem)]">
-        <Reveal>
-          <div
-            role="status"
-            className="mb-9 flex max-w-[640px] items-center gap-3 rounded-md border border-bronze-100 bg-bronze-50 px-5 py-4"
-          >
-            <span aria-hidden="true" className="h-2.5 w-2.5 flex-none rounded-[50%] bg-bronze-500" />
-            <p className="m-0 text-[14.5px] text-stone-700">{leadershipPage.pendingNote}</p>
-          </div>
-        </Reveal>
-        <ul className="m-0 grid list-none grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-[22px] p-0">
-          {placeholders.map((_, i) => (
-            <li key={i} className="h-full">
-              <Reveal delay={(i % 3) * 70} className="h-full">
-                <div className="flex h-full flex-col overflow-hidden rounded-lg border border-border bg-surface">
-                  {/* Portrait placeholder — dignified silhouette on a soft
-                      stone wash; swaps for the member photo when content lands */}
-                  <div
-                    aria-hidden="true"
-                    className="relative flex aspect-[4/5] items-end justify-center overflow-hidden bg-[linear-gradient(180deg,var(--stone-50),var(--stone-200))]"
-                  >
-                    <svg
-                      viewBox="0 0 96 96"
-                      className="w-[58%] translate-y-[6%] text-stone-300"
-                      fill="currentColor"
-                      aria-hidden="true"
+
+      {orderedLeadership.length === 0 ? (
+        <EmptyLeadership />
+      ) : (
+        <>
+          {principals.length > 0 ? (
+            <section aria-labelledby="principal-leadership-h" className="bg-surface">
+              <Container className="py-[clamp(3.75rem,7vw,6.5rem)]">
+                <Reveal>
+                  <div className="mb-[clamp(2rem,4vw,3.25rem)] grid gap-5 sm:grid-cols-[minmax(0,0.7fr)_minmax(280px,1.3fr)] sm:items-end">
+                    <Eyebrow>{leadershipPage.featuredEyebrow}</Eyebrow>
+                    <h2
+                      id="principal-leadership-h"
+                      className="m-0 max-w-[22ch] font-display text-[clamp(1.9rem,4vw,3.35rem)] font-bold leading-[1.04] tracking-[-0.03em] text-strong [text-wrap:balance]"
                     >
-                      <circle cx="48" cy="34" r="16" />
-                      <path d="M14 96c2.5-21 16-31 34-31s31.5 10 34 31z" />
-                    </svg>
+                      {leadershipPage.featuredHeading}
+                    </h2>
                   </div>
-                  <div className="px-6 pb-6 pt-5">
-                    {/* name / role skeleton bars */}
-                    <div aria-hidden="true" className="mb-2.5 h-3 w-[64%] rounded-[3px] bg-stone-200" />
-                    <div aria-hidden="true" className="mb-4 h-2.5 w-[42%] rounded-[3px] bg-stone-100" />
-                    <p className="m-0 text-[13px] text-stone-600">Content coming soon</p>
+                </Reveal>
+                <ul className="m-0 grid list-none gap-[22px] p-0 lg:grid-cols-2">
+                  {principals.map((member, index) => (
+                    <li key={member.id} className="h-full">
+                      <Reveal delay={index * 90} className="h-full">
+                        <PrincipalLeadershipCard
+                          member={member}
+                          number={displayNumber(member.order)}
+                        />
+                      </Reveal>
+                    </li>
+                  ))}
+                </ul>
+              </Container>
+            </section>
+          ) : null}
+
+          {executives.length > 0 ? (
+            <section aria-labelledby="executive-leadership-h" className="border-y border-border bg-sand">
+              <Container className="py-[clamp(3.75rem,7vw,6rem)]">
+                <Reveal>
+                  <div className="mb-9 flex items-end justify-between gap-6 border-b border-stone-300 pb-5">
+                    <h2
+                      id="executive-leadership-h"
+                      className="m-0 font-display text-[clamp(1.55rem,3vw,2.2rem)] font-bold leading-[1.12] tracking-[-0.02em] text-strong"
+                    >
+                      {leadershipPage.executiveHeading}
+                    </h2>
+                    <span aria-hidden="true" className="hidden h-px w-24 bg-bronze-500 sm:block" />
                   </div>
-                </div>
-              </Reveal>
-            </li>
-          ))}
-        </ul>
-      </Container>
+                </Reveal>
+                <ul className="m-0 grid list-none gap-[18px] p-0 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  {executives.map((member, index) => (
+                    <li key={member.id} className="h-full">
+                      <Reveal delay={(index % 4) * 70} className="h-full">
+                        <ExecutiveLeadershipCard
+                          member={member}
+                          number={displayNumber(member.order)}
+                        />
+                      </Reveal>
+                    </li>
+                  ))}
+                </ul>
+              </Container>
+            </section>
+          ) : null}
+
+          {functionalLeaders.length > 0 ? (
+            <section aria-labelledby="functional-leadership-h" className="bg-surface">
+              <Container className="grid gap-[clamp(2rem,5vw,5rem)] py-[clamp(3.75rem,7vw,6rem)] lg:grid-cols-[minmax(240px,0.65fr)_minmax(0,1.35fr)]">
+                <Reveal>
+                  <div className="lg:sticky lg:top-[calc(var(--nav-h)+2rem)]">
+                    <Eyebrow className="mb-4">{leadershipPage.functionalEyebrow}</Eyebrow>
+                    <h2
+                      id="functional-leadership-h"
+                      className="mb-4 mt-0 max-w-[16ch] font-display text-[clamp(1.65rem,3vw,2.35rem)] font-bold leading-[1.1] tracking-[-0.025em] text-strong"
+                    >
+                      {leadershipPage.functionalHeading}
+                    </h2>
+                    <p className="m-0 max-w-[42ch] text-[15px] leading-[1.7] text-stone-600">
+                      {leadershipPage.functionalSubline}
+                    </p>
+                  </div>
+                </Reveal>
+                <ul className="m-0 grid list-none gap-3 p-0 sm:grid-cols-2">
+                  {functionalLeaders.map((member, index) => (
+                    <li key={member.id} className="h-full">
+                      <Reveal delay={(index % 4) * 55} className="h-full">
+                        <FunctionalLeadershipCard
+                          member={member}
+                          number={displayNumber(member.order)}
+                        />
+                      </Reveal>
+                    </li>
+                  ))}
+                </ul>
+              </Container>
+            </section>
+          ) : null}
+        </>
+      )}
     </>
   );
 }
