@@ -13,7 +13,15 @@ export const homeSchema = z.object({
     explore: z.string().min(1),
     regionLabel: z.string().min(1),
   }),
-  statBand: z.object({ eyebrow: z.string().min(1), heading: z.string().min(1) }),
+  statBand: z.object({
+    eyebrow: z.string().min(1),
+    heading: z.string().min(1),
+    lede: z.string().optional(),
+    groups: z.object({
+      communities: z.string().min(1),
+      aviation: z.string().min(1),
+    }),
+  }),
   whoWeAre: z.object({
     eyebrow: z.string().min(1),
     heading: z.string().min(1),

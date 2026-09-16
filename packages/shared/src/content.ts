@@ -28,8 +28,13 @@ import type {
 
 export interface HomeContent {
   hero: { eyebrow: string; headline: string; explore: string; regionLabel: string };
-  /** `lede` is the supporting paragraph added by the approved 1C band design */
-  statBand: { eyebrow: string; heading: string; lede?: string };
+  /** Proof-section copy, including the two visual group labels. */
+  statBand: {
+    eyebrow: string;
+    heading: string;
+    lede?: string;
+    groups: { communities: string; aviation: string };
+  };
   whoWeAre: {
     eyebrow: string;
     heading: string;

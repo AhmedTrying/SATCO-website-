@@ -86,6 +86,26 @@ export function HomeCopyEditor({
               error={errors.statBand?.heading}
             />
           </div>
+          <div className="mt-3">
+            <TextArea
+              label="Supporting text"
+              rows={2}
+              registration={register("statBand.lede")}
+              error={errors.statBand?.lede}
+            />
+          </div>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            <TextInput
+              label="Communities card label"
+              registration={register("statBand.groups.communities")}
+              error={errors.statBand?.groups?.communities}
+            />
+            <TextInput
+              label="Aviation card label"
+              registration={register("statBand.groups.aviation")}
+              error={errors.statBand?.groups?.aviation}
+            />
+          </div>
         </section>
 
         <section className="card p-4">
