@@ -1,7 +1,6 @@
 import { SectorSlider } from "@/components/home/SectorSlider";
 import { StatBand } from "@/components/home/StatBand";
 import { WhoWeAre } from "@/components/home/WhoWeAre";
-import { SectorTicker } from "@/components/home/SectorTicker";
 import { SectorsOverview } from "@/components/home/SectorsOverview";
 import { CareersTeaser } from "@/components/home/CareersTeaser";
 import { ContactTeaser } from "@/components/home/ContactTeaser";
@@ -21,8 +20,6 @@ export default function Home() {
       </section>
       {v.statBand && <StatBand />}
       {v.whoWeAre && <WhoWeAre />}
-      {/* Decorative sector ribbon — presentation only, so not flag-gated */}
-      <SectorTicker />
       <SectorsOverview />
       {v.careersTeaser && <CareersTeaser />}
       {v.contactTeaser && <ContactTeaser />}

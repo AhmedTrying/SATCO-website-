@@ -11,6 +11,14 @@ import { RouteFocus } from "@/components/layout/RouteFocus";
 import { SkipLink } from "@/components/layout/SkipLink";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 
+const introBootstrapScript = `
+  try {
+    const seen = sessionStorage.getItem("satco_intro_seen_v2") === "1";
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (seen || reduced) document.documentElement.dataset.satcoIntro = "skip";
+  } catch {}
+`;
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
@@ -36,8 +44,12 @@ export default function RootLayout({
     <html
       lang="en"
       dir="ltr"
+      suppressHydrationWarning
       className={`${inter.variable} ${archivo.variable} ${archivoExpanded.variable} h-full antialiased`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: introBootstrapScript }} />
+      </head>
       <body className="flex min-h-full flex-col">
         {/* Without JS, framer-managed reveals must not hide content */}
         <noscript>

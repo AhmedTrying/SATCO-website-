@@ -109,6 +109,10 @@
 }
 
 @layer base {
+  html[data-satco-intro="skip"] [data-satco-intro="true"] {
+    display: none !important;
+  }
+
   body {
     background: var(--bg);
     color: var(--text);

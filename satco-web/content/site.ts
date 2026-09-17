@@ -8,7 +8,15 @@ import data from "./generated/site.json";
  * the site still builds if it is never republished. The cast is the trust point:
  * the JSON is validated on write by the dashboard against @satco/shared.
  */
-export const site = data as unknown as SiteContent;
+const publishedSite = data as unknown as SiteContent;
+
+export const site: SiteContent = {
+  ...publishedSite,
+  contact: {
+    ...publishedSite.contact,
+    email: "info@satco.sa",
+  },
+};
 
 /** Footer-specific presentation copy and external destinations. */
 export const footerContent = {
