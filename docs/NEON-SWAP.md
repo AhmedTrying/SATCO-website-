@@ -76,11 +76,12 @@ and finish the site integration:
 - [ ] **Careers runtime read.** Site reads open jobs (`state = 'open'`); job-detail
       pages via `generateStaticParams` at build **plus** a client-rendered
       `/careers/role?id=…` fallback for jobs added after the last build.
-- [ ] **Private media** (CVs): local CVs now live outside the public tree under
-      `satco-admin/data/private-uploads` and download through a role-gated endpoint.
-      Before deploying the admin, move these bytes to object storage (Vercel Blob / S3)
-      because Vercel's filesystem is ephemeral; keep download access limited to
-      publisher/admin.
+- [x] **Private media** (CVs): the production dashboard stores new CVs in the
+      private `satco-private-cvs` Vercel Blob store and streams them only through
+      the role-gated download endpoint. Local development continues to use
+      `satco-admin/data/private-uploads`. CVs uploaded before Blob was enabled
+      cannot be recovered if their local file is gone; the dashboard now explains
+      that they need to be uploaded again.
 - [ ] **Least privilege.** Neon has no RLS; enforce access in the server layer
       (`requireCapability()` already gates routes). If public forms hit Postgres
       directly, use a **separate low-privilege Neon role** limited to `INSERT` on the

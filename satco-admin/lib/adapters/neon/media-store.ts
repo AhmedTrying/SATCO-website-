@@ -9,6 +9,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 
+import { del, put } from "@vercel/blob";
 import type { MediaBucket, MediaItem } from "@satco/shared";
 
 import type { MediaStore, NewMedia } from "../types";
@@ -18,6 +19,23 @@ import { toMedia, type MediaRow } from "./mappers";
 
 const PUBLIC_UPLOAD_DIR = path.join(process.cwd(), "public", "uploads");
 const PRIVATE_UPLOAD_DIR = path.join(process.cwd(), "data", "private-uploads");
+
+function blobStorageEnabled(): boolean {
+  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+}
+
+function isBlobUrl(value: string): boolean {
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" && url.hostname.endsWith(".blob.vercel-storage.com");
+  } catch {
+    return false;
+  }
+}
+
+function safeBlobFilename(filename: string): string {
+  return path.basename(filename).replace(/[^a-zA-Z0-9._-]/g, "-").slice(-120) || "cv";
+}
 
 function uploadLocation(bucket: MediaBucket, id: string, filename: string) {
   const storedFilename = `${id}-${path.basename(filename)}`;
@@ -56,16 +74,26 @@ export const neonMediaStore: MediaStore = {
     }
     const id = makeId("media");
     const location = uploadLocation(item.bucket, id, item.filename);
+    let storedPath = location.publicPath;
 
     if (item.dataBase64) {
-      await fs.mkdir(location.directory, { recursive: true });
       const bytes = Buffer.from(item.dataBase64, "base64");
-      await fs.writeFile(path.join(location.directory, location.storedFilename), bytes);
+      if (item.bucket === "private-uploads" && blobStorageEnabled()) {
+        const blob = await put(`private-cvs/${id}/${safeBlobFilename(item.filename)}`, bytes, {
+          access: "private",
+          addRandomSuffix: false,
+          contentType: item.mimeType || "application/octet-stream",
+        });
+        storedPath = blob.url;
+      } else {
+        await fs.mkdir(location.directory, { recursive: true });
+        await fs.writeFile(path.join(location.directory, location.storedFilename), bytes);
+      }
     }
 
     const record: MediaItem = {
       id,
-      path: location.publicPath,
+      path: storedPath,
       filename: item.filename,
       alt: item.alt,
       bucket: item.bucket,
@@ -117,7 +145,9 @@ export const neonMediaStore: MediaStore = {
     await query("delete from media where id = $1", [id]);
     // Best-effort delete of the uploaded file (seed rows point at /images/*, not
     // /uploads/*, and are left untouched).
-    if (existing?.bucket === "private-uploads") {
+    if (existing?.bucket === "private-uploads" && isBlobUrl(existing.path)) {
+      await del(existing.path).catch(() => undefined);
+    } else if (existing?.bucket === "private-uploads") {
       const location = uploadLocation(existing.bucket, existing.id, existing.filename);
       await fs
         .unlink(path.join(location.directory, location.storedFilename))
