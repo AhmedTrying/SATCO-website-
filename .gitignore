@@ -25,3 +25,5 @@ satco-admin/public/uploads/
 # OS
 Thumbs.db
 .DS_Store
+
+.vercel
