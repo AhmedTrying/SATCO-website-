@@ -2,7 +2,7 @@
   {
     "id": "spm-construction",
     "slug": "senior-project-manager-construction",
-    "title": "Senior Project Manager – Construction",
+    "title": "Senior Project Manager â€“ Construction",
     "location": "Saudi Arabia",
     "sector": "construction",
     "discipline": "Project Management",
@@ -22,7 +22,7 @@
     ],
     "applyHref": "https://careers.satco.com.sa/apply",
     "source": "mock",
-    "state": "open",
+    "state": "published",
     "createdAt": "2026-08-02T11:07:32.674Z",
     "updatedAt": "2026-08-02T11:07:32.674Z"
   },
@@ -49,7 +49,7 @@
     ],
     "applyHref": "https://careers.satco.com.sa/apply",
     "source": "mock",
-    "state": "open",
+    "state": "published",
     "createdAt": "2026-08-02T11:07:32.674Z",
     "updatedAt": "2026-08-02T11:07:32.674Z"
   },
@@ -76,7 +76,7 @@
     ],
     "applyHref": "https://careers.satco.com.sa/apply",
     "source": "mock",
-    "state": "open",
+    "state": "published",
     "createdAt": "2026-08-02T11:07:32.674Z",
     "updatedAt": "2026-08-02T11:07:32.674Z"
   },
@@ -88,7 +88,7 @@
     "sector": "ppp",
     "discipline": "Finance",
     "experienceLevel": "mid",
-    "summary": "Support origination and structuring of public–private partnership projects, building the financial analysis that informs investment decisions.",
+    "summary": "Support origination and structuring of publicâ€“private partnership projects, building the financial analysis that informs investment decisions.",
     "responsibilities": [
       "Build and maintain project-finance models for PPP opportunities",
       "Support due diligence, risk allocation, and bid preparation",
@@ -103,7 +103,7 @@
     ],
     "applyHref": "https://careers.satco.com.sa/apply",
     "source": "mock",
-    "state": "open",
+    "state": "published",
     "createdAt": "2026-08-02T11:07:32.674Z",
     "updatedAt": "2026-08-02T11:07:32.674Z"
   },
@@ -130,7 +130,7 @@
     ],
     "applyHref": "https://careers.satco.com.sa/apply",
     "source": "mock",
-    "state": "open",
+    "state": "published",
     "createdAt": "2026-08-02T11:07:32.674Z",
     "updatedAt": "2026-08-02T11:07:32.674Z"
   },
@@ -157,7 +157,7 @@
     ],
     "applyHref": "https://careers.satco.com.sa/apply",
     "source": "mock",
-    "state": "open",
+    "state": "published",
     "createdAt": "2026-08-02T11:07:32.674Z",
     "updatedAt": "2026-08-02T11:07:32.674Z"
   },
@@ -184,7 +184,7 @@
     ],
     "applyHref": "https://careers.satco.com.sa/apply",
     "source": "mock",
-    "state": "open",
+    "state": "published",
     "createdAt": "2026-08-02T11:07:32.674Z",
     "updatedAt": "2026-08-02T11:07:32.674Z"
   },
@@ -211,7 +211,7 @@
     ],
     "applyHref": "https://careers.satco.com.sa/apply",
     "source": "mock",
-    "state": "open",
+    "state": "published",
     "createdAt": "2026-08-02T11:07:32.674Z",
     "updatedAt": "2026-08-02T11:07:32.674Z"
   }

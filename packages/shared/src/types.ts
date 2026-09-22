@@ -135,22 +135,45 @@ export interface Client {
 }
 
 /** Every job needs a detail page (docx comment #42); no PDFs, no email-only workflows. */
+export type EmploymentType =
+  | "full-time"
+  | "part-time"
+  | "contract"
+  | "temporary"
+  | "internship";
+
+export interface ScreeningQuestion {
+  id: string;
+  question: string;
+  criteria: "required" | "preferred";
+  responseType: "yes-no" | "text" | "number";
+  expectedAnswer?: string;
+}
+
 export interface Job {
   id: string;
   slug: string;
+  jobReference?: string;
   title: string;
+  department?: string;
   location: string;
   sector: SectorSlug;
   discipline: string;
   experienceLevel: "entry" | "mid" | "senior" | "lead" | "executive";
-  type?: "full-time" | "contract";
+  type?: EmploymentType;
+  numberOfVacancies?: number;
+  experienceRequired?: string;
+  education?: string;
   postedAt?: string;
+  applicationDeadline?: string;
   summary: string;
   responsibilities: string[];
   requirements: string[];
+  preferredQualifications?: string[];
+  screeningQuestions?: ScreeningQuestion[];
   /** Live ATS/LinkedIn apply URL — never a PDF or mailto */
   applyHref: string;
-  source: "mock" | "linkedin" | "ats";
+  source: "dashboard" | "mock" | "linkedin" | "ats";
 }
 
 export interface LeadershipMember {

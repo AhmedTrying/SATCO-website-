@@ -49,16 +49,25 @@ export const toUser = (r: UserRow): UserAccount => ({
 export interface JobRow {
   id: string;
   slug: string;
+  job_reference: string | null;
   title: string;
+  department: string | null;
   location: string;
   sector: JobRecord["sector"];
   discipline: string;
   experience_level: JobRecord["experienceLevel"];
   type: JobRecord["type"] | null;
+  number_of_vacancies: number | null;
+  experience_required: string | null;
+  education: string | null;
   posted_at: Timestamp | null;
+  application_deadline: Timestamp | null;
   summary: string;
   responsibilities: string[];
   requirements: string[];
+  preferred_qualifications: string[] | null;
+  screening_questions: NonNullable<JobRecord["screeningQuestions"]> | null;
+  hiring_manager: string | null;
   apply_href: string;
   source: JobRecord["source"];
   state: JobRecord["state"];
@@ -69,16 +78,25 @@ export interface JobRow {
 export const toJob = (r: JobRow): JobRecord => ({
   id: r.id,
   slug: r.slug,
+  jobReference: opt(r.job_reference),
   title: r.title,
+  department: opt(r.department),
   location: r.location,
   sector: r.sector,
   discipline: r.discipline,
   experienceLevel: r.experience_level,
   type: opt(r.type),
+  numberOfVacancies: opt(r.number_of_vacancies),
+  experienceRequired: opt(r.experience_required),
+  education: opt(r.education),
   postedAt: isoOpt(r.posted_at),
+  applicationDeadline: isoOpt(r.application_deadline),
   summary: r.summary,
   responsibilities: r.responsibilities ?? [],
   requirements: r.requirements ?? [],
+  preferredQualifications: r.preferred_qualifications ?? [],
+  screeningQuestions: r.screening_questions ?? [],
+  hiringManager: opt(r.hiring_manager),
   applyHref: r.apply_href,
   source: r.source,
   state: r.state,
@@ -98,7 +116,9 @@ export interface ContactRow {
   assigned_dept: string;
   status: ContactSubmission["status"];
   assignee: string | null;
+  internal_note: string | null;
   created_at: Timestamp;
+  updated_at: Timestamp | null;
 }
 
 export const toContact = (r: ContactRow): ContactSubmission => ({
@@ -111,35 +131,73 @@ export const toContact = (r: ContactRow): ContactSubmission => ({
   assignedDept: r.assigned_dept,
   status: r.status,
   assignee: opt(r.assignee),
+  internalNote: opt(r.internal_note),
   createdAt: iso(r.created_at),
+  updatedAt: r.updated_at ? iso(r.updated_at) : undefined,
 });
 
 /* ---------------------------- job applications --------------------------- */
 
 export interface JobApplicationRow {
   id: string;
+  candidate_id: string | null;
   job_id: string;
   job_title: string;
   applicant_name: string;
   email: string;
   phone: string | null;
+  current_city: string | null;
+  country_of_residence: string | null;
+  current_job_title: string | null;
+  years_experience: number | null;
+  qualification: string | null;
+  specialization: string | null;
+  current_employer: string | null;
+  linkedin_url: string | null;
+  notice_period: string | null;
+  work_authorization: string | null;
+  skills: string[] | null;
+  application_source: string | null;
   cv_media_id: string | null;
   cover_note: string | null;
+  screening_answers: NonNullable<JobApplication["screeningAnswers"]> | null;
+  criteria_match: JobApplication["criteriaMatch"] | null;
+  internal_notes: NonNullable<JobApplication["internalNotes"]> | null;
+  history: NonNullable<JobApplication["history"]> | null;
   status: JobApplication["status"];
   created_at: Timestamp;
+  updated_at: Timestamp | null;
 }
 
 export const toJobApplication = (r: JobApplicationRow): JobApplication => ({
   id: r.id,
+  candidateId: opt(r.candidate_id),
   jobId: r.job_id,
   jobTitle: r.job_title,
   applicantName: r.applicant_name,
   email: r.email,
   phone: opt(r.phone),
+  currentCity: opt(r.current_city),
+  countryOfResidence: opt(r.country_of_residence),
+  currentJobTitle: opt(r.current_job_title),
+  yearsExperience: opt(r.years_experience),
+  qualification: opt(r.qualification),
+  specialization: opt(r.specialization),
+  currentEmployer: opt(r.current_employer),
+  linkedinUrl: opt(r.linkedin_url),
+  noticePeriod: opt(r.notice_period),
+  workAuthorization: opt(r.work_authorization),
+  skills: r.skills ?? [],
+  applicationSource: opt(r.application_source),
   cvMediaId: opt(r.cv_media_id),
   coverNote: opt(r.cover_note),
+  screeningAnswers: r.screening_answers ?? [],
+  criteriaMatch: opt(r.criteria_match),
+  internalNotes: r.internal_notes ?? [],
+  history: r.history ?? [],
   status: r.status,
   createdAt: iso(r.created_at),
+  updatedAt: r.updated_at ? iso(r.updated_at) : undefined,
 });
 
 /* -------------------------- general applications ------------------------- */

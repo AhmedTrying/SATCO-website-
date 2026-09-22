@@ -15,17 +15,23 @@ const BADGE: Record<string, string> = {
   // contact submission
   new: "badge-amber",
   "in-progress": "badge-stone",
-  handled: "badge-green",
-  archived: "badge-stone",
+  responded: "badge-green",
+  closed: "badge-red",
   // applications
-  reviewing: "badge-stone",
+  "under-review": "badge-stone",
   shortlisted: "badge-green",
+  interview: "badge-amber",
+  "final-review": "badge-amber",
+  offer: "badge-green",
   rejected: "badge-red",
   hired: "badge-green",
+  withdrawn: "badge-stone",
+  "talent-pool": "badge-stone",
   // jobs
-  open: "badge-green",
-  closed: "badge-red",
+  published: "badge-green",
+  paused: "badge-amber",
   draft: "badge-amber",
+  archived: "badge-stone",
 };
 
 export function statusBadgeClass(status: string): string {
@@ -33,5 +39,8 @@ export function statusBadgeClass(status: string): string {
 }
 
 export function titleCase(s: string): string {
-  return s.charAt(0).toUpperCase() + s.slice(1);
+  return s
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }

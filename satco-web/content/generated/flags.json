@@ -1,14 +1,14 @@
 {
-  "loading_duration_ms": 1200,
-  "show_review_control": false,
+  "careers_source": "dashboard",
   "show_vendor_tab": false,
-  "show_pending_experience": false,
+  "maintenance_banner": null,
   "section_visibility": {
     "statBand": true,
     "whoWeAre": true,
     "careersTeaser": true,
     "contactTeaser": true
   },
-  "careers_source": "dashboard",
-  "maintenance_banner": null
+  "loading_duration_ms": 1200,
+  "show_review_control": false,
+  "show_pending_experience": false
 }

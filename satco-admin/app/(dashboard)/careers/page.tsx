@@ -10,7 +10,11 @@ import { can, requireSession } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
-export default async function CareersPage() {
+export default async function CareersPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tab?: string; job?: string }>;
+}) {
   const session = await requireSession();
   const canEdit = can(session, "edit");
   const canManage = can(session, "manageJobs");
@@ -22,6 +26,13 @@ export default async function CareersPage() {
     adapters.submissions.listApplications(),
     adapters.submissions.listGeneralApplications(),
   ]);
+  const params = await searchParams;
+  const summary = [
+    { label: "Open jobs", value: jobs.filter((job) => job.state === "published").length },
+    { label: "Draft jobs", value: jobs.filter((job) => job.state === "draft").length },
+    { label: "Closed jobs", value: jobs.filter((job) => job.state === "closed").length },
+    { label: "Total applications", value: applications.length },
+  ];
 
   const restricted = (
     <div className="card p-6 text-sm text-muted">
@@ -34,9 +45,19 @@ export default async function CareersPage() {
     <>
       <PageHeader
         title="Careers"
-        description="Manage job postings and triage applications. Dashboard is the source of truth; a LinkedIn/ATS feed importer can mirror into the same jobs later (plan §9)."
+        description="Manage vacancies and move candidates through a clear recruitment process."
       />
+      <div className="mb-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+        {summary.map((item) => (
+          <div key={item.label} className="card px-4 py-3">
+            <p className="text-xs font-medium text-muted">{item.label}</p>
+            <p className="mt-1 text-2xl font-semibold text-strong">{item.value}</p>
+          </div>
+        ))}
+      </div>
       <Tabs
+        key={params.tab ?? "jobs"}
+        initialId={params.tab}
         tabs={[
           {
             id: "jobs",
@@ -44,6 +65,7 @@ export default async function CareersPage() {
             content: (
               <JobsManager
                 jobs={jobs}
+                applications={applications}
                 canEdit={canEdit}
                 canManage={canManage}
                 canDelete={canDelete}
@@ -58,6 +80,7 @@ export default async function CareersPage() {
                 applications={applications}
                 canManage={canManage}
                 canDownloadCv={canDownloadCv}
+                initialJobId={params.job}
               />
             ) : (
               restricted
@@ -79,13 +102,6 @@ export default async function CareersPage() {
         ]}
       />
 
-      <p className="mt-6 text-xs text-muted">
-        <strong>Seam (TODO Supabase):</strong> jobs live in a <code>jobs</code> table
-        read at runtime by the site (state = open); applications insert from the
-        site with CVs in a private bucket, downloadable here via signed URLs. An
-        optional Edge Function imports a LinkedIn/ATS feed into the same table
-        (dedupe by external id). No PDF-only or email-only apply (comment #42).
-      </p>
     </>
   );
 }

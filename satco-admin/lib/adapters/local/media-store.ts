@@ -1,7 +1,7 @@
 /*
- * Local MediaStore — an index (media.json) plus files written under public/uploads.
- * Alt text is required (a11y) for public media. TODO(supabase): Storage buckets
- * (public-media + private-uploads) with signed URLs for the private bucket.
+ * Local MediaStore — an index (media.json), public assets under public/uploads,
+ * and private files under data/private-uploads. Alt text is required (a11y) for
+ * public media. Object storage replaces local private files for deployment.
  */
 
 import { promises as fs } from "node:fs";
@@ -13,7 +13,23 @@ import type { MediaStore, NewMedia } from "../types";
 import { makeId, readStore, writeStore } from "./store";
 
 const FILE = "media.json";
-const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads");
+const PUBLIC_UPLOAD_DIR = path.join(process.cwd(), "public", "uploads");
+const PRIVATE_UPLOAD_DIR = path.join(process.cwd(), "data", "private-uploads");
+
+function uploadLocation(bucket: MediaBucket, id: string, filename: string) {
+  const storedFilename = `${id}-${path.basename(filename)}`;
+  return bucket === "private-uploads"
+    ? {
+        directory: PRIVATE_UPLOAD_DIR,
+        storedFilename,
+        publicPath: `/api/private/media/${id}`,
+      }
+    : {
+        directory: PUBLIC_UPLOAD_DIR,
+        storedFilename,
+        publicPath: `/uploads/${storedFilename}`,
+      };
+}
 
 async function all(): Promise<MediaItem[]> {
   return readStore<MediaItem[]>(FILE);
@@ -34,20 +50,17 @@ export const localMediaStore: MediaStore = {
       throw new Error("Alt text is required for public media (accessibility).");
     }
     const id = makeId("media");
-    let publicPath = `/uploads/${id}-${item.filename}`;
+    const location = uploadLocation(item.bucket, id, item.filename);
 
     if (item.dataBase64) {
-      await fs.mkdir(UPLOAD_DIR, { recursive: true });
+      await fs.mkdir(location.directory, { recursive: true });
       const bytes = Buffer.from(item.dataBase64, "base64");
-      await fs.writeFile(path.join(UPLOAD_DIR, `${id}-${item.filename}`), bytes);
-    } else {
-      // No bytes provided (index-only entry).
-      publicPath = `/uploads/${id}-${item.filename}`;
+      await fs.writeFile(path.join(location.directory, location.storedFilename), bytes);
     }
 
     const record: MediaItem = {
       id,
-      path: publicPath,
+      path: location.publicPath,
       filename: item.filename,
       alt: item.alt,
       bucket: item.bucket,
@@ -85,7 +98,12 @@ export const localMediaStore: MediaStore = {
       items.filter((m) => m.id !== id),
     );
     // Best-effort delete of the uploaded file (ignore if it was an index-only entry).
-    if (item?.path.startsWith("/uploads/")) {
+    if (item?.bucket === "private-uploads") {
+      const location = uploadLocation(item.bucket, item.id, item.filename);
+      await fs
+        .unlink(path.join(location.directory, location.storedFilename))
+        .catch(() => undefined);
+    } else if (item?.path.startsWith("/uploads/")) {
       await fs
         .unlink(path.join(process.cwd(), "public", item.path))
         .catch(() => undefined);

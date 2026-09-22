@@ -14,6 +14,7 @@ satco-admin/.next/
 
 # Dashboard local stores (mutable runtime data — the Supabase stand-in)
 satco-admin/data/store/
+satco-admin/data/private-uploads/
 satco-admin/public/uploads/
 
 # Env & logs

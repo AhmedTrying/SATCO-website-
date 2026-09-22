@@ -1,14 +1,13 @@
 /*
  * Neon PublishService — the working link to the site (kickoff §2.2 / §3).
  *
- * publish() snapshots the Neon draft → published row, writes the site's generated
- * content JSON (satco-web/content/generated/*.json — the DA3 build target, still a
- * filesystem write while the admin runs locally), and records publish history +
- * audit rows in Postgres. Rebuild stays manual (`npm run build:web`).
+ * publish() snapshots the Neon draft → published row, records publish history +
+ * audit rows in Postgres, and triggers the configured site deploy hook.
  *
- * When the dashboard itself is deployed (read-only serverless FS), this flips to a
- * build-time content fetch + a debounced deploy hook instead of the local JSON
- * write — see docs/NEON-SWAP.md §2. The interface is unchanged either way.
+ * Local development also refreshes satco-web/content/generated/*.json so the
+ * website can be rebuilt immediately. Vercel has a read-only deployment
+ * filesystem, so deployed dashboard requests skip that local-only write; the
+ * website prebuild pulls the published snapshot from Neon instead.
  */
 
 import type { ContentBundle, PublishRecord } from "@satco/shared";
@@ -77,6 +76,11 @@ async function fireDeployHook(): Promise<void> {
   }
 }
 
+async function writeLocalGeneratedSnapshot(bundle: ContentBundle): Promise<void> {
+  if (process.env.VERCEL === "1") return;
+  await writeGeneratedContent(bundle);
+}
+
 export const neonPublishService: PublishService = {
   diff(): Promise<PublishDiffEntry[]> {
     return computeDiff();
@@ -87,8 +91,9 @@ export const neonPublishService: PublishService = {
     const diff = await computeDiff();
     const changedKeys = diff.filter((d) => d.changed).map((d) => d.key);
 
-    // 1. Write the site's generated content bundle (what `next build` reads).
-    await writeGeneratedContent(draft);
+    // 1. Keep the local generated bundle in sync. Deployed Vercel functions have
+    //    a read-only filesystem, so the website prebuild reads Neon directly.
+    await writeLocalGeneratedSnapshot(draft);
     // 2. Snapshot draft → published (the new "live" baseline).
     await writePublishedSnapshot(draft);
 

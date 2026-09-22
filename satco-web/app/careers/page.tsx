@@ -17,8 +17,8 @@ export const metadata: Metadata = {
 };
 
 /* Careers — copy verbatim docx; no PDFs, no email-only workflows (locked). */
-export default function CareersPage() {
-  const jobs = getJobs();
+export default async function CareersPage() {
+  const jobs = await getJobs();
   return (
     <>
       <PageHeader

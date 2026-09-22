@@ -3,13 +3,8 @@ import { archivo, archivoExpanded, inter } from "./fonts";
 import "./globals.css";
 import { site } from "@/content/site";
 import { SITE_URL } from "@/lib/seo";
-import { Footer } from "@/components/layout/Footer";
-import { LoadingScreen } from "@/components/loading/LoadingScreen";
-import { MaintenanceBanner } from "@/components/layout/MaintenanceBanner";
-import { Nav } from "@/components/layout/Nav";
-import { RouteFocus } from "@/components/layout/RouteFocus";
-import { SkipLink } from "@/components/layout/SkipLink";
 import { MotionProvider } from "@/components/motion/MotionProvider";
+import { SiteShell } from "@/components/layout/SiteShell";
 
 const introBootstrapScript = `
   try {
@@ -56,15 +51,7 @@ export default function RootLayout({
           <style>{`.reveal-init{opacity:1!important;transform:none!important}`}</style>
         </noscript>
         <MotionProvider>
-          <LoadingScreen />
-          <MaintenanceBanner />
-          <SkipLink />
-          <Nav />
-          <main id="main" className="flex-1">
-            {children}
-          </main>
-          <Footer />
-          <RouteFocus />
+          <SiteShell>{children}</SiteShell>
         </MotionProvider>
       </body>
     </html>

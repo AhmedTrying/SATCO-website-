@@ -54,11 +54,12 @@ export type ContentStatus = "draft" | "published";
 
 /* ------------------------------- Jobs ------------------------------------ */
 
-export type JobState = "draft" | "open" | "closed";
+export type JobState = "draft" | "published" | "paused" | "closed" | "archived";
 
 /** A job as stored in the dashboard: the site's Job shape + lifecycle metadata. */
 export interface JobRecord extends Job {
   state: JobState;
+  hiringManager?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -67,23 +68,73 @@ export interface JobRecord extends Job {
 
 export type ApplicationStatus =
   | "new"
-  | "reviewing"
+  | "under-review"
   | "shortlisted"
+  | "interview"
+  | "final-review"
+  | "offer"
+  | "hired"
   | "rejected"
-  | "hired";
+  | "withdrawn"
+  | "talent-pool";
+
+export type CriteriaMatch =
+  | "meets-required"
+  | "needs-review"
+  | "missing-required";
+
+export interface ScreeningAnswer {
+  questionId: string;
+  question: string;
+  criteria: "required" | "preferred";
+  answer: string;
+  meetsCriteria?: boolean;
+}
+
+export interface ApplicationNote {
+  id: string;
+  body: string;
+  author: string;
+  createdAt: string;
+}
+
+export interface ApplicationHistoryItem {
+  id: string;
+  label: string;
+  detail?: string;
+  createdAt: string;
+}
 
 export interface JobApplication {
   id: string;
+  candidateId?: string;
   jobId: string;
   jobTitle: string;
   applicantName: string;
   email: string;
   phone?: string;
+  currentCity?: string;
+  countryOfResidence?: string;
+  currentJobTitle?: string;
+  yearsExperience?: number;
+  qualification?: string;
+  specialization?: string;
+  currentEmployer?: string;
+  linkedinUrl?: string;
+  noticePeriod?: string;
+  workAuthorization?: string;
+  skills?: string[];
+  applicationSource?: string;
   /** Private-bucket media id (CV) — signed-URL access for publisher/admin only. */
   cvMediaId?: string;
   coverNote?: string;
+  screeningAnswers?: ScreeningAnswer[];
+  criteriaMatch?: CriteriaMatch;
+  internalNotes?: ApplicationNote[];
+  history?: ApplicationHistoryItem[];
   status: ApplicationStatus;
   createdAt: string;
+  updatedAt?: string;
 }
 
 export type GeneralApplicationStatus = "new" | "reviewing" | "archived";
@@ -103,7 +154,7 @@ export interface GeneralApplication {
 
 /* ------------------------------- Contact --------------------------------- */
 
-export type SubmissionStatus = "new" | "in-progress" | "handled" | "archived";
+export type SubmissionStatus = "new" | "in-progress" | "responded" | "closed";
 
 export interface ContactSubmission {
   id: string;
@@ -117,7 +168,9 @@ export interface ContactSubmission {
   status: SubmissionStatus;
   /** Staff member handling it (email), if assigned. */
   assignee?: string;
+  internalNote?: string;
   createdAt: string;
+  updatedAt?: string;
 }
 
 /* ------------------------------- Media ----------------------------------- */

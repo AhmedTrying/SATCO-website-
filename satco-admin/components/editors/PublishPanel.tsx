@@ -23,9 +23,9 @@ export function PublishPanel({
         <div>
           <h2 className="text-sm font-semibold text-strong">Publish to the site</h2>
           <p className="mt-0.5 text-xs text-muted">
-            Publishes the draft — updates Neon and the site content bundle. With a
-            Vercel deploy hook configured, the live site rebuilds automatically in
-            ~1-2 min; otherwise run <code>npm run build:web</code>.
+            Saves the draft as the published Neon snapshot and triggers the
+            configured website rebuild. Local development also refreshes the
+            generated site content files.
           </p>
         </div>
         <button

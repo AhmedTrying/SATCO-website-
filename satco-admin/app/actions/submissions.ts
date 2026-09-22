@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 
 import type { ContactSubmission, SubmissionStatus } from "@satco/shared";
+import { submissionStatusSchema } from "@satco/shared/schemas";
 
 import { adapters } from "@/lib/adapters";
 import { requireCapability } from "@/lib/auth";
@@ -14,7 +15,7 @@ export interface SubmissionResult {
 
 export async function updateSubmission(
   id: string,
-  patch: Partial<Pick<ContactSubmission, "status" | "assignee">>,
+  patch: Partial<Pick<ContactSubmission, "status" | "assignee" | "internalNote">>,
 ): Promise<SubmissionResult> {
   try {
     const session = await requireCapability("manageJobs");
@@ -44,5 +45,9 @@ export async function setSubmissionStatus(
   id: string,
   status: SubmissionStatus,
 ): Promise<SubmissionResult> {
-  return updateSubmission(id, { status });
+  try {
+    return updateSubmission(id, { status: submissionStatusSchema.parse(status) });
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : "Failed" };
+  }
 }

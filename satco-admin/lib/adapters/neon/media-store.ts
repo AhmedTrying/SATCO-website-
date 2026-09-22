@@ -1,6 +1,7 @@
 /*
  * Neon MediaStore — the `media` index table. File bytes still land under
- * public/uploads locally (object storage + signed URLs for private-uploads later);
+ * public/uploads locally; private files live outside the public tree under
+ * data/private-uploads (object storage + signed URLs replace this on Vercel later).
  * only the index row moves to Postgres. The required-alt-text rule for public media
  * (a11y) is preserved. Interface unchanged.
  */
@@ -15,7 +16,23 @@ import { makeId } from "../local/store";
 import { query, queryOne } from "../../db";
 import { toMedia, type MediaRow } from "./mappers";
 
-const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads");
+const PUBLIC_UPLOAD_DIR = path.join(process.cwd(), "public", "uploads");
+const PRIVATE_UPLOAD_DIR = path.join(process.cwd(), "data", "private-uploads");
+
+function uploadLocation(bucket: MediaBucket, id: string, filename: string) {
+  const storedFilename = `${id}-${path.basename(filename)}`;
+  return bucket === "private-uploads"
+    ? {
+        directory: PRIVATE_UPLOAD_DIR,
+        storedFilename,
+        publicPath: `/api/private/media/${id}`,
+      }
+    : {
+        directory: PUBLIC_UPLOAD_DIR,
+        storedFilename,
+        publicPath: `/uploads/${storedFilename}`,
+      };
+}
 
 export const neonMediaStore: MediaStore = {
   async list(bucket?: MediaBucket): Promise<MediaItem[]> {
@@ -38,17 +55,17 @@ export const neonMediaStore: MediaStore = {
       throw new Error("Alt text is required for public media (accessibility).");
     }
     const id = makeId("media");
-    const publicPath = `/uploads/${id}-${item.filename}`;
+    const location = uploadLocation(item.bucket, id, item.filename);
 
     if (item.dataBase64) {
-      await fs.mkdir(UPLOAD_DIR, { recursive: true });
+      await fs.mkdir(location.directory, { recursive: true });
       const bytes = Buffer.from(item.dataBase64, "base64");
-      await fs.writeFile(path.join(UPLOAD_DIR, `${id}-${item.filename}`), bytes);
+      await fs.writeFile(path.join(location.directory, location.storedFilename), bytes);
     }
 
     const record: MediaItem = {
       id,
-      path: publicPath,
+      path: location.publicPath,
       filename: item.filename,
       alt: item.alt,
       bucket: item.bucket,
@@ -100,7 +117,12 @@ export const neonMediaStore: MediaStore = {
     await query("delete from media where id = $1", [id]);
     // Best-effort delete of the uploaded file (seed rows point at /images/*, not
     // /uploads/*, and are left untouched).
-    if (existing?.path?.startsWith("/uploads/")) {
+    if (existing?.bucket === "private-uploads") {
+      const location = uploadLocation(existing.bucket, existing.id, existing.filename);
+      await fs
+        .unlink(path.join(location.directory, location.storedFilename))
+        .catch(() => undefined);
+    } else if (existing?.path?.startsWith("/uploads/")) {
       await fs
         .unlink(path.join(process.cwd(), "public", existing.path))
         .catch(() => undefined);

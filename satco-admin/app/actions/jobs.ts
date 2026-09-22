@@ -9,6 +9,7 @@ import { z } from "zod";
 import { adapters } from "@/lib/adapters";
 import type { JobInput } from "@/lib/adapters/types";
 import { requireCapability } from "@/lib/auth";
+import { refreshPublicJobs } from "@/lib/careers-feed";
 
 export interface JobResult {
   ok: boolean;
@@ -20,6 +21,7 @@ export interface JobResult {
 const jobInputSchema = jobSchema.extend({
   id: z.string(),
   state: jobStateSchema,
+  hiringManager: z.string().optional(),
 });
 
 function fail(e: unknown): JobResult {
@@ -33,8 +35,17 @@ function fail(e: unknown): JobResult {
 export async function saveJob(data: unknown): Promise<JobResult> {
   try {
     const session = await requireCapability("edit");
-    const input = jobInputSchema.parse(data) as JobInput;
-    const existing = input.id ? await adapters.jobs.get(input.slug) : undefined;
+    const parsed = jobInputSchema.parse(data) as JobInput;
+    const input: JobInput = {
+      ...parsed,
+      postedAt:
+        parsed.state === "published" && !parsed.postedAt
+          ? new Date().toISOString()
+          : parsed.postedAt,
+    };
+    const existing = input.id
+      ? (await adapters.jobs.list()).find((candidate) => candidate.id === input.id)
+      : undefined;
     let job: JobRecord;
     if (input.id && existing) {
       job = await adapters.jobs.update(input.id, input);
@@ -47,6 +58,9 @@ export async function saveJob(data: unknown): Promise<JobResult> {
       entity: "job",
       entityId: job.id,
       summary: `${input.id && existing ? "Updated" : "Created"} job: ${job.title}.`,
+    });
+    await refreshPublicJobs(await adapters.jobs.list(), {
+      deploy: job.state === "published" || existing?.state === "published",
     });
     revalidatePath("/careers");
     return { ok: true, job };
@@ -67,6 +81,7 @@ export async function setJobState(id: string, state: JobState): Promise<JobResul
       entityId: id,
       summary: `Job "${job.title}" → ${parsed}.`,
     });
+    await refreshPublicJobs(await adapters.jobs.list(), { deploy: true });
     revalidatePath("/careers");
     return { ok: true, job };
   } catch (e) {
@@ -85,6 +100,7 @@ export async function deleteJob(id: string): Promise<JobResult> {
       entityId: id,
       summary: `Deleted job ${id}.`,
     });
+    await refreshPublicJobs(await adapters.jobs.list(), { deploy: true });
     revalidatePath("/careers");
     return { ok: true };
   } catch (e) {

@@ -102,16 +102,24 @@ export interface JobStore {
 
 /* ----------------------------- SubmissionStore --------------------------- */
 
+export type NewJobApplication = Omit<
+  JobApplication,
+  "id" | "status" | "createdAt"
+>;
+
 export interface SubmissionStore {
   listContact(): Promise<ContactSubmission[]>;
   updateContact(
     id: string,
-    patch: Partial<Pick<ContactSubmission, "status" | "assignee">>,
+    patch: Partial<Pick<ContactSubmission, "status" | "assignee" | "internalNote">>,
   ): Promise<ContactSubmission>;
   listApplications(): Promise<JobApplication[]>;
+  createApplication(input: NewJobApplication): Promise<JobApplication>;
   updateApplication(
     id: string,
-    patch: Partial<Pick<JobApplication, "status">>,
+    patch: Partial<
+      Pick<JobApplication, "status" | "internalNotes" | "history" | "criteriaMatch">
+    >,
   ): Promise<JobApplication>;
   listGeneralApplications(): Promise<GeneralApplication[]>;
   updateGeneralApplication(

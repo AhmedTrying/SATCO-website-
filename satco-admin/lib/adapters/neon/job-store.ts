@@ -12,23 +12,34 @@ import { query, queryOne, jsonbParam } from "../../db";
 import { toJob, type JobRow } from "./mappers";
 
 const INSERT_COLUMNS =
-  "id, slug, title, location, sector, discipline, experience_level, type, posted_at, " +
-  "summary, responsibilities, requirements, apply_href, source, state, created_at, updated_at";
+  "id, slug, job_reference, title, department, location, sector, discipline, experience_level, type, " +
+  "number_of_vacancies, experience_required, education, posted_at, application_deadline, summary, " +
+  "responsibilities, requirements, preferred_qualifications, screening_questions, hiring_manager, " +
+  "apply_href, source, state, created_at, updated_at";
 
 function jobValues(job: JobRecord): unknown[] {
   return [
     job.id,
     job.slug,
+    job.jobReference ?? null,
     job.title,
+    job.department ?? null,
     job.location,
     job.sector,
     job.discipline,
     job.experienceLevel,
     job.type ?? null,
+    job.numberOfVacancies ?? null,
+    job.experienceRequired ?? null,
+    job.education ?? null,
     job.postedAt ?? null,
+    job.applicationDeadline ?? null,
     job.summary,
     jsonbParam(job.responsibilities),
     jsonbParam(job.requirements),
+    jsonbParam(job.preferredQualifications ?? []),
+    jsonbParam(job.screeningQuestions ?? []),
+    job.hiringManager ?? null,
     job.applyHref,
     job.source,
     job.state,
@@ -48,24 +59,37 @@ async function patchJob(id: string, patch: Partial<JobInput>): Promise<JobRecord
   };
   await query(
     `update jobs set
-       slug = $2, title = $3, location = $4, sector = $5, discipline = $6,
-       experience_level = $7, type = $8, posted_at = $9, summary = $10,
-       responsibilities = $11::jsonb, requirements = $12::jsonb, apply_href = $13,
-       source = $14, state = $15, updated_at = $16
+       slug = $2, job_reference = $3, title = $4, department = $5, location = $6,
+       sector = $7, discipline = $8, experience_level = $9, type = $10,
+       number_of_vacancies = $11, experience_required = $12, education = $13,
+       posted_at = $14, application_deadline = $15, summary = $16,
+       responsibilities = $17::jsonb, requirements = $18::jsonb,
+       preferred_qualifications = $19::jsonb, screening_questions = $20::jsonb,
+       hiring_manager = $21, apply_href = $22, source = $23, state = $24,
+       updated_at = $25
      where id = $1`,
     [
       updated.id,
       updated.slug,
+      updated.jobReference ?? null,
       updated.title,
+      updated.department ?? null,
       updated.location,
       updated.sector,
       updated.discipline,
       updated.experienceLevel,
       updated.type ?? null,
+      updated.numberOfVacancies ?? null,
+      updated.experienceRequired ?? null,
+      updated.education ?? null,
       updated.postedAt ?? null,
+      updated.applicationDeadline ?? null,
       updated.summary,
       jsonbParam(updated.responsibilities),
       jsonbParam(updated.requirements),
+      jsonbParam(updated.preferredQualifications ?? []),
+      jsonbParam(updated.screeningQuestions ?? []),
+      updated.hiringManager ?? null,
       updated.applyHref,
       updated.source,
       updated.state,
@@ -96,8 +120,8 @@ export const neonJobStore: JobStore = {
       createdAt: now,
       updatedAt: now,
     };
-    const placeholders = Array.from({ length: 17 }, (_, i) =>
-      i === 10 || i === 11 ? `$${i + 1}::jsonb` : `$${i + 1}`,
+    const placeholders = Array.from({ length: 26 }, (_, i) =>
+      i >= 16 && i <= 19 ? `$${i + 1}::jsonb` : `$${i + 1}`,
     ).join(", ");
     await query(
       `insert into jobs (${INSERT_COLUMNS}) values (${placeholders})`,

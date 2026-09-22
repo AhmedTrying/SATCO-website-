@@ -4,10 +4,15 @@ import { useState } from "react";
 
 export function Tabs({
   tabs,
+  initialId,
 }: {
   tabs: { id: string; label: string; content: React.ReactNode }[];
+  initialId?: string;
 }) {
-  const [active, setActive] = useState(tabs[0]?.id);
+  const [active, setActive] = useState(
+    tabs.some((tab) => tab.id === initialId) ? initialId : tabs[0]?.id,
+  );
+
   return (
     <div>
       <div

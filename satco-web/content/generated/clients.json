@@ -2,182 +2,182 @@
   "clientsPage": {
     "title": "Clients",
     "subline": "Organizations that have trusted SATCO across its operating sectors and delivery models.",
-    "selectedHeading": "Selected Clients",
-    "selectedSub": "A selection of organizations SATCO has delivered for across its sectors.",
-    "directoryHeading": "Full client list",
-    "searchLabel": "Search clients",
-    "emptyMessage": "No clients match that search.",
+    "countLabel": "clients",
     "disclaimer": "Client names and logos are the property of their respective owners and are used for identification purposes only. Their inclusion does not imply endorsement, sponsorship, or an ongoing relationship unless expressly stated.",
+    "searchLabel": "Search clients",
+    "selectedSub": "A selection of organizations SATCO has delivered for across its sectors.",
+    "allChipLabel": "All",
+    "emptyMessage": "No clients match that search.",
     "selectedTitle": "Organizations SATCO has delivered for",
+    "selectedHeading": "Selected Clients",
     "directoryEyebrow": "Directory",
+    "directoryHeading": "Full client list",
     "statClientsLabel": "Clients served",
     "statSectorsLabel": "Sectors",
-    "allChipLabel": "All",
-    "countLabel": "clients",
     "countLabelSingular": "client"
   },
   "clients": [
     {
       "id": "sel-0",
-      "name": "General Authority of Civil Aviation",
-      "tier": "selected",
       "logo": {
-        "src": "/logos/gaca.png",
-        "alt": "General Authority of Civil Aviation logo"
-      }
+        "alt": "General Authority of Civil Aviation logo",
+        "src": "/logos/gaca.png"
+      },
+      "name": "General Authority of Civil Aviation",
+      "tier": "selected"
     },
     {
       "id": "sel-1",
-      "name": "Riyadh Airports Company",
-      "tier": "selected",
       "logo": {
-        "src": "/logos/riyadh-airports.png",
-        "alt": "Riyadh Airports Company logo"
-      }
+        "alt": "Riyadh Airports Company logo",
+        "src": "/logos/riyadh-airports.png"
+      },
+      "name": "Riyadh Airports Company",
+      "tier": "selected"
     },
     {
       "id": "sel-2",
-      "name": "Saudia",
-      "tier": "selected",
       "logo": {
-        "src": "/logos/saudia.png",
-        "alt": "Saudia logo"
-      }
+        "alt": "Saudia logo",
+        "src": "/logos/saudia.png"
+      },
+      "name": "Saudia",
+      "tier": "selected"
     },
     {
       "id": "sel-3",
-      "name": "Saudi Ports Authority (Mawani)",
-      "tier": "selected",
       "logo": {
-        "src": "/logos/mawani.png",
-        "alt": "Saudi Ports Authority (Mawani) logo"
-      }
+        "alt": "Saudi Ports Authority (Mawani) logo",
+        "src": "/logos/mawani.png"
+      },
+      "name": "Saudi Ports Authority (Mawani)",
+      "tier": "selected"
     },
     {
       "id": "sel-4",
-      "name": "Saudi Arabia Railways (SAR)",
-      "tier": "selected",
       "logo": {
-        "src": "/logos/sar.png",
-        "alt": "Saudi Arabia Railways (SAR) logo"
-      }
+        "alt": "Saudi Arabia Railways (SAR) logo",
+        "src": "/logos/sar.png"
+      },
+      "name": "Saudi Arabia Railways (SAR)",
+      "tier": "selected"
     },
     {
       "id": "sel-5",
-      "name": "Riyadh Metro",
-      "tier": "selected",
       "logo": {
-        "src": "/logos/riyadh-metro.png",
-        "alt": "Riyadh Metro logo"
-      }
+        "alt": "Riyadh Metro logo",
+        "src": "/logos/riyadh-metro.png"
+      },
+      "name": "Riyadh Metro",
+      "tier": "selected"
     },
     {
       "id": "sel-6",
-      "name": "NEOM",
-      "tier": "selected",
       "logo": {
-        "src": "/logos/neom.png",
-        "alt": "NEOM logo"
-      }
+        "alt": "NEOM logo",
+        "src": "/logos/neom.png"
+      },
+      "name": "NEOM",
+      "tier": "selected"
     },
     {
       "id": "sel-7",
-      "name": "Red Sea Global",
-      "tier": "selected",
       "logo": {
-        "src": "/logos/red-sea-global.png",
-        "alt": "Red Sea Global logo"
-      }
+        "alt": "Red Sea Global logo",
+        "src": "/logos/red-sea-global.png"
+      },
+      "name": "Red Sea Global",
+      "tier": "selected"
     },
     {
       "id": "sel-8",
-      "name": "King Abdullah Economic City",
-      "tier": "selected",
       "logo": {
-        "src": "/logos/kaec.png",
-        "alt": "King Abdullah Economic City logo"
-      }
+        "alt": "King Abdullah Economic City logo",
+        "src": "/logos/kaec.png"
+      },
+      "name": "King Abdullah Economic City",
+      "tier": "selected"
     },
     {
       "id": "sel-9",
-      "name": "Royal Commission for Jubail & Yanbu",
-      "tier": "selected",
       "logo": {
-        "src": "/logos/rcjy.png",
-        "alt": "Royal Commission for Jubail & Yanbu logo"
-      }
+        "alt": "Royal Commission for Jubail & Yanbu logo",
+        "src": "/logos/rcjy.png"
+      },
+      "name": "Royal Commission for Jubail & Yanbu",
+      "tier": "selected"
     },
     {
       "id": "sel-10",
-      "name": "Royal Commission for Riyadh City",
-      "tier": "selected",
       "logo": {
-        "src": "/logos/rcrc.png",
-        "alt": "Royal Commission for Riyadh City logo"
-      }
+        "alt": "Royal Commission for Riyadh City logo",
+        "src": "/logos/rcrc.png"
+      },
+      "name": "Royal Commission for Riyadh City",
+      "tier": "selected"
     },
     {
       "id": "sel-11",
-      "name": "National Housing Company",
-      "tier": "selected",
       "logo": {
-        "src": "/logos/nhc.png",
-        "alt": "National Housing Company logo"
-      }
+        "alt": "National Housing Company logo",
+        "src": "/logos/nhc.png"
+      },
+      "name": "National Housing Company",
+      "tier": "selected"
     },
     {
       "id": "sel-12",
-      "name": "Saudi Aramco",
-      "tier": "selected",
       "logo": {
-        "src": "/logos/aramco.png",
-        "alt": "Saudi Aramco logo"
-      }
+        "alt": "Saudi Aramco logo",
+        "src": "/logos/aramco.png"
+      },
+      "name": "Saudi Aramco",
+      "tier": "selected"
     },
     {
       "id": "sel-13",
-      "name": "SABIC",
-      "tier": "selected",
       "logo": {
-        "src": "/logos/sabic.png",
-        "alt": "SABIC logo"
-      }
+        "alt": "SABIC logo",
+        "src": "/logos/sabic.png"
+      },
+      "name": "SABIC",
+      "tier": "selected"
     },
     {
       "id": "sel-14",
-      "name": "Ma’aden",
-      "tier": "selected",
       "logo": {
-        "src": "/logos/maaden.png",
-        "alt": "Ma’aden logo"
-      }
+        "alt": "Ma’aden logo",
+        "src": "/logos/maaden.png"
+      },
+      "name": "Ma’aden",
+      "tier": "selected"
     },
     {
       "id": "sel-15",
-      "name": "Saudi Electricity Company",
-      "tier": "selected",
       "logo": {
-        "src": "/logos/sec.png",
-        "alt": "Saudi Electricity Company logo"
-      }
+        "alt": "Saudi Electricity Company logo",
+        "src": "/logos/sec.png"
+      },
+      "name": "Saudi Electricity Company",
+      "tier": "selected"
     },
     {
       "id": "sel-16",
-      "name": "ACWA Power",
-      "tier": "selected",
       "logo": {
-        "src": "/logos/acwa.png",
-        "alt": "ACWA Power logo"
-      }
+        "alt": "ACWA Power logo",
+        "src": "/logos/acwa.png"
+      },
+      "name": "ACWA Power",
+      "tier": "selected"
     },
     {
       "id": "sel-17",
-      "name": "Saudi Water Authority",
-      "tier": "selected",
       "logo": {
-        "src": "/logos/swa.png",
-        "alt": "Saudi Water Authority logo"
-      }
+        "alt": "Saudi Water Authority logo",
+        "src": "/logos/swa.png"
+      },
+      "name": "Saudi Water Authority",
+      "tier": "selected"
     },
     {
       "id": "dir-0",

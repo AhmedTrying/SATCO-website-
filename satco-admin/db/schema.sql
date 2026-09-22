@@ -40,19 +40,28 @@ create table if not exists jobs (
   seq               bigserial,
   id                text primary key,
   slug              text        not null unique,
+  job_reference     text,
   title             text        not null,
+  department        text,
   location          text        not null,
   sector            text        not null,
   discipline        text        not null,
   experience_level  text        not null,
   type              text,
+  number_of_vacancies integer,
+  experience_required text,
+  education         text,
   posted_at         timestamptz,
+  application_deadline timestamptz,
   summary           text        not null,
   responsibilities  jsonb       not null default '[]'::jsonb,
   requirements      jsonb       not null default '[]'::jsonb,
+  preferred_qualifications jsonb not null default '[]'::jsonb,
+  screening_questions jsonb not null default '[]'::jsonb,
+  hiring_manager    text,
   apply_href        text        not null,
   source            text        not null,
-  state             text        not null check (state in ('draft', 'open', 'closed')),
+  state             text        not null check (state in ('draft', 'published', 'paused', 'closed', 'archived')),
   created_at        timestamptz  not null default now(),
   updated_at        timestamptz  not null default now()
 );
@@ -67,25 +76,90 @@ create table if not exists contact_submissions (
   inquiry_type   text        not null,
   message        text        not null,
   assigned_dept  text        not null,
-  status         text        not null check (status in ('new', 'in-progress', 'handled', 'archived')),
+  status         text        not null check (status in ('new', 'in-progress', 'responded', 'closed')),
   assignee       text,
-  created_at     timestamptz  not null default now()
+  internal_note  text,
+  created_at     timestamptz  not null default now(),
+  updated_at     timestamptz  not null default now()
 );
 
 -- Job applications -----------------------------------------------------------
 create table if not exists job_applications (
   seq             bigserial,
   id              text primary key,
+  candidate_id    text,
   job_id          text        not null,
   job_title       text        not null,
   applicant_name  text        not null,
   email           text        not null,
   phone           text,
+  current_city    text,
+  country_of_residence text,
+  current_job_title text,
+  years_experience integer,
+  qualification   text,
+  specialization  text,
+  current_employer text,
+  linkedin_url    text,
+  notice_period   text,
+  work_authorization text,
+  skills          jsonb       not null default '[]'::jsonb,
+  application_source text,
   cv_media_id     text,
   cover_note      text,
-  status          text        not null check (status in ('new', 'reviewing', 'shortlisted', 'rejected', 'hired')),
-  created_at      timestamptz  not null default now()
+  screening_answers jsonb not null default '[]'::jsonb,
+  criteria_match  text,
+  internal_notes  jsonb       not null default '[]'::jsonb,
+  history         jsonb       not null default '[]'::jsonb,
+  status          text        not null check (status in ('new', 'under-review', 'shortlisted', 'interview', 'final-review', 'offer', 'hired', 'rejected', 'withdrawn', 'talent-pool')),
+  created_at      timestamptz  not null default now(),
+  updated_at      timestamptz  not null default now()
 );
+
+-- Recruitment dashboard migration for existing Neon databases. The first three
+-- statements normalize the former lifecycle values before the new constraints
+-- are applied; the remaining statements are harmless on a fresh database.
+alter table jobs add column if not exists job_reference text;
+alter table jobs add column if not exists department text;
+alter table jobs add column if not exists number_of_vacancies integer;
+alter table jobs add column if not exists experience_required text;
+alter table jobs add column if not exists education text;
+alter table jobs add column if not exists application_deadline timestamptz;
+alter table jobs add column if not exists preferred_qualifications jsonb not null default '[]'::jsonb;
+alter table jobs add column if not exists screening_questions jsonb not null default '[]'::jsonb;
+alter table jobs add column if not exists hiring_manager text;
+alter table jobs drop constraint if exists jobs_state_check;
+update jobs set state = 'published' where state = 'open';
+alter table jobs add constraint jobs_state_check check (state in ('draft', 'published', 'paused', 'closed', 'archived'));
+
+alter table contact_submissions add column if not exists internal_note text;
+alter table contact_submissions add column if not exists updated_at timestamptz not null default now();
+alter table contact_submissions drop constraint if exists contact_submissions_status_check;
+update contact_submissions set status = 'responded' where status = 'handled';
+update contact_submissions set status = 'closed' where status = 'archived';
+alter table contact_submissions add constraint contact_submissions_status_check check (status in ('new', 'in-progress', 'responded', 'closed'));
+
+alter table job_applications add column if not exists candidate_id text;
+alter table job_applications add column if not exists current_city text;
+alter table job_applications add column if not exists country_of_residence text;
+alter table job_applications add column if not exists current_job_title text;
+alter table job_applications add column if not exists years_experience integer;
+alter table job_applications add column if not exists qualification text;
+alter table job_applications add column if not exists specialization text;
+alter table job_applications add column if not exists current_employer text;
+alter table job_applications add column if not exists linkedin_url text;
+alter table job_applications add column if not exists notice_period text;
+alter table job_applications add column if not exists work_authorization text;
+alter table job_applications add column if not exists skills jsonb not null default '[]'::jsonb;
+alter table job_applications add column if not exists application_source text;
+alter table job_applications add column if not exists screening_answers jsonb not null default '[]'::jsonb;
+alter table job_applications add column if not exists criteria_match text;
+alter table job_applications add column if not exists internal_notes jsonb not null default '[]'::jsonb;
+alter table job_applications add column if not exists history jsonb not null default '[]'::jsonb;
+alter table job_applications add column if not exists updated_at timestamptz not null default now();
+alter table job_applications drop constraint if exists job_applications_status_check;
+update job_applications set status = 'under-review' where status = 'reviewing';
+alter table job_applications add constraint job_applications_status_check check (status in ('new', 'under-review', 'shortlisted', 'interview', 'final-review', 'offer', 'hired', 'rejected', 'withdrawn', 'talent-pool'));
 
 -- General (speculative) applications -----------------------------------------
 create table if not exists general_applications (

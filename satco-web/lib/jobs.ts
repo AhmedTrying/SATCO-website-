@@ -18,12 +18,31 @@ import type { Job } from "@/lib/types";
  * rendering strategy; every consumer goes through this module.
  * ============================================================================
  */
-export function getJobs(): Job[] {
-  return mockJobs;
+export async function getJobs(): Promise<Job[]> {
+  const endpoint = process.env.CAREERS_JOBS_API_URL?.trim();
+  if (!endpoint) return mockJobs;
+  try {
+    const response = await fetch(endpoint, { cache: "no-store" });
+    if (!response.ok) return mockJobs;
+    const body = (await response.json()) as { jobs?: Job[] };
+    return Array.isArray(body.jobs) ? body.jobs : mockJobs;
+  } catch {
+    return mockJobs;
+  }
 }
 
-export function getJob(slug: string): Job | undefined {
-  return getJobs().find((j) => j.slug === slug);
+export async function getJob(slug: string): Promise<Job | undefined> {
+  return (await getJobs()).find((j) => j.slug === slug);
+}
+
+export function formatJobDeadline(value: string): string {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  const months = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+  ];
+  return `${date.getUTCDate()} ${months[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
 }
 
 export interface JobFilterState {

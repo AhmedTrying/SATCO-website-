@@ -20,9 +20,9 @@ const staticRoutes = [
   "/contact/",
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     ...staticRoutes.map((route) => ({ url: `${SITE_URL}${route}` })),
-    ...getJobs().map((job) => ({ url: `${SITE_URL}/careers/${job.slug}/` })),
+    ...(await getJobs()).map((job) => ({ url: `${SITE_URL}/careers/${job.slug}/` })),
   ];
 }

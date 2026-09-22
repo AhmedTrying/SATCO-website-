@@ -27,7 +27,7 @@ screen or component changes**. This document tracks what's wired and what remain
 | `JobStore` | `local/job-store.ts` | `job-store.ts` | `jobs` table |
 | `SubmissionStore` | `local/submission-store.ts` | `submission-store.ts` | `contact_submissions`, `job_applications`, `general_applications` |
 | `AuditLog` | `local/audit-log.ts` | `audit-log.ts` | `audit_log` table |
-| `PublishService` | `local/publish-service.ts` | `publish-service.ts` | `publishes` + `content_bundle`; still writes `satco-web/content/generated/*.json` |
+| `PublishService` | `local/publish-service.ts` | `publish-service.ts` | `publishes` + `content_bundle`; local development also writes `satco-web/content/generated/*.json` |
 
 ## Setup / run
 
@@ -64,19 +64,23 @@ and finish the site integration:
       the loop is: dashboard edit → Publish → Neon updated + hook fired → Vercel rebuilds,
       fetching from Neon → live (~1–2 min). Note: JSONB doesn't preserve key order, so the
       fetched JSON is key-reordered vs the committed fallback (semantically identical — the
-      loaders read by key). A deployed admin (read-only FS) also relies on this hook path
-      rather than the local `writeGeneratedContent` write.
-- [ ] **Public-site forms** (contact + applications): submit → `INSERT` into
-      `contact_submissions` / `job_applications` / `general_applications`. On a static
-      site this needs a small serverless endpoint (or the deployed admin) since Neon
-      credentials can't ship to the browser. Add CAPTCHA (Turnstile/hCaptcha) + honeypot
-      + per-IP rate limit + a routed notification email (Resend/SES).
+      loaders read by key). A deployed admin detects Vercel's read-only filesystem and
+      skips the local `writeGeneratedContent` step, relying on this Neon + hook path.
+- [ ] **Public-site forms.** Role applications are now wired: the static site posts
+      to the admin's `/api/public/job-applications` endpoint, which validates the open
+      role, applies an origin check + honeypot + basic rate limit, stores the application
+      in Neon, and indexes an optional CV. Set `NEXT_PUBLIC_CAREERS_API_URL` on the site
+      and `PUBLIC_SITE_ORIGINS` on the deployed admin. The contact and general-application
+      forms still need equivalent endpoints, production CAPTCHA, and routed notification
+      email (Resend/SES).
 - [ ] **Careers runtime read.** Site reads open jobs (`state = 'open'`); job-detail
       pages via `generateStaticParams` at build **plus** a client-rendered
       `/careers/role?id=…` fallback for jobs added after the last build.
-- [ ] **Private media** (CVs): move `private-uploads` bytes off local disk to object
-      storage (Vercel Blob / S3) with signed-URL access for publisher/admin; keep the
-      required-alt-text rule for public media.
+- [ ] **Private media** (CVs): local CVs now live outside the public tree under
+      `satco-admin/data/private-uploads` and download through a role-gated endpoint.
+      Before deploying the admin, move these bytes to object storage (Vercel Blob / S3)
+      because Vercel's filesystem is ephemeral; keep download access limited to
+      publisher/admin.
 - [ ] **Least privilege.** Neon has no RLS; enforce access in the server layer
       (`requireCapability()` already gates routes). If public forms hit Postgres
       directly, use a **separate low-privilege Neon role** limited to `INSERT` on the

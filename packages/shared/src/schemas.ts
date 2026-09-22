@@ -139,19 +139,43 @@ export const experienceLevelSchema = z.enum([
   "executive",
 ]);
 
+export const employmentTypeSchema = z.enum([
+  "full-time",
+  "part-time",
+  "contract",
+  "temporary",
+  "internship",
+]);
+
+export const screeningQuestionSchema = z.object({
+  id: z.string().min(1),
+  question: z.string().min(1),
+  criteria: z.enum(["required", "preferred"]),
+  responseType: z.enum(["yes-no", "text", "number"]),
+  expectedAnswer: z.string().optional(),
+});
+
 export const jobSchema = z.object({
   id: z.string().min(1),
   slug: z.string().min(1),
+  jobReference: z.string().optional(),
   title: z.string().min(1),
+  department: z.string().optional(),
   location: z.string().min(1),
   sector: sectorSlugSchema,
   discipline: z.string().min(1),
   experienceLevel: experienceLevelSchema,
-  type: z.enum(["full-time", "contract"]).optional(),
+  type: employmentTypeSchema.optional(),
+  numberOfVacancies: z.number().int().positive().optional(),
+  experienceRequired: z.string().optional(),
+  education: z.string().optional(),
   postedAt: z.string().optional(),
+  applicationDeadline: z.string().optional(),
   summary: z.string().min(1),
   responsibilities: z.array(z.string().min(1)),
   requirements: z.array(z.string().min(1)),
+  preferredQualifications: z.array(z.string().min(1)).optional(),
+  screeningQuestions: z.array(screeningQuestionSchema).optional(),
   // Apply URL — never a PDF or mailto (docx comment #42).
   applyHref: z
     .string()
@@ -159,13 +183,20 @@ export const jobSchema = z.object({
     .refine((v) => !v.startsWith("mailto:") && !/\.pdf($|\?)/i.test(v), {
       message: "Apply link must be a live ATS/LinkedIn URL — not a PDF or email.",
     }),
-  source: z.enum(["mock", "linkedin", "ats"]),
+  source: z.enum(["dashboard", "mock", "linkedin", "ats"]),
 });
 
-export const jobStateSchema = z.enum(["draft", "open", "closed"]);
+export const jobStateSchema = z.enum([
+  "draft",
+  "published",
+  "paused",
+  "closed",
+  "archived",
+]);
 
 export const jobRecordSchema = jobSchema.extend({
   state: jobStateSchema,
+  hiringManager: z.string().optional(),
   createdAt: z.string(),
   updatedAt: z.string(),
 });
@@ -223,10 +254,32 @@ export const contactSubmissionSchema = z.object({
   inquiryType: inquiryTypeSchema,
   message: z.string().min(1),
   assignedDept: z.string(),
-  status: z.enum(["new", "in-progress", "handled", "archived"]),
+  status: z.enum(["new", "in-progress", "responded", "closed"]),
   assignee: z.string().optional(),
+  internalNote: z.string().optional(),
   createdAt: z.string(),
+  updatedAt: z.string().optional(),
 });
+
+export const applicationStatusSchema = z.enum([
+  "new",
+  "under-review",
+  "shortlisted",
+  "interview",
+  "final-review",
+  "offer",
+  "hired",
+  "rejected",
+  "withdrawn",
+  "talent-pool",
+]);
+
+export const submissionStatusSchema = z.enum([
+  "new",
+  "in-progress",
+  "responded",
+  "closed",
+]);
 
 /* ------------------------------- Media ----------------------------------- */
 

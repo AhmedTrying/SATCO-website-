@@ -35,7 +35,7 @@ export default async function OverviewPage() {
     adapters.publish.history(1),
   ]);
 
-  const openJobs = jobs.filter((j) => j.state === "open").length;
+  const openJobs = jobs.filter((j) => j.state === "published").length;
   const newSubs = submissions.filter((s) => s.status === "new").length;
   const newApps = applications.filter((a) => a.status === "new").length;
   const changed = diff.filter((d) => d.changed);
@@ -47,7 +47,7 @@ export default async function OverviewPage() {
     <>
       <PageHeader
         title={`Welcome, ${session.name.split(" ")[0]}`}
-        description="Snapshot of content, careers and contact activity. Publishing is a local stand-in until the deploy hook lands."
+        description="Snapshot of website content, careers and contact activity from the connected dashboard services."
       />
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
