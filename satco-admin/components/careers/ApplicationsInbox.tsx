@@ -36,17 +36,58 @@ function candidateKey(application: JobApplication): string {
 }
 
 function CvCell({ mediaId, canDownload }: { mediaId?: string; canDownload: boolean }) {
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   if (!mediaId) return <span className="text-muted">—</span>;
   if (!canDownload) return <span className="text-muted">Restricted</span>;
+
+  async function downloadCv() {
+    setIsDownloading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`/api/private/media/${mediaId}`);
+      if (!response.ok) {
+        const body = (await response.json().catch(() => null)) as { error?: string } | null;
+        setError(body?.error ?? "The CV could not be downloaded. Please try again.");
+        return;
+      }
+
+      const file = await response.blob();
+      const url = URL.createObjectURL(file);
+      const link = document.createElement("a");
+      const contentDisposition = response.headers.get("Content-Disposition");
+      const filename = contentDisposition?.match(/filename\*?=(?:UTF-8''|\")?([^;\"]+)/i)?.[1];
+
+      link.href = url;
+      link.download = filename ? decodeURIComponent(filename) : "candidate-cv";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    } catch {
+      setError("The CV could not be downloaded. Please try again.");
+    } finally {
+      setIsDownloading(false);
+    }
+  }
+
   return (
-    <a
-      href={`/api/private/media/${mediaId}`}
-      className="btn btn-ghost px-2 py-0.5 text-xs"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      View CV
-    </a>
+    <div className="min-w-[138px]">
+      <button
+        type="button"
+        className="btn btn-ghost px-2 py-0.5 text-xs"
+        onClick={downloadCv}
+        disabled={isDownloading}
+      >
+        {isDownloading ? "Downloading…" : "View CV"}
+      </button>
+      {error ? (
+        <p role="alert" className="mt-1 text-xs leading-4 text-red-700">
+          {error}
+        </p>
+      ) : null}
+    </div>
   );
 }
 
