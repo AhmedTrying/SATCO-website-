@@ -24,7 +24,7 @@ export default async function LoginPage() {
         <div className="mb-5 flex items-center gap-2.5">
           <Emblem size={30} />
           <div>
-            <div className="text-lg font-semibold text-strong">SATCO</div>
+            <div className="text-lg font-bold tracking-[0.16em] text-strong">SATCO</div>
             <div className="text-xs uppercase tracking-wide text-muted">
               Control dashboard
             </div>
