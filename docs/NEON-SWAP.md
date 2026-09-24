@@ -82,9 +82,15 @@ and finish the site integration:
       and `PUBLIC_SITE_ORIGINS` on the deployed admin. The contact and general-application
       forms still need equivalent endpoints, production CAPTCHA, and routed notification
       email (Resend/SES).
-- [ ] **Careers runtime read.** Jobs currently appear after the deploy-hook build;
-      a client-side read and detail-page fallback would make new jobs visible before
-      that build finishes.
+- [x] **Careers runtime read.** The public Careers list fetches the dashboard's
+      `/api/public/jobs` feed on load and when a visitor returns to the tab, then
+      refreshes once a minute. Cards use `/careers/role?slug=…` and
+      `/careers/role/apply?slug=…`, which read current details even for jobs posted
+      after the last static build. Older static role URLs also load current details.
+      The public feed hides roles whose application deadline has passed; a deadline
+      remains open through its calendar date in Riyadh. Application POST enforces
+      the same rule. The deploy hook remains useful for fresh HTML and SEO, while
+      browser visitors see job changes without waiting for a rebuild.
 - [x] **Private media** (CVs): the production dashboard stores new CVs in the
       private `satco-private-cvs` Vercel Blob store and streams them only through
       the role-gated download endpoint. Local development continues to use

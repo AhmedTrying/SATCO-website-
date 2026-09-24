@@ -1,4 +1,5 @@
 import type { Job, JobApplication, ScreeningAnswer } from "@satco/shared";
+import { isJobDeadlineOpen } from "@satco/shared";
 
 import { adapters } from "@/lib/adapters";
 
@@ -85,7 +86,11 @@ function criteriaMatch(answers: ScreeningAnswer[]): JobApplication["criteriaMatc
 
 export async function GET(): Promise<Response> {
   const jobs = await adapters.jobs.list();
-  return Response.json({ jobs: jobs.filter((job) => job.state === "published").map(publicJob) });
+  return Response.json({
+    jobs: jobs
+      .filter((job) => job.state === "published" && isJobDeadlineOpen(job.applicationDeadline))
+      .map(publicJob),
+  });
 }
 
 export function OPTIONS(request: Request): Response {
@@ -147,7 +152,7 @@ export async function POST(request: Request): Promise<Response> {
     if (!job || job.state !== "published") {
       return json({ error: "This role is no longer accepting applications." }, 404, origin);
     }
-    if (job.applicationDeadline && new Date(job.applicationDeadline) < new Date()) {
+    if (!isJobDeadlineOpen(job.applicationDeadline)) {
       return json({ error: "The application deadline for this role has passed." }, 404, origin);
     }
     const yearsExperience = yearsExperienceRaw ? Number(yearsExperienceRaw) : undefined;

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { isJobDeadlineOpen } from "@satco/shared";
 
 import { PageHeader } from "@/components/ui/PageHeader";
 import { adapters } from "@/lib/adapters";
@@ -35,7 +36,7 @@ export default async function OverviewPage() {
     adapters.publish.history(1),
   ]);
 
-  const openJobs = jobs.filter((j) => j.state === "published").length;
+  const openJobs = jobs.filter((j) => j.state === "published" && isJobDeadlineOpen(j.applicationDeadline)).length;
   const newSubs = submissions.filter((s) => s.status === "new").length;
   const newApps = applications.filter((a) => a.status === "new").length;
   const changed = diff.filter((d) => d.changed);

@@ -1,19 +1,23 @@
 import { jobs as snapshotJobs } from "@/content/jobs";
 import type { Job } from "@/lib/types";
+import { isJobDeadlineOpen } from "@satco/shared";
+
+const openJobs = (jobs: Job[]): Job[] =>
+  jobs.filter((job) => isJobDeadlineOpen(job.applicationDeadline));
 
 /* Vercel prebuild refreshes the jobs snapshot from the dashboard API (or Neon)
  * before Next.js generates Careers routes. Other hosts may use an explicit API. */
 export async function getJobs(): Promise<Job[]> {
-  if (process.env.VERCEL || process.env.DATABASE_URL) return snapshotJobs;
+  if (process.env.VERCEL || process.env.DATABASE_URL) return openJobs(snapshotJobs);
   const endpoint = process.env.CAREERS_JOBS_API_URL?.trim();
-  if (!endpoint) return snapshotJobs;
+  if (!endpoint) return openJobs(snapshotJobs);
   try {
     const response = await fetch(endpoint, { cache: "no-store" });
-    if (!response.ok) return snapshotJobs;
+    if (!response.ok) return openJobs(snapshotJobs);
     const body = (await response.json()) as { jobs?: Job[] };
-    return Array.isArray(body.jobs) ? body.jobs : snapshotJobs;
+    return openJobs(Array.isArray(body.jobs) ? body.jobs : snapshotJobs);
   } catch {
-    return snapshotJobs;
+    return openJobs(snapshotJobs);
   }
 }
 

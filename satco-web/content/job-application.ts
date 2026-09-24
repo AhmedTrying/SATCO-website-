@@ -1,4 +1,7 @@
 export const jobApplicationCopy = {
+  loadingRole: "Loading role…",
+  roleUnavailable: "This role is no longer accepting applications.",
+  jobsUnavailable: "Current openings could not be refreshed. Please try again shortly.",
   applyNote: "Opens SATCO's secure application form.",
   detailEyebrow: "Careers at SATCO",
   overviewEyebrow: "Job overview",
