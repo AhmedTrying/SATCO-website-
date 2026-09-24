@@ -33,7 +33,7 @@ export const jobApplicationCopy = {
   skillsHint: "Optional — separate skills with commas.",
   cvLabel: "CV / résumé",
   cvHint: "PDF, DOC, or DOCX — maximum 5 MB.",
-  coverNoteLabel: "Cover note",
+  coverNoteLabel: "Cover Letter",
   coverNoteHint: "Briefly describe the experience most relevant to this role.",
   screeningHeading: "Role-specific questions",
   privacyLabel: "I confirm that I have read and accept the recruitment privacy notice.",
