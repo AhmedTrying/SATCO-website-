@@ -1,33 +1,19 @@
-import { jobs as mockJobs } from "@/content/jobs";
+import { jobs as snapshotJobs } from "@/content/jobs";
 import type { Job } from "@/lib/types";
 
-/*
- * ============================================================================
- * TODO — LIVE JOB FEED ADAPTER SEAM (docx comment #42 / plan §12 Q7)
- * ============================================================================
- * The live source will be the LinkedIn Jobs API or the internal ATS — which one
- * is UNDECIDED, as is the static-export strategy for detail pages:
- *   (a) client-rendered detail view fetching the feed in the browser,
- *   (b) webhook-triggered rebuild on feed change (best SEO),
- *   (c) pre-render mirrored jobs and deep-link out to apply.
- * Both decisions are the client's call — do not pick silently.
- *
- * Until then, getJobs() returns the typed mock, and /careers/[slug] pages are
- * statically generated from it (which forecloses none of the options above).
- * Swapping in a live source means implementing fetchLiveJobs() and choosing a
- * rendering strategy; every consumer goes through this module.
- * ============================================================================
- */
+/* Vercel prebuild refreshes the jobs snapshot from the dashboard API (or Neon)
+ * before Next.js generates Careers routes. Other hosts may use an explicit API. */
 export async function getJobs(): Promise<Job[]> {
+  if (process.env.VERCEL || process.env.DATABASE_URL) return snapshotJobs;
   const endpoint = process.env.CAREERS_JOBS_API_URL?.trim();
-  if (!endpoint) return mockJobs;
+  if (!endpoint) return snapshotJobs;
   try {
     const response = await fetch(endpoint, { cache: "no-store" });
-    if (!response.ok) return mockJobs;
+    if (!response.ok) return snapshotJobs;
     const body = (await response.json()) as { jobs?: Job[] };
-    return Array.isArray(body.jobs) ? body.jobs : mockJobs;
+    return Array.isArray(body.jobs) ? body.jobs : snapshotJobs;
   } catch {
-    return mockJobs;
+    return snapshotJobs;
   }
 }
 

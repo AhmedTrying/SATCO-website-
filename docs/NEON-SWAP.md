@@ -66,6 +66,15 @@ and finish the site integration:
       fetched JSON is key-reordered vs the committed fallback (semantically identical — the
       loaders read by key). A deployed admin detects Vercel's read-only filesystem and
       skips the local `writeGeneratedContent` step, relying on this Neon + hook path.
+- [x] **Careers build feed.** The site prebuild reads the dashboard's public jobs API
+      into `content/generated/jobs.json`, which generates the listing, detail and
+      application pages during the static build. On Vercel it falls back to
+      `https://satco-dashboard.vercel.app/api/public/jobs` if no endpoint is set;
+      Neon is a second fallback when `DATABASE_URL` is available. Publishing or
+      closing a job triggers the site's Careers deploy hook (`CAREERS_DEPLOY_HOOK_URL`,
+      falling back to `VERCEL_DEPLOY_HOOK_URL`). Check the site build log for
+      `[fetch-content] wrote N published jobs to the build snapshot.` If both live
+      sources fail on Vercel, the build fails instead of deploying stale jobs.
 - [ ] **Public-site forms.** Role applications are now wired: the static site posts
       to the admin's `/api/public/job-applications` endpoint, which validates the open
       role, applies an origin check + honeypot + basic rate limit, stores the application
@@ -73,9 +82,9 @@ and finish the site integration:
       and `PUBLIC_SITE_ORIGINS` on the deployed admin. The contact and general-application
       forms still need equivalent endpoints, production CAPTCHA, and routed notification
       email (Resend/SES).
-- [ ] **Careers runtime read.** Site reads open jobs (`state = 'open'`); job-detail
-      pages via `generateStaticParams` at build **plus** a client-rendered
-      `/careers/role?id=…` fallback for jobs added after the last build.
+- [ ] **Careers runtime read.** Jobs currently appear after the deploy-hook build;
+      a client-side read and detail-page fallback would make new jobs visible before
+      that build finishes.
 - [x] **Private media** (CVs): the production dashboard stores new CVs in the
       private `satco-private-cvs` Vercel Blob store and streams them only through
       the role-gated download endpoint. Local development continues to use
