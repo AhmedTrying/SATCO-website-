@@ -1,0 +1,34 @@
+{
+  "name": "satco-web-b",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "predev": "tsx scripts/sync-content-from-a.mts",
+    "dev": "next dev -p 3001",
+    "prebuild": "tsx scripts/sync-content-from-a.mts && tsx scripts/fetch-content.mts",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
+    "@satco/shared": "*",
+    "framer-motion": "^12.42.2",
+    "lottie-web": "^5.13.0",
+    "next": "16.2.10",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.10",
+    "sharp": "^0.35.3",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

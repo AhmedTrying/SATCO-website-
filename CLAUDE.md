@@ -6,7 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Corporate website for SATCO (Saudi Arabian Trading & Construction Co.) **plus its control dashboard**, built phase-by-phase against a client-approved spec. The repo is an **npm workspace** (one root lockfile):
 
-- `satco-web/` — the public site (Next.js static export).
+- `satco-web/` — the public site (Next.js static export) = **Option A (original)**.
+- `satco-web-b/`, `satco-web-c/` — **Options B and C**: copies of A for the client's per-option detail edits (ports 3001/3002, content shared with A). **Read `docs/VARIANTS.md` before editing any site**: every edit must name its option, and every difference from A goes in its change log.
 - `satco-admin/` — the authenticated control dashboard (Next.js App Router server app — **not** static export; runs on `:3100`).
 - `packages/shared/` — `@satco/shared`: the content-model types (moved from `satco-web/lib/types.ts`), page-copy + CMS types, zod schemas (`@satco/shared/schemas`). Consumed as TS source via `transpilePackages`. Both apps and the Neon schema (`satco-admin/db/schema.sql`) agree on these shapes.
 - `docs/NEON-SWAP.md` — the **Neon (Vercel + Postgres)** backend: what's wired (schema, `neon/` adapters, seed) and what remains for production. This is the chosen backend. (`docs/SUPABASE-SWAP.md` is the earlier Supabase plan, kept for reference.)
@@ -26,9 +27,11 @@ Run from the repo root:
 
 ```bash
 npm install                          # ONE root install (hoists to the store — see quirks)
-npm run dev:web                      # site dev on :3000 (prefer preview_start "satco-web")
+npm run dev:web                      # Option A site dev on :3000 (prefer preview_start "satco-web")
+npm run dev:web-b / dev:web-c        # Options B/C on :3001 / :3002 (preview_start "satco-web-b" / "satco-web-c")
 npm run dev:admin                    # dashboard dev on :3100 (prefer preview_start "satco-admin")
-npm run build:web                    # static export → satco-web/out/
+npm run build:web                    # static export → satco-web/out/ (build:web-b / build:web-c for B/C)
+npm run sync:variants                # copy A's content/generated JSON into B and C
 npm run build:admin                  # dashboard production build
 npm --workspace satco-web run typecheck    # tsc --noEmit (per app)
 npm --workspace satco-admin run typecheck
@@ -41,6 +44,8 @@ There are no tests yet.
 **Dashboard ↔ site link (DA3):** the dashboard's Publish writes `satco-web/content/generated/*.json` (per-section); `satco-web/content/*.ts` are thin loaders that re-export those JSON slices with the same names/types, so components are unchanged. A committed snapshot ships as the offline fallback. Edit in the dashboard → Publish → `npm run build:web` → live. Everything sits behind typed adapters in `satco-admin/lib/adapters/` (`DATA_BACKEND=local` = JSON files → `neon` = Postgres; see `docs/NEON-SWAP.md`). Verified: the loader refactor is byte-for-byte identical to the pre-refactor build.
 
 ## Critical environment quirks
+
+> **Machine update (2026-09-25):** the repo now lives at `D:\Desktop\My projects\SATCO Website`, synced by **Google Drive** (not OneDrive). Root `node_modules` is currently a real folder (not a junction), and the old store is at `D:\satco-dev\satco-dev\satco-store`. `next.config.ts` uses `turbopack.root: "D:\\"` on win32. Git is installed per-user (`%LOCALAPPDATA%\Programs\Git`). Verify Node is on PATH before running anything. The notes below describe the older OneDrive/C: layout; adapt paths accordingly.
 
 - **This folder is OneDrive-synced.** All `node_modules`/`.next` are **NTFS junctions** into `C:\satco-dev\` so OneDrive never syncs them. The store must stay OUTSIDE the user profile: the Claude desktop MSIX container virtualizes AppData/profile writes per-process, which splits a profile-located store into divergent copies and produces impossible build errors. `C:\satco-dev` is visible identically to every process.
 - **Workspace junction layout (important):** deps hoist to ONE root `node_modules` → junction → `C:\satco-dev\satco-store\node_modules`. Each app's `.next` is junctioned to a **sibling of that node_modules** under the same store: `satco-web/.next` → `C:\satco-dev\satco-store\web-next`, `satco-admin/.next` → `C:\satco-dev\satco-store\admin-next`. **Why siblings:** Turbopack resolves PostCSS/Tailwind and other build tooling by `require()` from the compiled chunk's location inside `.next`; that walk only finds `node_modules` if it sits in an ancestor dir. If `.next` and `node_modules` live in different store folders, you get `Cannot find module '@tailwindcss/postcss'`. (`C:\satco-dev\satco-web-store` from the pre-workspace layout is orphaned — safe to delete.)

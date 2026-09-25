@@ -31,8 +31,11 @@ function allowedOrigins(): Set<string> {
   // The public site runs on port 3000 locally while the admin API runs on
   // port 3100. Keep that first-party development pairing available even when
   // the API is started with `next start` (which sets NODE_ENV to production).
-  origins.add("http://localhost:3000");
-  origins.add("http://127.0.0.1:3000");
+  // Design variants B and C (docs/VARIANTS.md) run on 3001 and 3002.
+  for (const port of [3000, 3001, 3002]) {
+    origins.add(`http://localhost:${port}`);
+    origins.add(`http://127.0.0.1:${port}`);
+  }
   return origins;
 }
 

@@ -1,0 +1,55 @@
+{
+  "statPendingNote": "Figure pending",
+  "stats": [
+    {
+      "id": "communities",
+      "label": "Residential communities built",
+      "value": 6,
+      "countUp": true,
+      "display": "6"
+    },
+    {
+      "id": "population",
+      "unit": "Persons",
+      "label": "Population capacity delivered & supported",
+      "value": 137,
+      "suffix": "K+",
+      "countUp": true,
+      "display": "137K+"
+    },
+    {
+      "id": "assets",
+      "unit": "Buildings",
+      "label": "Residential & community assets delivered",
+      "value": 8,
+      "countUp": true,
+      "display": "8"
+    },
+    {
+      "id": "environments",
+      "unit": "sqm",
+      "label": "Built & maintained environments",
+      "value": 4.8,
+      "suffix": "M+",
+      "countUp": true,
+      "display": "4.8M+",
+      "decimals": 1
+    },
+    {
+      "id": "aircrafts",
+      "label": "Aircrafts served",
+      "value": 1.3,
+      "suffix": "M+",
+      "countUp": true,
+      "display": "1.3M+",
+      "decimals": 1
+    },
+    {
+      "id": "airports",
+      "label": "Airports supported",
+      "value": 9,
+      "countUp": true,
+      "display": "9"
+    }
+  ]
+}

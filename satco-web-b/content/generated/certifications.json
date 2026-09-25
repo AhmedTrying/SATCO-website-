@@ -1,0 +1,65 @@
+{
+  "certificationsPage": {
+    "intro": [
+      "SATCO maintains the highest level of regulatory classification and internationally recognized certifications across its core areas of operation. These credentials reflect the company’s technical capability, operational maturity, commitment to quality, safety, and environmental responsibility.",
+      "Our classifications / certifications are continually reviewed as well as expanded to align with evolving regulatory requirements, client expectations, and international best practices."
+    ],
+    "isoLead": "SATCO holds the following international management system certifications:",
+    "ongoing": "SATCO continuously maintains and enhances its classifications / certifications to meet regulatory requirements, client expectations, and evolving industry standards.",
+    "leedLead": "SATCO holds the following LEED certifications:",
+    "isoHeading": "Certifications",
+    "ongoingHeading": "Ongoing compliance",
+    "licensesHeading": "Licenses",
+    "classificationsLead": "SATCO is classified as Category 1 across the following activities:",
+    "classificationsHeading": "Government classifications"
+  },
+  "classifications": [
+    {
+      "category": "Category 1",
+      "activities": [
+        "General construction",
+        "Operations and maintenance services",
+        "Hard and Soft Landscaping",
+        "Catering and food services"
+      ]
+    }
+  ],
+  "licenses": [
+    {
+      "name": "GACAR Part 151",
+      "scope": "SATCO holds a GACAR Part 151 license, authorizing airside and apron operations across airports throughout the Kingdom of Saudi Arabia."
+    }
+  ],
+  "certifications": [
+    {
+      "code": "ISO 9001:2015",
+      "group": "iso",
+      "title": "Quality Management"
+    },
+    {
+      "code": "ISO 10002:2018",
+      "group": "iso",
+      "title": "Customer Satisfaction & Complaints Handling"
+    },
+    {
+      "code": "ISO 14001:2015",
+      "group": "iso",
+      "title": "Environmental Management"
+    },
+    {
+      "code": "ISO 45001:2018",
+      "group": "iso",
+      "title": "Occupational Health & Safety"
+    },
+    {
+      "code": "ISO 55001:2014",
+      "group": "iso",
+      "title": "Asset Management- Management System"
+    },
+    {
+      "code": "LEED — Silver",
+      "group": "leed",
+      "title": "LEED Green Building Rating System Certificate for its Laydown Offices in Neom"
+    }
+  ]
+}

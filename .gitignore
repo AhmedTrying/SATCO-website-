@@ -1,12 +1,12 @@
 # Dependencies (workspace-hoisted root + per-app; kept out of OneDrive via junctions)
 /node_modules/
-satco-web/node_modules/
+satco-web*/node_modules/
 satco-admin/node_modules/
 packages/*/node_modules/
 
-# Next.js build output
-satco-web/.next/
-satco-web/out/
+# Next.js build output (satco-web* = Option A + variants B/C)
+satco-web*/.next/
+satco-web*/out/
 satco-admin/.next/
 
 # TypeScript incremental

@@ -1,0 +1,59 @@
+{
+  "form": {
+    "heading": "Send a message",
+    "orgLabel": "Organization",
+    "nameError": "Please enter your name.",
+    "nameLabel": "Full name",
+    "emailError": "Please enter a valid email address.",
+    "emailLabel": "Email",
+    "routePrefix": "Routes to:",
+    "submitLabel": "Send message",
+    "inquiryLabel": "Inquiry type",
+    "messageError": "Please enter a message.",
+    "messageLabel": "Message",
+    "proposalNote": "Proposed routing — pending client sign-off.",
+    "requiredNote": "* Required field",
+    "successMessage": "Thank you — your message has been received. A member of the SATCO team will respond shortly."
+  },
+  "title": "Contact us",
+  "details": {
+    "hours": "Sunday–Thursday, 8:00–17:00 (AST)",
+    "phone": "+966 11 200 0000",
+    "heading": "Get in touch",
+    "emailLabel": "Email",
+    "hoursLabel": "Hours",
+    "phoneLabel": "Phone",
+    "officeLabel": "Head office"
+  },
+  "subline": "Connect with SATCO to discuss partnerships, opportunities, or general inquiries.",
+  "mapLabel": "SATCO head office on Google Maps — Riyadh, Saudi Arabia",
+  "mapCaption": "Map — Riyadh, KSA",
+  "mapEmbedUrl": "https://maps.google.com/maps?cid=9970614259089175645&hl=en&output=embed",
+  "inquiryOptions": [
+    {
+      "label": "Discuss partnerships",
+      "value": "partnerships",
+      "routesTo": "Business Development & Info"
+    },
+    {
+      "label": "Opportunities",
+      "value": "opportunities",
+      "routesTo": "Business Development & Info"
+    },
+    {
+      "label": "Procurement",
+      "value": "procurement",
+      "routesTo": "Procurement & Info"
+    },
+    {
+      "label": "Careers",
+      "value": "careers",
+      "routesTo": "Human Resources"
+    },
+    {
+      "label": "General inquiries",
+      "value": "general",
+      "routesTo": "Info (general)"
+    }
+  ]
+}
