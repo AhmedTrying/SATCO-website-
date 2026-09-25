@@ -53,6 +53,6 @@ All three can run side by side (each has its own `.next`). The dashboard (`satco
 ## Status / next steps
 
 - [ ] Receive the client's list of per-option edits (B and C).
-- [ ] Install Node.js + Git on the dev machine, run `npm install`, and verify all three run (:3000/:3001/:3002).
-- [ ] Commit the A/B/C setup.
+- [x] Git installed (per-user). A/B/C setup committed locally 2026-09-25 (not pushed).
+- [ ] Node.js: the user is installing it. Then run `npm install` (registers the new workspaces) and verify all three run (:3000/:3001/:3002).
 - [ ] (Later) Vercel projects for B and C.
