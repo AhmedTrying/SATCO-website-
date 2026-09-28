@@ -10,6 +10,7 @@ import type {
   ScreeningQuestion,
   SectorSlug,
 } from "@satco/shared";
+import { isJobDeadlineOpen } from "@satco/shared";
 
 import { deleteJob, saveJob, setJobState } from "@/app/actions/jobs";
 import { StringList } from "@/components/form/StringList";
@@ -530,7 +531,14 @@ export function JobsManager({
               <tr key={job.id}>
                 <td className="whitespace-nowrap text-muted">{job.jobReference || "—"}</td>
                 <td>
-                  <div className="font-medium text-strong">{job.title}</div>
+                  <div className="font-medium text-strong">
+                    {job.title}
+                    {job.state === "published" && !isJobDeadlineOpen(job.applicationDeadline) && (
+                      <span className="ms-2 rounded bg-stone-200 px-1.5 py-0.5 text-[0.65rem] font-semibold text-stone-700">
+                        Expired
+                      </span>
+                    )}
+                  </div>
                   <div className="mt-0.5 text-[0.7rem] text-muted">{titleCase(job.type ?? "full-time")} · {titleCase(job.experienceLevel)}</div>
                 </td>
                 <td>{job.department || job.discipline}</td>

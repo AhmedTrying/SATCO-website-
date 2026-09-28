@@ -1157,170 +1157,50 @@
     {
       "id": "malek-antabi",
       "name": "Malek Antabi",
-      "title": "Executive Chairman",
-      "department": "CEO",
       "level": "principal",
-      "order": 1
+      "order": 1,
+      "title": "Executive Chairman",
+      "department": "CEO"
     },
     {
       "id": "mohammed-maghlouth",
       "name": "Mohammed Maghlouth",
-      "title": "CEO",
-      "department": "CEO",
       "level": "principal",
-      "order": 2
+      "order": 2,
+      "title": "CEO",
+      "department": "CEO"
     },
     {
       "id": "tarek-antabi",
       "name": "Tarek Antabi",
-      "title": "President, Construction & ISSD",
-      "department": "Operations & Business Development",
       "level": "executive",
-      "order": 3
+      "order": 3,
+      "title": "Managing Partner, Construction & ISSD",
+      "department": "Operations & Business Development"
     },
     {
       "id": "tamer-antabi",
       "name": "Tamer Antabi",
-      "title": "Managing Partner - Airports & Bidding",
-      "department": "ASD",
       "level": "executive",
-      "order": 4
+      "order": 4,
+      "title": "Managing Partner - Airports & Bidding",
+      "department": "ASD"
     },
     {
       "id": "bandar-antabi",
       "name": "Bandar Antabi",
+      "level": "executive",
+      "order": 5,
       "title": "Managing Partner, Head of Investments",
-      "department": "Sky Bridge",
+      "department": "Sky Bridge"
+    },
+    {
+      "id": "hesham-al-ghamdi",
+      "name": "Hesham Al Ghamdi",
       "level": "executive",
-      "order": 5
-    },
-    {
-      "id": "george-rizkallah",
-      "name": "George Rizkallah",
-      "title": "Vice President ASD",
-      "department": "ASD",
-      "level": "executive",
-      "order": 6
-    },
-    {
-      "id": "salam-hajj",
-      "name": "Salam Hajj",
-      "title": "Chief Financial Officer",
-      "department": "Finance",
-      "level": "executive",
-      "order": 7
-    },
-    {
-      "id": "con-hickey",
-      "name": "Con Hickey",
-      "title": "Vice President",
-      "department": "Construction",
-      "level": "executive",
-      "order": 8
-    },
-    {
-      "id": "fahad-al-basrawi",
-      "name": "Fahad Al Basrawi",
-      "title": "Executive Director",
-      "department": "Operations & Business Development",
-      "level": "executive",
-      "order": 9
-    },
-    {
-      "id": "ismail-gultasab",
-      "name": "Ismail Gultasab",
-      "title": "Bid Director",
-      "department": "Bid Management",
-      "level": "functional",
-      "order": 10
-    },
-    {
-      "id": "roy-iruganti",
-      "name": "Roy Iruganti",
-      "title": "Director of Contracting",
-      "department": "Contracts",
-      "level": "functional",
-      "order": 11
-    },
-    {
-      "id": "khiyam-abdullah",
-      "name": "Khiyam Abdullah",
-      "title": "Director of Facilities",
-      "department": "Facilities Management",
-      "level": "functional",
-      "order": 12
-    },
-    {
-      "id": "gareth-hood",
-      "name": "Gareth Hood",
-      "title": "Director - Change Management",
-      "department": "HR",
-      "level": "functional",
-      "order": 13
-    },
-    {
-      "id": "abdullah-al-sarra",
-      "name": "Abdullah Al Sarra",
-      "title": "HR Director",
-      "department": "HR",
-      "level": "functional",
-      "order": 14
-    },
-    {
-      "id": "yasser-awwad",
-      "name": "Yasser Awwad",
-      "title": "Director of Audit",
-      "department": "Internal Audit",
-      "level": "functional",
-      "order": 15
-    },
-    {
-      "id": "ayman-moghrabi",
-      "name": "Ayman Moghrabi",
-      "title": "Landscaping Director",
-      "department": "Landscaping",
-      "level": "functional",
-      "order": 16
-    },
-    {
-      "id": "ahmad-khaled-radwan",
-      "name": "Ahmad Khaled Radwan",
-      "title": "Director Legal",
-      "department": "Legal",
-      "level": "functional",
-      "order": 17
-    },
-    {
-      "id": "hesham-husseiny",
-      "name": "Hesham Husseiny",
-      "title": "PMO Director",
-      "department": "PMO",
-      "level": "functional",
-      "order": 18
-    },
-    {
-      "id": "islam-intabli",
-      "name": "Islam Intabli",
-      "title": "Senior Director Procurement",
-      "department": "Procurement",
-      "level": "functional",
-      "order": 19
-    },
-    {
-      "id": "zubair-ahmed-khan",
-      "name": "Zubair Ahmed Khan",
-      "title": "QHSE Head",
-      "department": "QHSE",
-      "level": "functional",
-      "order": 20
-    },
-    {
-      "id": "mohamad-al-ashkar",
-      "name": "Mohamad Al Ashkar",
-      "title": "Director",
-      "department": "Renewable Energy",
-      "level": "functional",
-      "order": 21
+      "order": 6,
+      "title": "CEO",
+      "department": "Sky Bridge"
     }
   ],
   "careersPage": {

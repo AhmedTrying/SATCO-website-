@@ -66,6 +66,15 @@ and finish the site integration:
       fetched JSON is key-reordered vs the committed fallback (semantically identical — the
       loaders read by key). A deployed admin detects Vercel's read-only filesystem and
       skips the local `writeGeneratedContent` step, relying on this Neon + hook path.
+- [x] **Careers build feed.** The site prebuild reads the dashboard's public jobs API
+      into `content/generated/jobs.json`, which generates the listing, detail and
+      application pages during the static build. On Vercel it falls back to
+      `https://satco-dashboard.vercel.app/api/public/jobs` if no endpoint is set;
+      Neon is a second fallback when `DATABASE_URL` is available. Publishing or
+      closing a job triggers the site's Careers deploy hook (`CAREERS_DEPLOY_HOOK_URL`,
+      falling back to `VERCEL_DEPLOY_HOOK_URL`). Check the site build log for
+      `[fetch-content] wrote N published jobs to the build snapshot.` If both live
+      sources fail on Vercel, the build fails instead of deploying stale jobs.
 - [ ] **Public-site forms.** Role applications are now wired: the static site posts
       to the admin's `/api/public/job-applications` endpoint, which validates the open
       role, applies an origin check + honeypot + basic rate limit, stores the application
@@ -73,9 +82,15 @@ and finish the site integration:
       and `PUBLIC_SITE_ORIGINS` on the deployed admin. The contact and general-application
       forms still need equivalent endpoints, production CAPTCHA, and routed notification
       email (Resend/SES).
-- [ ] **Careers runtime read.** Site reads open jobs (`state = 'open'`); job-detail
-      pages via `generateStaticParams` at build **plus** a client-rendered
-      `/careers/role?id=…` fallback for jobs added after the last build.
+- [x] **Careers runtime read.** The public Careers list fetches the dashboard's
+      `/api/public/jobs` feed on load and when a visitor returns to the tab, then
+      refreshes once a minute. Cards use `/careers/role?slug=…` and
+      `/careers/role/apply?slug=…`, which read current details even for jobs posted
+      after the last static build. Older static role URLs also load current details.
+      The public feed hides roles whose application deadline has passed; a deadline
+      remains open through its calendar date in Riyadh. Application POST enforces
+      the same rule. The deploy hook remains useful for fresh HTML and SEO, while
+      browser visitors see job changes without waiting for a rebuild.
 - [x] **Private media** (CVs): the production dashboard stores new CVs in the
       private `satco-private-cvs` Vercel Blob store and streams them only through
       the role-gated download endpoint. Local development continues to use

@@ -54,7 +54,7 @@ export function Shell({
         <div className="flex items-center gap-2 border-b border-stone-800 px-4 h-[var(--topbar-h)]">
           <Emblem />
           <div className="leading-tight">
-            <div className="text-sm font-semibold text-white">SATCO</div>
+            <div className="text-base font-bold tracking-[0.16em] text-white">SATCO</div>
             <div className="text-[0.65rem] uppercase tracking-wide text-stone-500">
               Control dashboard
             </div>

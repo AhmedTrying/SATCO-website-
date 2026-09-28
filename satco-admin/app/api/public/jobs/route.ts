@@ -1,4 +1,5 @@
 import type { Job } from "@satco/shared";
+import { isJobDeadlineOpen } from "@satco/shared";
 
 import { adapters } from "@/lib/adapters";
 
@@ -10,10 +11,17 @@ function publicJob(job: Awaited<ReturnType<typeof adapters.jobs.list>>[number]):
   ) as Job;
 }
 
-/** Public, read-only feed used by the static SATCO website at build time. */
+/** Public feed for the live Careers page and static site builds. */
 export async function GET(): Promise<Response> {
   const jobs = await adapters.jobs.list();
   return Response.json({
-    jobs: jobs.filter((job) => job.state === "published").map(publicJob),
+    jobs: jobs
+      .filter((job) => job.state === "published" && isJobDeadlineOpen(job.applicationDeadline))
+      .map(publicJob),
+  }, {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Cache-Control": "no-store",
+    },
   });
 }

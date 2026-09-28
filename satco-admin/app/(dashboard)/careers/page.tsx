@@ -1,3 +1,5 @@
+import { isJobDeadlineOpen } from "@satco/shared";
+
 import {
   ApplicationsInbox,
   GeneralApplicationsInbox,
@@ -28,7 +30,7 @@ export default async function CareersPage({
   ]);
   const params = await searchParams;
   const summary = [
-    { label: "Open jobs", value: jobs.filter((job) => job.state === "published").length },
+    { label: "Open jobs", value: jobs.filter((job) => job.state === "published" && isJobDeadlineOpen(job.applicationDeadline)).length },
     { label: "Draft jobs", value: jobs.filter((job) => job.state === "draft").length },
     { label: "Closed jobs", value: jobs.filter((job) => job.state === "closed").length },
     { label: "Total applications", value: applications.length },
