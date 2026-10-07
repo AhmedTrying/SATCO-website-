@@ -39,10 +39,15 @@ All three can run side by side (each has its own `.next`). The dashboard (`satco
   the `AGENTS.md` option banner, and `scripts/sync-content-from-a.mts`.
 - `satco-admin/app/api/public/job-applications/route.ts` allows local origins :3000, :3001, :3002,
   so the careers apply form works from every option in dev.
-- **Deployment:** local only for now. When needed: one Vercel project per option (root dir
-  `satco-web-b` / `satco-web-c`, same env as `satco-website`: `DATABASE_URL`,
-  `NEXT_PUBLIC_CAREERS_API_URL`, `CAREERS_JOBS_API_URL`), add their domains to the dashboard's
-  `PUBLIC_SITE_ORIGINS`, and add their deploy hooks if Publish should rebuild them too.
+- **Deployment (2026-10-07):** one Vercel project per option, all linked to the GitHub repo
+  `AhmedTrying/SATCO-website-`: `satco-website-a` (root `satco-web`), `satco-website-b`
+  (`satco-web-b`), `satco-website-c` (`satco-web-c`), plus `satco-dashboard` (`satco-admin`).
+  Each site project carries `NEXT_PUBLIC_CAREERS_API_URL` → the dashboard; the dashboard's
+  `PUBLIC_SITE_ORIGINS` lists the original site and all three option domains. The ORIGINAL
+  project `satco-website` (satco-website.vercel.app) is the client-facing live site from
+  before the feedback round and must stay as it is: freeze it in Vercel (Settings → Git →
+  Ignored Build Step `exit 0`, or point its production branch at a frozen branch) before
+  anything new reaches `main`.
 
 ## Client feedback (round 1, Sep 2026)
 
