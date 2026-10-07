@@ -42,6 +42,9 @@ proves the email; the staff list decides who gets in. Setup is free:
 
 Without Google credentials the login page shows demo accounts from the user store.
 That mock mode is refused in production unless `ALLOW_MOCK_AUTH=true` is set on purpose.
+**During the design phase (from 2026-10-07) the live dashboard runs with
+`ALLOW_MOCK_AUTH=true`, so anyone with the URL can pick any account, including admin.
+Remove that variable and configure Google before real inquiries or applications arrive.**
 The session is a signed httpOnly cookie holding only the user id (`lib/auth/session.ts`);
 role and page access are re-read from the store on every request, so changes apply at once.
 

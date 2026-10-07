@@ -72,8 +72,8 @@ export default async function LoginPage({
           {mode === "mock" && (
             <>
               <p className="mt-1 text-xs text-muted">
-                Local development sign-in (no Google credentials configured). Pick a
-                demo account; its role and page access come from the user store.
+                Demo sign-in (design phase). Pick an account; its role and page
+                access come from Users &amp; access.
               </p>
               <div className="mt-4 space-y-2">
                 {users
@@ -99,8 +99,8 @@ export default async function LoginPage({
                   ))}
               </div>
               <p className="mt-4 text-[0.7rem] text-muted">
-                Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET to switch to Google
-                sign-in. Demo sign-in never runs in production.
+                No password is asked for. Switch to Google sign-in before the site
+                goes public (see docs/DASHBOARD.md).
               </p>
             </>
           )}
