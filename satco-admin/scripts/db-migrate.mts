@@ -26,8 +26,10 @@ if (!url) {
 const sql = neon(url);
 
 function statementsOf(path: string): string[] {
+  // Split on CRLF or LF: `.` never matches "\r", so a Windows checkout would
+  // otherwise keep its comments and feed them to Postgres.
   return readFileSync(path, "utf8")
-    .split("\n")
+    .split(/\r?\n/)
     .map((line) => line.replace(/--.*$/, ""))
     .join("\n")
     .split(";")
