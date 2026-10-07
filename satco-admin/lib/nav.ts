@@ -1,16 +1,18 @@
 /*
- * Sidebar navigation model. `cap` gates VISIBILITY (least privilege to see the
- * screen); in-page write actions re-check capabilities server-side.
+ * Sidebar navigation model, built per session: a Careers link when the user has
+ * the Jobs page, one link per inquiry inbox they may open, and the admin section. Visibility here mirrors the server-side gating in lib/auth.ts
+ * (requireCapability / requireInbox); in-page write actions re-check too.
  */
 
-import type { RoleCapability } from "@satco/shared";
+import { accessibleInboxes, userCan } from "@satco/shared";
+
+import type { Session } from "./adapters/types";
+import { INQUIRY_LABELS } from "./routing";
 
 export interface NavLink {
   label: string;
   href: string;
-  /** Minimum capability to see this link. Omitted = visible to any signed-in user. */
-  cap?: RoleCapability;
-  /** Short glyph (emoji) used as a lightweight icon in the rail. */
+  /** Short glyph used as a lightweight icon in the rail. */
   icon: string;
 }
 
@@ -19,33 +21,45 @@ export interface NavSection {
   links: NavLink[];
 }
 
-export const NAV: NavSection[] = [
-  {
-    links: [{ label: "Overview", href: "/overview", icon: "◵" }],
-  },
-  {
-    title: "Content",
-    links: [
-      { label: "Homepage", href: "/content/homepage", icon: "⌂" },
-      { label: "Sectors", href: "/content/sectors", icon: "◧" },
-      { label: "About", href: "/content/about", icon: "❯" },
-      { label: "Site settings", href: "/content/settings", icon: "⚙", cap: "admin" },
-    ],
-  },
-  {
-    title: "Operations",
-    links: [
-      { label: "Media library", href: "/media", icon: "▦" },
-      { label: "Careers", href: "/careers", icon: "☰" },
-      { label: "Contact", href: "/contact", icon: "✉", cap: "manageJobs" },
-    ],
-  },
-  {
-    title: "Administration",
-    links: [
-      { label: "Features & settings", href: "/features", icon: "⚑", cap: "admin" },
-      { label: "Users & roles", href: "/users", icon: "◍", cap: "admin" },
-      { label: "Publish center", href: "/publish", icon: "▲", cap: "publish" },
-    ],
-  },
-];
+export function inboxHref(inbox: string): string {
+  return `/inquiries/${inbox}`;
+}
+
+export function navFor(session: Session): NavSection[] {
+  const sections: NavSection[] = [
+    { links: [{ label: "Overview", href: "/overview", icon: "◵" }] },
+  ];
+
+  if (userCan(session, "manageJobs")) {
+    sections.push({
+      title: "Careers",
+      links: [{ label: "Jobs & applications", href: "/careers", icon: "☰" }],
+    });
+  }
+
+  const inboxes = accessibleInboxes(session);
+  if (inboxes.length > 0) {
+    sections.push({
+      title: "Inquiries",
+      links: [
+        ...(inboxes.length > 1
+          ? [{ label: "All my inboxes", href: "/inquiries", icon: "✉" }]
+          : []),
+        ...inboxes.map((inbox) => ({
+          label: INQUIRY_LABELS[inbox],
+          href: inboxHref(inbox),
+          icon: "›",
+        })),
+      ],
+    });
+  }
+
+  if (userCan(session, "admin")) {
+    sections.push({
+      title: "Administration",
+      links: [{ label: "Users & access", href: "/users", icon: "◍" }],
+    });
+  }
+
+  return sections;
+}

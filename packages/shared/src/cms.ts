@@ -1,56 +1,90 @@
 /*
- * CMS-infrastructure shapes — the dashboard's system-of-record types.
- * These mirror the Supabase data model (plan §3) so that swapping the local
- * adapters for Supabase later is a drop-in: same shapes, real backend.
+ * Dashboard system-of-record types: jobs, applications, contact inquiries,
+ * private media (CVs), staff accounts and the audit log. Mirrored 1:1 by the
+ * Neon schema (satco-admin/db/schema.sql) and the local JSON stores, so the
+ * site's public forms and the dashboard agree on one model.
  *
- * Jobs, applications, submissions, media, users and audit entries are shared so
- * the site (runtime reads/inserts, later) and the dashboard agree on one model.
+ * Page copy is NOT managed here any more: the sites' content/generated/*.json
+ * files are edited in code (see CLAUDE.md "Content is data").
  */
 
 import type { Job, SectorSlug } from "./types";
 import type { InquiryType } from "./content";
 
-/* ------------------------------- Roles ----------------------------------- */
+/* ------------------------------- Roles & page access --------------------- */
 
-/** Permission tiers (plan §4). Ordered least → most privileged. */
-export type Role = "viewer" | "editor" | "publisher" | "admin";
+/**
+ * Two roles. `admin` can do everything (every page, Users & access, audit log,
+ * destructive actions). `staff` can open exactly the pages granted on their
+ * account (`UserAccount.access`): the Jobs & applications page and/or any of the
+ * five inquiry inboxes.
+ */
+export type Role = "staff" | "admin";
 
-export const ROLES: Role[] = ["viewer", "editor", "publisher", "admin"];
+export const ROLES: Role[] = ["staff", "admin"];
 
-/** Capabilities gated by role (plan §4 matrix). Named RoleCapability to avoid
- *  colliding with the sector-content `Capability` type in ./types. */
+/** Every inquiry inbox, in the order the contact form lists them. */
+export const INQUIRY_TYPES: InquiryType[] = [
+  "partnerships",
+  "opportunities",
+  "procurement",
+  "careers",
+  "general",
+];
+
+/** A page a staff account can be granted: Jobs & applications, or one inbox. */
+export type AccessPage = "jobs" | InquiryType;
+
+/** All grantable pages, in display order. */
+export const ACCESS_PAGES: AccessPage[] = ["jobs", ...INQUIRY_TYPES];
+
+/** Capabilities checked by server actions and routes. Named RoleCapability to
+ *  avoid colliding with the sector-content `Capability` type in ./types. */
 export type RoleCapability =
-  | "view" // see dashboard & drafts
-  | "edit" // create/edit drafts, upload media
-  | "publish" // publish + trigger rebuild
-  | "manageJobs" // open/close jobs, triage submissions
-  | "downloadCv" // private bucket
-  | "admin"; // users, roles, settings, flags, destructive
-
-/** Which capabilities each role holds. */
-export const ROLE_CAPABILITIES: Record<Role, RoleCapability[]> = {
-  viewer: ["view"],
-  editor: ["view", "edit"],
-  publisher: ["view", "edit", "publish", "manageJobs", "downloadCv"],
-  admin: ["view", "edit", "publish", "manageJobs", "downloadCv", "admin"],
-};
-
-export function roleCan(role: Role, cap: RoleCapability): boolean {
-  return ROLE_CAPABILITIES[role].includes(cap);
-}
+  | "view" // sign in and see the overview
+  | "manageJobs" // create/edit/publish/close jobs, triage applications (page "jobs")
+  | "downloadCv" // private CV files (page "jobs")
+  | "admin"; // users, roles, audit, destructive actions, every page
 
 export interface UserAccount {
   id: string;
   name: string;
   email: string;
   role: Role;
+  /** Pages this user may open. Admins see every page regardless. */
+  access: AccessPage[];
   active: boolean;
   createdAt: string;
 }
 
-/* ------------------------------- Content status -------------------------- */
+type Grantee = Pick<UserAccount, "role" | "access">;
 
-export type ContentStatus = "draft" | "published";
+/** Per-page access control. */
+export function canAccessPage(user: Grantee, page: AccessPage): boolean {
+  return user.role === "admin" || user.access.includes(page);
+}
+
+export function canAccessInbox(user: Grantee, inbox: InquiryType): boolean {
+  return canAccessPage(user, inbox);
+}
+
+/** The inboxes a user may open, in canonical order. */
+export function accessibleInboxes(user: Grantee): InquiryType[] {
+  return INQUIRY_TYPES.filter((inbox) => canAccessPage(user, inbox));
+}
+
+/** Capability check derived from role + page grants. */
+export function userCan(user: Grantee, cap: RoleCapability): boolean {
+  switch (cap) {
+    case "view":
+      return true;
+    case "admin":
+      return user.role === "admin";
+    case "manageJobs":
+    case "downloadCv":
+      return canAccessPage(user, "jobs");
+  }
+}
 
 /* ------------------------------- Jobs ------------------------------------ */
 
@@ -211,15 +245,4 @@ export interface AuditEntry {
   summary: string;
   /** Optional structured before/after diff. */
   diff?: unknown;
-}
-
-/* ------------------------------- Publish --------------------------------- */
-
-export interface PublishRecord {
-  id: string;
-  publishedAt: string;
-  publishedBy: string;
-  summary: string;
-  /** Field paths that changed since the previous publish. */
-  changedKeys: string[];
 }

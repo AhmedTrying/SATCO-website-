@@ -12,8 +12,8 @@ import type {
   GeneralApplication,
   JobApplication,
   JobRecord,
+  AccessPage,
   MediaItem,
-  PublishRecord,
   Role,
   UserAccount,
 } from "@satco/shared";
@@ -31,6 +31,7 @@ export interface UserRow {
   name: string;
   email: string;
   role: Role;
+  access: AccessPage[] | null;
   active: boolean;
   created_at: Timestamp;
 }
@@ -40,6 +41,7 @@ export const toUser = (r: UserRow): UserAccount => ({
   name: r.name,
   email: r.email,
   role: r.role,
+  access: Array.isArray(r.access) ? r.access : [],
   active: r.active,
   createdAt: iso(r.created_at),
 });
@@ -282,22 +284,4 @@ export const toAudit = (r: AuditRow): AuditEntry => ({
   entityId: opt(r.entity_id),
   summary: r.summary,
   diff: r.diff ?? undefined,
-});
-
-/* -------------------------------- publish -------------------------------- */
-
-export interface PublishRow {
-  id: string;
-  published_at: Timestamp;
-  published_by: string;
-  summary: string;
-  changed_keys: string[];
-}
-
-export const toPublish = (r: PublishRow): PublishRecord => ({
-  id: r.id,
-  publishedAt: iso(r.published_at),
-  publishedBy: r.published_by,
-  summary: r.summary,
-  changedKeys: r.changed_keys ?? [],
 });

@@ -1,8 +1,8 @@
 {
   "hero": {
     "explore": "Explore",
-    "eyebrow": "Established 1975 · 50+ years of excellence",
-    "headline": "Delivering infrastructure at national scale.",
+    "eyebrow": "Established 1975 · 50+ Years of Excellence",
+    "headline": "Delivering Infrastructure at National Scale.",
     "regionLabel": "Operating sectors index"
   },
   "statBand": {
@@ -18,9 +18,8 @@
     "cta": "Learn more about SATCO",
     "body": "SATCO is a Saudi-owned infrastructure and services group operating across construction, airport infrastructure, operations and support services, as well as public–private partnerships (PPP). Established in 1975, SATCO supports complex projects that require scale, reliability, and long-term commitment.",
     "eyebrow": "Who we are",
-    "heading": "A single authority across the infrastructure lifecycle",
     "imageCard": {
-      "label": "Year established",
+      "label": "Established",
       "value": "1975"
     }
   },

@@ -85,26 +85,18 @@ function ProfileVisual({
   );
 }
 
-export function PrincipalLeadershipCard({
-  member,
-  number,
-}: {
-  member: LeadershipMember;
-  number: string;
-}) {
+export function PrincipalLeadershipCard({ member }: { member: LeadershipMember }) {
   return (
     <article className="group grid h-full min-h-[360px] overflow-hidden rounded-xl border border-stone-800 bg-stone-950 shadow-sm sm:grid-cols-[minmax(180px,0.9fr)_minmax(210px,1.1fr)]">
       <ProfileVisual member={member} dark />
       <div className="on-dark relative flex flex-col justify-between p-[clamp(1.5rem,3vw,2.25rem)]">
-        <div className="flex items-start justify-between gap-4">
+        {/* Kept even when empty: justify-between pins the name block to the foot */}
+        <div>
           {member.department ? (
             <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-bronze-300">
               {member.department}
             </span>
           ) : null}
-          <span aria-hidden="true" className="font-expanded text-[12px] tracking-[0.12em] text-stone-500">
-            {number}
-          </span>
         </div>
         <div className="mt-16">
           <h3 className="mb-2 mt-0 max-w-[14ch] font-display text-[clamp(1.55rem,3vw,2.15rem)] font-bold leading-[1.08] tracking-[-0.02em] text-white">
@@ -122,28 +114,19 @@ export function PrincipalLeadershipCard({
   );
 }
 
-export function ExecutiveLeadershipCard({
-  member,
-  number,
-}: {
-  member: LeadershipMember;
-  number: string;
-}) {
+export function ExecutiveLeadershipCard({ member }: { member: LeadershipMember }) {
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-lg border border-border bg-surface transition-[translate,border-color,box-shadow] duration-[var(--dur-slow)] ease-[var(--ease-standard)] hover:-translate-y-1 hover:border-bronze-300 hover:shadow-md">
       <div className="aspect-[8/5] overflow-hidden">
         <ProfileVisual member={member} />
       </div>
       <div className="flex flex-1 flex-col p-6">
-        <div className="mb-9 flex items-start justify-between gap-4">
+        <div className="mb-9">
           {member.department ? (
-            <span className="max-w-[22ch] text-[10.5px] font-semibold uppercase leading-[1.4] tracking-[0.13em] text-bronze-700">
+            <span className="block max-w-[22ch] text-[10.5px] font-semibold uppercase leading-[1.4] tracking-[0.13em] text-bronze-700">
               {member.department}
             </span>
           ) : null}
-          <span aria-hidden="true" className="font-expanded text-[11px] tracking-[0.1em] text-stone-400">
-            {number}
-          </span>
         </div>
         <h3 className="mb-2 mt-auto font-display text-[1.2rem] font-bold leading-[1.2] tracking-[-0.015em] text-strong">
           {member.name}
@@ -163,15 +146,9 @@ export function ExecutiveLeadershipCard({
   );
 }
 
-export function FunctionalLeadershipCard({
-  member,
-  number,
-}: {
-  member: LeadershipMember;
-  number: string;
-}) {
+export function FunctionalLeadershipCard({ member }: { member: LeadershipMember }) {
   return (
-    <article className="group grid h-full grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 rounded-lg border border-border bg-surface p-4 transition-[border-color,box-shadow] duration-[var(--dur-base)] hover:border-bronze-300 hover:shadow-sm sm:gap-5 sm:p-5">
+    <article className="group grid h-full grid-cols-[auto_minmax(0,1fr)] items-center gap-4 rounded-lg border border-border bg-surface p-4 transition-[border-color,box-shadow] duration-[var(--dur-base)] hover:border-bronze-300 hover:shadow-sm sm:gap-5 sm:p-5">
       <ProfileVisual member={member} compact />
       <div className="min-w-0">
         <h3 className="m-0 font-display text-[1rem] font-bold leading-[1.3] text-strong">
@@ -184,9 +161,6 @@ export function FunctionalLeadershipCard({
           </p>
         ) : null}
       </div>
-      <span aria-hidden="true" className="self-start font-expanded text-[10px] tracking-[0.1em] text-stone-400">
-        {number}
-      </span>
     </article>
   );
 }

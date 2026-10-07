@@ -143,17 +143,28 @@ export function MobileNav({
             const panelId = `mobile-group-${item.label.replace(/\W+/g, "-").toLowerCase()}`;
             return (
               <div key={item.label} className="border-b border-stone-100">
+                <div className="flex items-center">
+                  <Link
+                    href={item.href ?? "/"}
+                    aria-current={isActivePath(pathname, item.href) ? "page" : undefined}
+                    className="min-w-0 flex-1 rounded-md px-3 py-[15px] text-[17px] font-semibold text-ink no-underline"
+                    onClick={onClose}
+                  >
+                    {item.label}
+                  </Link>
                 <button
                   type="button"
+                  aria-label={item.label}
                   aria-expanded={groupOpen}
                   aria-controls={panelId}
-                  className="flex w-full cursor-pointer items-center justify-between border-none bg-transparent px-3 py-[15px] text-start text-[17px] font-semibold text-ink"
+                  className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-md border-none bg-transparent text-ink"
                   onClick={() =>
                     setOpenGroup(groupOpen ? null : item.label)
                   }
                 >
-                  {item.label} <Chevron open={groupOpen} />
+                  <Chevron open={groupOpen} />
                 </button>
+                </div>
                 <div
                   id={panelId}
                   className="grid transition-[grid-template-rows] duration-300 ease-[var(--ease-standard)]"

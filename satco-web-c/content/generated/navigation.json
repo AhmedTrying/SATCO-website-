@@ -71,14 +71,14 @@
         },
         {
           "href": "/about/certifications",
-          "label": "Classifications & certifications"
+          "label": "Classifications, licenses & certifications"
         },
         {
           "href": "/about/clients",
           "label": "Clients"
         }
       ],
-      "title": "About"
+      "title": "About us"
     },
     {
       "links": [
@@ -92,11 +92,11 @@
         },
         {
           "href": "/sectors/operations",
-          "label": "Integrated operations & support"
+          "label": "Integrated operations & support services"
         },
         {
           "href": "/sectors/ppp",
-          "label": "Public–private partnerships"
+          "label": "Public–private partnerships (PPP)"
         }
       ],
       "title": "Operating sectors"
@@ -105,15 +105,7 @@
       "links": [
         {
           "href": "/careers",
-          "label": "Open roles"
-        },
-        {
-          "href": "/careers",
-          "label": "Life at SATCO"
-        },
-        {
-          "href": "/careers",
-          "label": "General application"
+          "label": "Explore career opportunities"
         }
       ],
       "title": "Careers"

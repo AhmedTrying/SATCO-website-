@@ -17,7 +17,7 @@ function applicationEndpoint(): string | undefined {
   if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
     return `${window.location.protocol}//${window.location.hostname}:3100/api/public/job-applications`;
   }
-  return undefined;
+  return "https://satco-dashboard.vercel.app/api/public/job-applications";
 }
 
 function Field({

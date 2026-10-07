@@ -3,9 +3,14 @@
 import { useState, useTransition } from "react";
 
 import type { SaveState } from "@/components/form/SaveBar";
-import type { SaveResult } from "@/app/actions/content";
 
-/** Wraps a save action call with transition + status state for editors. */
+/** Shape every save-style server action resolves to. */
+export interface SaveResult {
+  ok: boolean;
+  error?: string;
+}
+
+/** Wraps a save action call with transition + status state (used by the jobs editor). */
 export function useSave() {
   const [state, setState] = useState<SaveState>("idle");
   const [error, setError] = useState<string | undefined>();

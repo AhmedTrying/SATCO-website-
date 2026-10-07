@@ -1,12 +1,11 @@
 import Link from "next/link";
 import {
+  experienceFigures,
   pendingExperienceCard,
-  sectors,
   showPendingExperience,
 } from "@/content/sectors";
 import type { Sector } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { Container } from "@/components/layout/Container";
 import { Parallax } from "@/components/motion/Parallax";
 import { Reveal } from "@/components/motion/Reveal";
@@ -14,7 +13,6 @@ import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Picture } from "@/components/ui/Picture";
 import { Pill } from "@/components/ui/Pill";
-import { CapabilityAccordion } from "./CapabilityAccordion";
 
 function paragraphs(text: string) {
   return text.split("\n\n");
@@ -22,19 +20,18 @@ function paragraphs(text: string) {
 
 /** Full L2 sector template per the approved design; all body copy verbatim docx. */
 export function SectorL2({ sector }: { sector: Sector }) {
-  const number = String(sector.order).padStart(2, "0");
-  const total = String(sectors.length).padStart(2, "0");
   const experiencePublished =
     sector.experience.status === "confirmed" || showPendingExperience;
   const gallery = sector.gallery ?? [];
+  /* C: every sector gets the Airports figure pair + card image */
+  const figures = experienceFigures[sector.slug];
   /* 3+ images → large tile + stacked pair; 2 images → weighted pair */
   const mosaic = gallery.length >= 3;
 
   return (
     <>
-      {/* Hero — parallax depth on the imagery, staggered text reveal, and a
-          decorative oversized sector numeral (aria-hidden; the visible
-          "Operating sector NN / NN" line carries the meaning). */}
+      {/* Hero — parallax depth on the imagery and a staggered text reveal.
+          No sector numbering (FIX-10): the label reads "Operating sector". */}
       <div className="on-dark relative overflow-hidden bg-stone-950">
         <Parallax strength={26} scale={1.15} className="absolute inset-0">
           <Picture
@@ -50,25 +47,10 @@ export function SectorL2({ sector }: { sector: Sector }) {
           aria-hidden="true"
           className="absolute inset-0 bg-[linear-gradient(90deg,rgb(53_30_3/0.9),rgb(53_30_3/0.6)_55%,rgb(35_31_26/0.28))] rtl:bg-[linear-gradient(270deg,rgb(53_30_3/0.9),rgb(53_30_3/0.6)_55%,rgb(35_31_26/0.28))]"
         />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute bottom-[-0.1em] end-[2%] z-[1] hidden select-none font-display text-[clamp(7rem,17vw,13rem)] font-bold leading-none text-white/[0.07] md:block"
-        >
-          {number}
-        </div>
         <Container className="relative z-[2] pb-[clamp(3.5rem,7vw,6rem)] pt-[clamp(2.75rem,5.5vw,4.5rem)]">
-          <Breadcrumbs
-            onDark
-            className="mb-[22px]"
-            items={[
-              { label: "Home", href: "/" },
-              { label: "Operating sectors", href: "/sectors" },
-              { label: sector.shortName },
-            ]}
-          />
           <Reveal>
             <p className="mb-3.5 mt-0 font-display text-[12.5px] font-semibold uppercase tracking-[0.16em] text-bronze-200">
-              Operating sector {number} / {total}
+              Operating sector
             </p>
           </Reveal>
           <Reveal delay={70}>
@@ -134,6 +116,12 @@ export function SectorL2({ sector }: { sector: Sector }) {
               </h2>
             </Reveal>
           </div>
+          {/* B/C: every sector uses PPP's treatment (bronze rule + prose).
+              Titled capabilities become those blocks, each led by its title;
+              copy unchanged. From lg they step down the page as a staircase:
+              half-width blocks on a 12-column grid, each starting further
+              along (logical, so it mirrors in RTL) until the last meets the
+              far edge. Below lg they stack. */}
           {sector.capabilitiesProse ? (
             <Reveal>
               <div className="max-w-[880px] border-s-[3px] border-bronze-800 ps-[clamp(1.25rem,3vw,2rem)]">
@@ -143,11 +131,29 @@ export function SectorL2({ sector }: { sector: Sector }) {
               </div>
             </Reveal>
           ) : (
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-5">
-              {sector.capabilities.map((cap, i) => (
-                <Reveal key={cap.id} delay={(i % 2) * 70} className="h-full">
-                  <CapabilityAccordion index={i + 1} title={cap.title} body={cap.body} />
-                </Reveal>
+            <div className="flex max-w-[880px] flex-col gap-[clamp(2rem,4vw,2.75rem)] lg:grid lg:max-w-none lg:grid-cols-12 lg:gap-x-6">
+              {sector.capabilities.map((cap, i, all) => (
+                <div
+                  key={cap.id}
+                  className="lg:[grid-column:var(--cap-start)_/_span_6]"
+                  style={
+                    {
+                      "--cap-start":
+                        all.length > 1 ? Math.round((i * 6) / (all.length - 1)) + 1 : 1,
+                    } as React.CSSProperties
+                  }
+                >
+                  <Reveal delay={i * 70}>
+                    <div className="border-s-[3px] border-bronze-800 ps-[clamp(1.25rem,3vw,2rem)]">
+                      <h3 className="mb-2.5 mt-0 font-display text-[clamp(1.15rem,1.6vw,1.3rem)] font-bold leading-[1.28] text-strong">
+                        {cap.title}
+                      </h3>
+                      <p className="m-0 text-[clamp(1.1rem,1.7vw,1.35rem)] leading-[1.6] text-stone-800">
+                        {cap.body}
+                      </p>
+                    </div>
+                  </Reveal>
+                </div>
               ))}
             </div>
           )}
@@ -283,23 +289,23 @@ export function SectorL2({ sector }: { sector: Sector }) {
                   </p>
                 ) : null}
               </Reveal>
-              {sector.slug === "airports" ? (
+              {figures ? (
                 <Reveal delay={100} className="flex flex-col gap-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="rounded-lg bg-bronze-800 p-6 text-white">
                       <div className="font-display text-[clamp(1.9rem,4vw,2.6rem)] font-bold leading-none tabular-nums">
-                        130+
+                        {figures[0].value}
                       </div>
                       <div className="mt-2 text-[13px] leading-[1.4] text-bronze-200">
-                        Passenger boarding bridges installed
+                        {figures[0].label}
                       </div>
                     </div>
                     <div className="rounded-lg bg-stone-900 p-6 text-white">
                       <div className="font-display text-[clamp(1.9rem,4vw,2.6rem)] font-bold leading-none tabular-nums">
-                        9
+                        {figures[1].value}
                       </div>
                       <div className="mt-2 text-[13px] leading-[1.4] text-stone-400">
-                        Airports supported
+                        {figures[1].label}
                       </div>
                     </div>
                   </div>

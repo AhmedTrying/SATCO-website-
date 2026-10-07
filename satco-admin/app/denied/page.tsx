@@ -11,8 +11,8 @@ export default function DeniedPage() {
           You don&rsquo;t have access to that
         </h1>
         <p className="mt-1 text-sm text-muted">
-          Your current role doesn&rsquo;t include the required permission. Switch
-          to a higher role from the top bar (mock preview) or ask an admin.
+          Your account doesn&rsquo;t include this page. An admin can grant it under
+          Users &amp; access.
         </p>
         <Link href="/overview" className="btn btn-primary mt-4">
           Back to overview

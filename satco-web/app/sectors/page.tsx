@@ -24,7 +24,6 @@ export default function SectorsPage() {
   return (
     <>
       <PageHeader
-        crumbs={[{ label: "Home", href: "/" }, { label: "Operating sectors" }]}
         title={sectorsIntro.heading}
         headingId="sectors-l1-h"
         lead={sectorsIntro.subhead}
@@ -53,9 +52,6 @@ export default function SectorsPage() {
                     style={{ height: "100%", width: "100%" }}
                   />
                 </Parallax>
-                <span className="absolute start-4 top-4 rounded-sm bg-bronze-950/70 px-3 py-1.5 font-display text-sm font-bold tracking-[0.1em] text-white">
-                  {String(sector.order).padStart(2, "0")}
-                </span>
               </div>
               <div className="flex-[2_1_380px] p-[clamp(1.5rem,2.5vw,2.5rem)]">
                 <h2 className="mb-3.5 mt-0 font-display text-[clamp(1.35rem,2.4vw,1.7rem)] font-bold leading-[1.2] text-strong">

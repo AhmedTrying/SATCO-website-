@@ -2,15 +2,23 @@
  * Pre-generates responsive image variants (plan §8/P7): static export uses
  * images.unoptimized, so width variants are built ahead of time and referenced
  * via <picture>/srcset. Source: the repo-root img/ set mapped from client
- * photography. Run: node scripts/optimize-images.mjs
+ * photography. Run: node scripts/optimize-images.mjs [name ...]
+ *
+ * Option B: a master in this option's own img/ folder wins over the shared
+ * repo-root one. B uses it to swap the Unsplash stock set for SATCO's own
+ * photos (client folder, 2026-10-04; see docs/VARIANTS.md). Pass names to
+ * regenerate only those images.
  */
+import { existsSync } from "node:fs";
 import { mkdir, stat } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 
 const SRC = path.resolve(process.cwd(), "../img");
+const LOCAL_SRC = path.resolve(process.cwd(), "img");
 const OUT = path.resolve(process.cwd(), "public/images");
-const WIDTHS = [640, 1080, 1600, 2200];
+// 2800 only reaches sources that wide (B: who-panorama).
+const WIDTHS = [640, 1080, 1600, 2200, 2800];
 const IMAGES = [
   "airport-1",
   "airport-3",
@@ -32,12 +40,16 @@ const IMAGES = [
   "riyadh-2",
   "highway-1",
   "plant-1",
+  // Option B: home "Who we are" panorama band (client folder, 2026-10-04)
+  "who-panorama",
 ];
 
 await mkdir(OUT, { recursive: true });
 
-for (const name of IMAGES) {
-  const src = path.join(SRC, `${name}.jpg`);
+const only = process.argv.slice(2);
+for (const name of only.length ? IMAGES.filter((n) => only.includes(n)) : IMAGES) {
+  const local = path.join(LOCAL_SRC, `${name}.jpg`);
+  const src = existsSync(local) ? local : path.join(SRC, `${name}.jpg`);
   const meta = await sharp(src).metadata();
   for (const w of WIDTHS) {
     if (meta.width && meta.width < w) continue;

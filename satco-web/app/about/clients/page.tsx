@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { clients, clientsPage } from "@/content/clients";
 import { Container } from "@/components/layout/Container";
-import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { Reveal } from "@/components/motion/Reveal";
 import { ClientDirectory } from "@/components/about/ClientDirectory";
 
@@ -69,18 +68,9 @@ if (selected.length > 30) {
 export default function ClientsPage() {
   return (
     <div className="bg-[#fdfcfa]">
-      {/* 1 — Dark hero: breadcrumb, title + subline, derived proof stats */}
+      {/* 1 — Dark hero: title + subline, derived proof stats (no page path — FIX-14) */}
       <div className="on-dark bg-[#191712]">
-        <Container className="pb-[clamp(3rem,5.5vw,5rem)] pt-[clamp(2.25rem,4.5vw,3.5rem)]">
-          <Breadcrumbs
-            onDark
-            className="mb-9"
-            items={[
-              { label: "Home", href: "/" },
-              { label: "About us", href: "/about" },
-              { label: clientsPage.title },
-            ]}
-          />
+        <Container className="pb-[clamp(3rem,5.5vw,5rem)] pt-[clamp(3rem,5.5vw,5rem)]">
           <div className="grid items-end gap-x-20 gap-y-9 lg:grid-cols-[minmax(0,1fr)_auto]">
             <div>
               <h1

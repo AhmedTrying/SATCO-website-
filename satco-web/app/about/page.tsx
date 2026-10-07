@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 /*
- * About L1 — intro (verbatim docx) + the four sub-page cards, upgraded to the
+ * About L1 — intro (verbatim, FIX-20) + the four sub-page cards, upgraded to the
  * home card vocabulary (lift + border-warm + slow image zoom + accent draw).
  * Card imagery is decorative (empty alt — the card titles carry the meaning),
  * so the neutral-stock rule is satisfied without inventing captions.
@@ -44,14 +44,17 @@ const cards = [
   },
 ];
 
-const intro =
-  "SATCO is a Saudi-owned infrastructure and services group operating across construction, airport infrastructure, operations as well as support services, and public–private partnerships. Established in 1975, SATCO supports complex projects that require scale, reliability, and long-term commitment.";
+/* FIX-20: Tamer's About us landing text (email of 24 Sep 2026), verbatim. */
+const intro = [
+  "SATCO has built and operated infrastructure in Saudi Arabia since 1975. A private, Saudi-owned group, we work across four sectors — airport infrastructure and operations, construction, integrated operations and support services, and public–private partnerships — and where a client wants one partner for the life of an asset, we build it, then we operate it.",
+  "Two projects show what that means. At King Khalid International Airport, SATCO designed, installed, and operated 43 passenger boarding bridges under a build-transfer-operate concession that ran from 2012 to 2026. At NEOM, SATCO built a village for 10,000 residents in under three years and then ran it — power, water, catering, medical, and maintenance — through 2025.",
+  "The wider record: communities for more than 137,000 people built and supported, 4.8 million square meters built and maintained, more than 130 boarding bridges installed, and 1.3 million aircraft served at nine airports.",
+];
 
 export default function AboutPage() {
   return (
     <>
       <PageHeader
-        crumbs={[{ label: "Home", href: "/" }, { label: "About us" }]}
         title="About us"
         headingId="about-h"
         lead={intro}
@@ -73,12 +76,6 @@ export default function AboutPage() {
                     imgClassName="h-full w-full object-cover transition-transform duration-[1.2s] ease-[var(--ease-out-expo)] group-hover:scale-[1.06]"
                     className="block h-full"
                   />
-                  <span
-                    aria-hidden="true"
-                    className="absolute start-4 top-4 rounded-[4px] bg-surface/90 px-2.5 py-1 font-display text-[12px] font-bold tracking-[0.04em] text-bronze-800 shadow-xs backdrop-blur-[2px]"
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
                 </div>
                 <div className="flex flex-1 flex-col px-7 pb-[26px] pt-6">
                   <h2 className="mb-3 mt-0 font-display text-[1.25rem] font-bold leading-[1.25] text-strong">

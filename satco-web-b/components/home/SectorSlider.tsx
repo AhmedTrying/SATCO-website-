@@ -5,15 +5,18 @@ import { motion, type Easing } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { home } from "@/content/home";
 import { sectors } from "@/content/sectors";
+import { site } from "@/content/site";
 import { ease } from "@/lib/motion";
 import { Picture } from "@/components/ui/Picture";
 
 /*
  * Hero sector carousel per the approved design + plan §7: 4 crossfading slides,
- * ~6s auto-advance that pauses on hover/focus, prev/next, dots, arrow keys,
- * aria-live announcements, and a visible pause control (plan §7 / WCAG 2.2.2 —
- * added over the design, which had hover-pause only). Autoplay is disabled
- * entirely under prefers-reduced-motion.
+ * ~6s auto-advance that pauses on hover (slide text and controls only) and
+ * keyboard focus, prev/next, dots, arrow keys and
+ * aria-live announcements. There is no pause button: it was removed at the
+ * client's request on 2026-09-30 (plan §7 had added one for WCAG 2.2.2), so
+ * hover and keyboard focus are the only ways to hold a slide. Autoplay is
+ * disabled entirely under prefers-reduced-motion.
  *
  * Cinematic layer (UCC-reference upgrade): Ken Burns drift on the active slide
  * and an autoplay progress fill in the active dot (both CSS, globals.css —
@@ -36,10 +39,18 @@ const circleButton =
 export function SectorSlider() {
   const slides = sectors;
   const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
   const [announcement, setAnnouncement] = useState("");
   const reduced = useRef(false);
-  const hovering = useRef(false);
+  const [hovering, setHovering] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const autoplayPaused = hovering || focused;
+  // Hover holds the slide only over the slide text and the controls. The hero
+  // fills the first screen, so pausing on the whole region froze autoplay
+  // whenever the pointer rested on the page (e.g. after scrolling back up).
+  const holdOnHover = {
+    onMouseEnter: () => setHovering(true),
+    onMouseLeave: () => setHovering(false),
+  };
   const timer = useRef<number | undefined>(undefined);
   const animateText = heroHydrated;
   useEffect(() => {
@@ -51,6 +62,9 @@ export function SectorSlider() {
       const target = (next + slides.length) % slides.length;
       setIndex(target);
       if (announce) {
+        // Manual navigation keeps autoplay running with the control focused.
+        setHovering(false);
+        setFocused(false);
         setAnnouncement(
           `Slide ${target + 1} of ${slides.length}: ${slides[target].name}`,
         );
@@ -59,18 +73,18 @@ export function SectorSlider() {
     [slides],
   );
 
-  // Auto-advance — cleared while paused (control), hovered/focused, or reduced-motion.
+  // Auto-advance — cleared while hovered/focused, or under reduced motion.
   // Auto-rotation is SILENT (announce=false): only user-initiated changes go to
   // the live region, per the APG carousel pattern.
   useEffect(() => {
     reduced.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (paused || reduced.current) return;
+    if (autoplayPaused || reduced.current) return;
     const tick = () => {
-      if (!hovering.current) go(index + 1, false);
+      go(index + 1, false);
     };
     timer.current = window.setInterval(tick, AUTO_MS);
     return () => window.clearInterval(timer.current);
-  }, [index, paused, go]);
+  }, [index, autoplayPaused, go]);
 
   const current = slides[index];
 
@@ -81,8 +95,11 @@ export function SectorSlider() {
       aria-roledescription="carousel"
       aria-label={home.hero.regionLabel}
       tabIndex={0}
-      data-paused={paused || undefined}
-      className="on-dark relative -mt-[var(--nav-h)] flex min-h-[min(92vh,820px)] items-end overflow-hidden bg-stone-950"
+      data-paused={autoplayPaused || undefined}
+      // Full-screen hero, as in Option C: fills the first screen
+      // (.hero-fullscreen, globals.css) and tucks under the header's 1px
+      // bottom border, so no strip of page background shows along the top.
+      className="on-dark hero-fullscreen relative -mt-[calc(var(--nav-h)+1px)] flex items-end overflow-hidden bg-stone-950"
       onKeyDown={(e) => {
         // Direction-aware for the RTL seam: "forward" follows reading direction
         const rtl = getComputedStyle(e.currentTarget).direction === "rtl";
@@ -94,18 +111,15 @@ export function SectorSlider() {
           go(index + (rtl ? 1 : -1));
         }
       }}
-      onMouseEnter={() => {
-        hovering.current = true;
-      }}
-      onMouseLeave={() => {
-        hovering.current = false;
-      }}
-      onFocusCapture={() => {
-        hovering.current = true;
+      // Keyboard focus only: a mouse click on the slide (which focuses this
+      // tabIndex region) or on a control is not :focus-visible, so it no
+      // longer holds the slide until the user clicks elsewhere.
+      onFocusCapture={(e) => {
+        if ((e.target as Element).matches(":focus-visible")) setFocused(true);
       }}
       onBlurCapture={(e) => {
         if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
-          hovering.current = false;
+          setFocused(false);
         }
       }}
     >
@@ -141,21 +155,20 @@ export function SectorSlider() {
         className="absolute inset-0 z-[3] bg-[linear-gradient(95deg,rgb(53_30_3/0.88),rgb(53_30_3/0.52)_46%,rgb(35_31_26/0.12)),linear-gradient(0deg,rgb(29_26_22/0.72),rgb(29_26_22/0)_54%)] rtl:bg-[linear-gradient(265deg,rgb(53_30_3/0.88),rgb(53_30_3/0.52)_46%,rgb(35_31_26/0.12)),linear-gradient(0deg,rgb(29_26_22/0.72),rgb(29_26_22/0)_54%)]"
       />
 
-      <div className="relative z-[5] mx-auto flex w-full max-w-[var(--container-max)] flex-col justify-end gap-[clamp(2rem,5vw,3.5rem)] px-[var(--container-x)] pb-[clamp(2.5rem,5vw,4rem)] pt-[120px]">
-        <div className="max-w-[820px]">
-          <p className="mb-[18px] mt-0 font-display text-[13px] font-semibold uppercase tracking-[0.16em] text-bronze-200">
-            {home.hero.eyebrow}
-          </p>
-          <h1
-            id="home-h1"
-            className="m-0 font-display text-[clamp(2.5rem,6vw,4rem)] font-bold leading-[1.05] tracking-[-0.015em] text-white [text-wrap:balance]"
-          >
-            {home.hero.headline}
-          </h1>
-        </div>
+      {/* Bottom spacing also follows the viewport height (the min(vw, svh)
+          term, as in Option C), so the full-screen hero still fits short
+          laptop displays. */}
+      <div className="relative z-[5] mx-auto flex w-full max-w-[var(--container-max)] flex-col justify-end px-[var(--container-x)] pb-[clamp(2.5rem,min(5vw,7.1svh),4rem)] pt-[calc(var(--nav-h)+1.5rem)]">
+        {/* FIX-16: no hero eyebrow or headline; each slide leads with its
+            sector title. The page still needs an h1, so it is visually hidden. */}
+        <h1 id="home-h1" className="sr-only">
+          {site.legalName}
+        </h1>
 
-        <div className="flex flex-wrap items-end justify-between gap-7 border-t border-bronze-100/25 pt-[clamp(1.4rem,3vw,2rem)]">
-          <div className="max-w-[600px]">
+        <div className="flex flex-wrap items-end justify-between gap-7">
+          {/* 940px keeps every (larger, FIX-16) sector title on one line on
+              desktop. */}
+          <div className="max-w-[940px]" {...holdOnHover}>
             {/* Keyed by slide: remounts and rises in on every change. The CTA
                 stays OUTSIDE so keyboard focus is never dropped mid-cycle. */}
             <motion.div
@@ -164,13 +177,10 @@ export function SectorSlider() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, ease: ease.outExpo as unknown as Easing }}
             >
-              <p className="mb-2.5 mt-0 font-display text-[12.5px] font-semibold tracking-[0.16em] text-bronze-200 tabular-nums">
-                Sector {String(index + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
-              </p>
-              <h2 className="mb-2.5 mt-0 font-display text-[clamp(1.55rem,3.4vw,2.35rem)] font-bold leading-[1.12] tracking-[-0.01em] text-white">
+              <h2 className="mb-3 mt-0 font-display text-[clamp(2rem,4.2vw,3rem)] font-bold leading-[1.08] tracking-[-0.01em] text-white">
                 {current.name}
               </h2>
-              <p className="mb-5 mt-0 text-[clamp(1rem,1.5vw,1.15rem)] leading-[1.5] text-stone-50/90">
+              <p className="mb-6 mt-0 text-[clamp(1.05rem,1.6vw,1.3rem)] leading-[1.5] text-stone-50/90">
                 {current.tagline}
               </p>
             </motion.div>
@@ -185,7 +195,7 @@ export function SectorSlider() {
             </Link>
           </div>
 
-          <div className="flex flex-col items-start gap-[18px]">
+          <div className="flex flex-col items-start gap-[18px]" {...holdOnHover}>
             <div className="flex gap-2.5">
               <button
                 type="button"
@@ -206,23 +216,6 @@ export function SectorSlider() {
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="rtl:-scale-x-100">
                   <polyline points="9 18 15 12 9 6" />
                 </svg>
-              </button>
-              <button
-                type="button"
-                aria-label={paused ? "Play slideshow" : "Pause slideshow"}
-                className={circleButton}
-                onClick={() => setPaused((p) => !p)}
-              >
-                {paused ? (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <polygon points="8 5 19 12 8 19" />
-                  </svg>
-                ) : (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <rect x="6" y="5" width="4" height="14" />
-                    <rect x="14" y="5" width="4" height="14" />
-                  </svg>
-                )}
               </button>
             </div>
             <div role="group" aria-label="Slide selection" className="flex items-center gap-2">
@@ -245,11 +238,10 @@ export function SectorSlider() {
                   >
                     {i === index ? (
                       // Autoplay progress: refills each cycle (keyed remount).
-                      // While paused it reads as the solid active pill; CSS in
-                      // globals.css freezes it on hover/focus/pause.
+                      // CSS in globals.css freezes it on hover/focus.
                       <span
-                        key={paused ? "static" : `cycle-${index}`}
-                        className={`block h-full rounded-[5px] bg-bronze-100 ${paused ? "" : "dot-progress"}`}
+                        key={`cycle-${index}`}
+                        className="dot-progress block h-full rounded-[5px] bg-bronze-100"
                       />
                     ) : null}
                   </span>

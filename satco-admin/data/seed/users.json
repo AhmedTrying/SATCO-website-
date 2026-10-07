@@ -1,33 +1,37 @@
 [
   {
     "id": "u-admin",
-    "name": "Amira Al-Rashid",
+    "name": "Demo Admin",
     "email": "admin@satco.com.sa",
     "role": "admin",
+    "access": [],
     "active": true,
     "createdAt": "2026-08-02T11:07:32.674Z"
   },
   {
-    "id": "u-publisher",
-    "name": "Bandar Al-Otaibi",
-    "email": "publisher@satco.com.sa",
-    "role": "publisher",
+    "id": "u-recruiter",
+    "name": "Demo Recruiter",
+    "email": "recruiter@satco.com.sa",
+    "role": "staff",
+    "access": ["jobs", "careers"],
     "active": true,
     "createdAt": "2026-08-02T11:07:32.674Z"
   },
   {
-    "id": "u-editor",
-    "name": "Sultan Al-Ghamdi",
-    "email": "editor@satco.com.sa",
-    "role": "editor",
+    "id": "u-procurement",
+    "name": "Demo Procurement",
+    "email": "procurement@satco.com.sa",
+    "role": "staff",
+    "access": ["procurement"],
     "active": true,
     "createdAt": "2026-08-02T11:07:32.674Z"
   },
   {
-    "id": "u-viewer",
-    "name": "Tarek Hassan",
-    "email": "viewer@satco.com.sa",
-    "role": "viewer",
+    "id": "u-bd",
+    "name": "Demo Business Development",
+    "email": "bd@satco.com.sa",
+    "role": "staff",
+    "access": ["partnerships", "opportunities", "general"],
     "active": true,
     "createdAt": "2026-08-02T11:07:32.674Z"
   }

@@ -1,5 +1,8 @@
 # Neon Postgres backend
 
+> **Superseded in part (2026-10-07).** The dashboard no longer stores or publishes page copy: the `content_bundle` and `publishes` tables, the content/publish adapters and the site's Neon content fetch were removed (see `docs/DASHBOARD.md` and `satco-admin/db/migrations/2026-10-07-operations-dashboard.sql`). The jobs / applications / inquiries / users / media / audit parts below still apply; roles are now `staff` / `recruiter` / `admin` and users carry `inboxes`.
+
+
 The dashboard runs on **Vercel + Neon** (Postgres) instead of Supabase. Every hosted
 service still sits behind a typed interface in `satco-admin/lib/adapters/types.ts`,
 selected by `DATA_BACKEND` in `satco-admin/lib/adapters/index.ts`

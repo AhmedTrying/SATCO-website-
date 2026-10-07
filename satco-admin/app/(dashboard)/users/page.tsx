@@ -1,55 +1,58 @@
-import { ROLES, ROLE_CAPABILITIES, type RoleCapability } from "@satco/shared";
+import { ACCESS_PAGES } from "@satco/shared";
 
-import { UsersManager } from "@/components/editors/UsersManager";
+import { PAGE_LABELS, UsersManager } from "@/components/users/UsersManager";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Tabs } from "@/components/ui/Tabs";
 import { adapters } from "@/lib/adapters";
-import { requireCapability } from "@/lib/auth";
+import { authMode, requireCapability } from "@/lib/auth";
 import { formatDate } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
-const CAP_LABELS: Record<RoleCapability, string> = {
-  view: "See dashboard & drafts",
-  edit: "Create/edit drafts, upload media",
-  publish: "Publish + trigger rebuild",
-  manageJobs: "Open/close jobs, triage submissions",
-  downloadCv: "Download CVs (private bucket)",
-  admin: "Manage users, roles, settings, flags",
+const PAGE_NOTES: Record<string, string> = {
+  jobs: "Create, publish, pause and close jobs; triage applications; download CVs.",
+  partnerships: "Inquiries sent with the \"Discuss partnerships\" option.",
+  opportunities: "Inquiries sent with the \"Opportunities\" option.",
+  procurement: "Inquiries sent with the \"Procurement\" option.",
+  careers: "Inquiries sent with the \"Careers\" option (not job applications).",
+  general: "Inquiries sent with the \"General inquiries\" option.",
 };
-const ALL_CAPS = Object.keys(CAP_LABELS) as RoleCapability[];
 
-function RoleMatrix() {
+function AccessModel() {
   return (
-    <div className="card overflow-x-auto p-0">
-      <table className="tbl">
-        <thead>
-          <tr>
-            <th>Capability</th>
-            {ROLES.map((r) => (
-              <th key={r} className="text-center capitalize">
-                {r}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {ALL_CAPS.map((cap) => (
-            <tr key={cap}>
-              <td>{CAP_LABELS[cap]}</td>
-              {ROLES.map((r) => (
-                <td key={r} className="text-center">
-                  {ROLE_CAPABILITIES[r].includes(cap) ? (
-                    <span className="text-success">✓</span>
-                  ) : (
-                    <span className="text-stone-300">·</span>
-                  )}
-                </td>
-              ))}
+    <div className="space-y-3">
+      <div className="card overflow-x-auto p-0">
+        <table className="tbl">
+          <thead>
+            <tr>
+              <th>Page</th>
+              <th>What it allows</th>
+              <th className="text-center">staff</th>
+              <th className="text-center">admin</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {ACCESS_PAGES.map((page) => (
+              <tr key={page}>
+                <td className="font-medium text-strong">{PAGE_LABELS[page]}</td>
+                <td>{PAGE_NOTES[page]}</td>
+                <td className="text-center text-muted">if granted</td>
+                <td className="text-center text-success">✓</td>
+              </tr>
+            ))}
+            <tr>
+              <td className="font-medium text-strong">Users &amp; access, audit log</td>
+              <td>Add people, change roles and page access, deactivate accounts, delete jobs.</td>
+              <td className="text-center text-stone-300">·</td>
+              <td className="text-center text-success">✓</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p className="hint">
+        Two roles only. Staff see exactly the pages ticked on their account; admins see
+        everything. Every page is also checked on the server, so a link alone never grants access.
+      </p>
     </div>
   );
 }
@@ -57,27 +60,33 @@ function RoleMatrix() {
 export default async function UsersPage() {
   const session = await requireCapability("admin");
   const [users, audit] = await Promise.all([
-    adapters.auth.listUsers(),
+    adapters.users.list(),
     adapters.audit.list(200),
   ]);
 
   return (
     <>
       <PageHeader
-        title="Users & roles"
-        description="Manage staff access and review the audit trail."
+        title="Users & access"
+        description="Who can sign in and which pages they can open."
       />
       <Tabs
         tabs={[
           {
             id: "users",
             label: `Users (${users.length})`,
-            content: <UsersManager users={users} currentEmail={session.email} />,
+            content: (
+              <UsersManager
+                users={users}
+                currentUserId={session.userId}
+                signInMode={authMode()}
+              />
+            ),
           },
           {
             id: "roles",
-            label: "Role matrix",
-            content: <RoleMatrix />,
+            label: "Access model",
+            content: <AccessModel />,
           },
           {
             id: "audit",

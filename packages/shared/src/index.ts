@@ -8,7 +8,26 @@
 
 export * from "./types";
 export * from "./content";
-export * from "./content-layout";
 export * from "./cms";
 export * from "./design-selection";
 export * from "./jobs";
+
+export {
+  leadershipDocument,
+  leadershipExampleBios,
+  leadershipExampleCopy,
+} from "./leadership-example";
+
+export {
+  certificateCopy,
+  certificateDetails,
+  certificationBodies,
+  credentialLogos,
+  formatCertificateDate,
+  leedCertificates,
+} from "./certificate-details";
+export type {
+  CertificateDetail,
+  CertificationBodyId,
+  LeedCertificate,
+} from "./certificate-details";

@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SATCO Control Dashboard",
-  description: "Content, media, careers, contact and feature control for satco-web.",
+  title: "SATCO Operations Dashboard",
+  description: "Careers, website inquiries and staff access for the SATCO website.",
   robots: { index: false, follow: false },
 };
 

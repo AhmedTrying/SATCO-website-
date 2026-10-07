@@ -53,6 +53,9 @@
   --error: #9b2c1e;
   --info: #3a5566;
 
+  /* Homepage spacing comparison; inner pages retain the standard rhythm. */
+  --home-section-y: clamp(2.5rem, 4vw, 4rem);
+
   /* 3.5 Layout rhythm */
   --section-y: clamp(4rem, 8vw, 8rem);
   --container-x: clamp(1.25rem, 5vw, 2.5rem);

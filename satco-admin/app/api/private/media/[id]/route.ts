@@ -2,7 +2,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 
 import { get } from "@vercel/blob";
-import { roleCan } from "@satco/shared";
+import { userCan } from "@satco/shared";
 
 import { adapters } from "@/lib/adapters";
 import { getSession } from "@/lib/auth";
@@ -35,7 +35,7 @@ export async function GET(
 ): Promise<Response> {
   const session = await getSession();
   if (!session) return Response.json({ error: "Sign in required." }, { status: 401 });
-  if (!roleCan(session.role, "downloadCv")) {
+  if (!userCan(session, "downloadCv")) {
     return Response.json({ error: "You do not have access to this file." }, { status: 403 });
   }
 

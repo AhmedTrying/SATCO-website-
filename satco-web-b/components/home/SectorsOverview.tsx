@@ -9,34 +9,41 @@ import { cn } from "@/lib/utils";
  * LOCKED (docx comments #6/#9): the hero and this Operating Sectors section
  * stay separate — never merge them.
  *
- * 2A band design: dark section; numbered flat columns divided by dotted
- * rules (verticals on the 4-up row, horizontals when the grid stacks).
+ * 2A band design: dark section; flat columns divided by dotted rules
+ * (verticals on the 4-up row, horizontals when the grid stacks).
  * Copy, sector order, images, and links are unchanged content.
+ *
+ * Client feedback (Sep 2026): no "What we do" kicker (FIX-08); the subhead
+ * sits directly beneath the heading, larger (Bandar, FIX-09/OPT-07); no
+ * 01–04 card numbers (FIX-10).
+ *
+ * FIX-19 (Option B): the Operating Sectors pages' brown (bronze-950 with the
+ * soft top glow of their "Why SATCO" block) instead of near-black, so the
+ * band, the brown-tinted Careers photo and B's deep-bronze Contact band read
+ * as one warm sequence down to the footer.
  */
 export function SectorsOverview() {
   return (
-    <section aria-labelledby="sectors-h" className="on-dark bg-stone-950">
-      <Container className="py-[var(--section-y)]">
-        <div className="mb-[clamp(2.5rem,4vw,3.5rem)] flex flex-wrap items-end justify-between gap-x-16 gap-y-5">
-          <div>
-            {sectorsIntro.eyebrow ? (
-              <Reveal>
-                <p className="mb-2 mt-0 font-display text-[13px] font-semibold uppercase tracking-[0.14em] text-bronze-300">
-                  {sectorsIntro.eyebrow}
-                </p>
-              </Reveal>
-            ) : null}
-            <Reveal delay={40}>
-              <h2
-                id="sectors-h"
-                className="my-0 font-display text-[clamp(1.9rem,3.6vw,2.6rem)] font-bold leading-[1.12] tracking-[-0.015em] text-white"
-              >
-                {sectorsIntro.heading}
-              </h2>
-            </Reveal>
-          </div>
-          <Reveal delay={100}>
-            <p className="m-0 max-w-[36ch] text-[15px] leading-[1.6] text-stone-400">
+    <section
+      aria-labelledby="sectors-h"
+      className="on-dark relative isolate overflow-hidden bg-bronze-950"
+    >
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-[radial-gradient(90%_120%_at_50%_0%,rgb(112_64_0/0.32),transparent_70%)]"
+      />
+      <Container className="py-[var(--home-section-y)]">
+        <div className="mb-[clamp(2.5rem,4vw,3.5rem)]">
+          <Reveal>
+            <h2
+              id="sectors-h"
+              className="my-0 font-display text-[clamp(1.9rem,3.6vw,2.6rem)] font-bold leading-[1.12] tracking-[-0.015em] text-white"
+            >
+              {sectorsIntro.heading}
+            </h2>
+          </Reveal>
+          <Reveal delay={80}>
+            <p className="mb-0 mt-4 max-w-[52ch] text-[clamp(1.1rem,1.7vw,1.3rem)] leading-[1.55] text-stone-300">
               {sectorsIntro.subhead}
             </p>
           </Reveal>
@@ -66,12 +73,6 @@ export function SectorsOverview() {
                   />
                 </div>
                 <div className="flex flex-1 flex-col px-[22px] pb-9 pt-6">
-                  <p
-                    aria-hidden="true"
-                    className="mb-3 mt-0 font-display text-xs font-semibold tracking-[0.14em] text-stone-400 tabular-nums"
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </p>
                   <h3 className="mb-3 mt-0 font-display text-[1.3rem] font-bold leading-[1.25] text-white">
                     {sector.name}
                   </h3>

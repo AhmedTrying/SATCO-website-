@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 import { Emblem } from "@/components/ui/Emblem";
 import { flags } from "@/content/flags";
@@ -11,25 +11,41 @@ const REVIEW_DURATIONS = [1200, 1500];
 const SHOW_REVIEW_CONTROL = flags.show_review_control;
 const STORAGE_KEY = "satco_intro_seen_v2";
 
-type Phase = "hidden" | "hold" | "out";
+/*
+ * Option B intro (OPT-01, 2026-10-04): rise and lift. The lockup (emblem,
+ * wordmark, rule and tagline) rises gently into place, holds, then the whole
+ * cream screen lifts off the top like a shutter, uncovering the website from
+ * the bottom up. (Replaces the staged wipe, then a plain fade.)
+ *
+ * The whole timeline is CSS (globals.css `.intro-lift*`), so it runs from the
+ * first paint of the server-rendered overlay rather than from hydration; JS
+ * only unmounts it. ENTER_MS / EXIT_MS must match the CSS. The dashboard
+ * duration sets the hold: 75% of it, as in A.
+ */
+const ENTER_MS = 1000;
+const EXIT_MS = 1000;
+
+function timeline(duration: number) {
+  const exitAt = ENTER_MS + Math.round(duration * 0.75);
+  return { exitAt, total: exitAt + EXIT_MS };
+}
 
 export function LoadingScreen() {
   // Render the opaque intro on the server so the website can never paint first.
-  const [phase, setPhase] = useState<Phase>("hold");
+  const [visible, setVisible] = useState(true);
   const [duration, setDuration] = useState(DEFAULT_DURATION);
+  // Remount key: a fresh overlay element restarts the CSS timeline on replay.
+  const [run, setRun] = useState(0);
   const timers = useRef<number[]>([]);
 
-  const play = (total: number) => {
+  const play = (next: number) => {
     timers.current.forEach(window.clearTimeout);
-    const fade = Math.round(total * 0.25);
-    const hold = total - fade;
-
     document.documentElement.removeAttribute("data-satco-intro");
-    setPhase("hold");
-
+    setDuration(next);
+    setRun((n) => n + 1);
+    setVisible(true);
     timers.current = [
-      window.setTimeout(() => setPhase("out"), hold),
-      window.setTimeout(() => setPhase("hidden"), total + 40),
+      window.setTimeout(() => setVisible(false), timeline(next).total + 40),
     ];
   };
 
@@ -45,14 +61,14 @@ export function LoadingScreen() {
 
     if (reduced || seen) {
       document.documentElement.dataset.satcoIntro = "skip";
-      timers.current = [window.setTimeout(() => setPhase("hidden"), 0)];
+      timers.current = [window.setTimeout(() => setVisible(false), 0)];
     } else {
-      const fade = Math.round(DEFAULT_DURATION * 0.25);
-      const hold = DEFAULT_DURATION - fade;
-
       timers.current = [
-        window.setTimeout(() => setPhase("out"), hold),
-        window.setTimeout(() => setPhase("hidden"), DEFAULT_DURATION + 40),
+        // Fallback: the exit animation's end normally unmounts the overlay first.
+        window.setTimeout(
+          () => setVisible(false),
+          timeline(DEFAULT_DURATION).total + 40,
+        ),
         window.setTimeout(() => {
           try {
             sessionStorage.setItem(STORAGE_KEY, "1");
@@ -67,29 +83,37 @@ export function LoadingScreen() {
     return () => activeTimers.current.forEach(window.clearTimeout);
   }, []);
 
-  const fade = Math.round(duration * 0.25);
+  const { exitAt } = timeline(duration);
 
   return (
     <>
-      {phase !== "hidden" && (
+      {visible && (
         <div
+          key={run}
           aria-hidden="true"
           data-satco-intro="true"
-          className="pointer-events-none fixed inset-0 z-[200] flex items-center justify-center bg-[#fcfbf9]"
-          style={{
-            opacity: phase === "out" ? 0 : 1,
-            transition: `opacity ${fade}ms ease-in-out`,
+          className="intro-lift pointer-events-none fixed inset-0 z-[200] flex items-center justify-center bg-[#fcfbf9]"
+          style={{ "--intro-exit-at": `${exitAt}ms` } as CSSProperties}
+          onAnimationEnd={(e) => {
+            if (e.target === e.currentTarget) setVisible(false);
           }}
         >
-          <div className="flex flex-col items-center px-6 text-center">
-            <div className="flex items-center gap-4">
-              <Emblem size={54} disc="var(--bronze-700)" land="var(--stone-500)" />
-              <span className="font-display text-[clamp(1.75rem,4vw,2.4rem)] font-bold tracking-[0.2em] text-stone-950">
-                {site.name}
-              </span>
+          <div className="intro-lift-in flex flex-col items-center px-6 text-center">
+            {/* The rule spans the lockup, underlining it. */}
+            <div className="flex flex-col">
+              <div className="flex items-center gap-4">
+                <Emblem size={54} />
+                {/* -me cancels the trailing letter-spacing so the rule ends under the O */}
+                <span className="-me-[0.2em] font-display text-[clamp(1.75rem,4vw,2.4rem)] font-bold tracking-[0.2em] text-stone-950">
+                  {site.name}
+                </span>
+              </div>
+              <div
+                aria-hidden="true"
+                className="mt-6 h-px w-full bg-bronze-600/60"
+              />
             </div>
-            <div aria-hidden="true" className="my-6 h-px w-16 bg-bronze-600/60" />
-            <p className="m-0 font-sans text-[clamp(1rem,2.2vw,1.35rem)] font-medium tracking-[0.035em] text-stone-700">
+            <p className="mb-0 mt-6 font-sans text-[clamp(1rem,2.2vw,1.35rem)] font-medium tracking-[0.035em] text-stone-700">
               {site.loadingText}
             </p>
           </div>
@@ -112,10 +136,7 @@ export function LoadingScreen() {
                     ? "border-bronze-800 bg-bronze-800 text-white"
                     : "border-stone-300 bg-white text-stone-700"
                 }`}
-                onClick={() => {
-                  setDuration(option);
-                  play(option);
-                }}
+                onClick={() => play(option)}
               >
                 {option / 1000}s
               </button>

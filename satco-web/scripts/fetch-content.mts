@@ -1,19 +1,18 @@
 /*
- * Prebuild: pull the PUBLISHED content bundle from Neon and write the site's
- * content/generated/*.json (the same per-section layout the dashboard publishes,
- * via the shared splitBundle). Published jobs come from the dashboard's public
- * API, with Neon as a fallback, and refresh generated/jobs.json. Runs before
- * `next build` through the satco-web "prebuild" script.
+ * Prebuild: refresh content/generated/jobs.json with the PUBLISHED jobs from the
+ * dashboard's public API (Neon as a fallback when DATABASE_URL is set). Runs
+ * before `next build` through the "prebuild" script.
  *
- * The committed generated JSON is the offline fallback. The dashboard's Careers
- * deploy hook triggers a rebuild after jobs change. See docs/NEON-SWAP.md.
+ * Page copy is no longer fetched from anywhere: content/generated/*.json is
+ * edited in code and committed (2026-10-07, dashboard simplified to careers +
+ * inquiries). The committed jobs.json is the offline fallback. The dashboard's
+ * Careers deploy hook triggers a rebuild after jobs change.
  */
 
 import { mkdirSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
-import { splitBundle } from "@satco/shared";
-import type { ContentBundle, Job } from "@satco/shared";
+import type { Job } from "@satco/shared";
 
 interface PublishedJobRow {
   id: string;
@@ -78,40 +77,12 @@ const sql = url
       .then(({ neon }) => neon(url))
       .catch((err: unknown) => {
         console.warn(
-          "[fetch-content] Neon client unavailable — using committed content JSON. " +
+          "[fetch-content] Neon client unavailable — jobs will come from the dashboard API or committed JSON. " +
             (err instanceof Error ? err.message : String(err)),
         );
         return undefined;
       })
   : undefined;
-
-if (sql) {
-  try {
-    const rows = (await sql.query(
-      "select data from content_bundle where status = 'published'",
-    )) as { data: ContentBundle }[];
-
-    if (!rows.length) {
-      console.log("[fetch-content] no published row in Neon — using committed JSON.");
-    } else {
-      mkdirSync(dir, { recursive: true });
-      const files = splitBundle(rows[0].data);
-      for (const [name, data] of Object.entries(files)) {
-        writeFileSync(dir + name, JSON.stringify(data, null, 2) + "\n", "utf8");
-      }
-      console.log(
-        `[fetch-content] wrote ${Object.keys(files).length} section files from Neon (published).`,
-      );
-    }
-  } catch (err) {
-    console.warn(
-      "[fetch-content] Neon fetch failed — using committed JSON. " +
-        (err instanceof Error ? err.message : String(err)),
-    );
-  }
-} else {
-  console.log("[fetch-content] DATABASE_URL not set — using committed content JSON.");
-}
 
 const endpoints = new Set<string>();
 if (process.env.CAREERS_JOBS_API_URL?.trim()) {

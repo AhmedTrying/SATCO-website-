@@ -1,8 +1,8 @@
 /*
- * Neon SubmissionStore — contact submissions + job/general applications as Postgres
+ * Neon SubmissionStore — contact inquiries + job/general applications as Postgres
  * tables. Reads are inbox lists (newest first); updates patch a small, fixed set of
- * fields (status, assignee). The public careers endpoint inserts validated job
- * applications through the same adapter.
+ * fields (status, assignee, note). The public contact and careers endpoints insert
+ * validated inquiries / applications through the same adapter.
  */
 
 import type {
@@ -11,7 +11,8 @@ import type {
   JobApplication,
 } from "@satco/shared";
 
-import type { NewJobApplication, SubmissionStore } from "../types";
+import type { NewContactSubmission, NewJobApplication, SubmissionStore } from "../types";
+import { routeFor } from "../../routing";
 import { makeId } from "../local/store";
 import { jsonbParam, query, queryOne } from "../../db";
 import {
@@ -32,11 +33,42 @@ function candidateIdForEmail(email: string): string {
 }
 
 export const neonSubmissionStore: SubmissionStore = {
-  async listContact(): Promise<ContactSubmission[]> {
-    const rows = await query<ContactRow>(
-      "select * from contact_submissions order by created_at desc, seq asc",
-    );
+  async listContact(inbox): Promise<ContactSubmission[]> {
+    const rows = inbox
+      ? await query<ContactRow>(
+          "select * from contact_submissions where inquiry_type = $1 order by created_at desc, seq asc",
+          [inbox],
+        )
+      : await query<ContactRow>(
+          "select * from contact_submissions order by created_at desc, seq asc",
+        );
     return rows.map(toContact);
+  },
+
+  async getContact(id): Promise<ContactSubmission | undefined> {
+    const row = await queryOne<ContactRow>("select * from contact_submissions where id = $1", [id]);
+    return row ? toContact(row) : undefined;
+  },
+
+  async createContact(input: NewContactSubmission): Promise<ContactSubmission> {
+    const createdAt = new Date().toISOString();
+    const row = await queryOne<ContactRow>(
+      `insert into contact_submissions
+         (id, name, email, organization, inquiry_type, message, assigned_dept, status, created_at, updated_at)
+       values ($1, $2, $3, $4, $5, $6, $7, 'new', $8, $8)
+       returning *`,
+      [
+        makeId("sub"),
+        input.name,
+        input.email,
+        input.organization ?? null,
+        input.inquiryType,
+        input.message,
+        routeFor(input.inquiryType),
+        createdAt,
+      ],
+    );
+    return toContact(row!);
   },
 
   async updateContact(id, patch): Promise<ContactSubmission> {

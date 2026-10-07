@@ -1,35 +1,26 @@
--- SATCO admin dashboard — Neon Postgres schema.
+-- SATCO operations dashboard — Neon Postgres schema.
 --
 -- The drop-in Postgres backend for the local file adapters. Every table mirrors a
--- shape in @satco/shared (cms.ts / content.ts); the Neon adapters in
--- satco-admin/lib/adapters/neon/ read and write these tables through the same
--- interfaces the UI already uses. Idempotent — safe to re-run (CREATE ... IF NOT
+-- shape in @satco/shared (cms.ts); the Neon adapters in satco-admin/lib/adapters/neon/
+-- read and write these tables through the same interfaces the UI already uses.
+-- Page copy is NOT stored here (it is edited in the sites' content JSON).
+-- Databases created before 2026-10-07 also need db/migrations/2026-10-07-operations-dashboard.sql. Idempotent — safe to re-run (CREATE ... IF NOT
 -- EXISTS). Apply with `npm run db:migrate` (from satco-admin) or `npm run -w satco-admin db:migrate`.
 --
 -- Note: a `seq bigserial` tiebreaker column preserves seed/insert order in list()
 -- queries where several seed rows share an identical created_at timestamp
 -- (ordering is `<time> DESC, seq ASC` → genuinely-newer rows first, seed order kept).
 
--- Content bundle -------------------------------------------------------------
--- The whole ContentBundle stored as one JSONB payload per status. The ContentStore
--- interface deals in whole bundles (getDraft/saveDraft/getPublished), so at most two
--- rows ever live here: 'draft' (editable) and 'published' (the live snapshot).
-create table if not exists content_bundle (
-  status      text primary key check (status in ('draft', 'published')),
-  data        jsonb        not null,
-  updated_at  timestamptz  not null default now(),
-  updated_by  text
-);
-
 -- Staff accounts -------------------------------------------------------------
--- Backs MockAuth today (cookie session + role switcher). Real auth (Supabase/M365
--- SSO) can adopt this same table later; profiles.role maps to `role`.
+-- Who may sign in (Google account with this email), their role, and the pages
+-- they may open (jsonb array: "jobs" and/or inquiry types; admins see every page).
 create table if not exists users (
   seq         bigserial,
   id          text primary key,
   name        text        not null,
   email       text        not null unique,
-  role        text        not null check (role in ('viewer', 'editor', 'publisher', 'admin')),
+  role        text        not null check (role in ('staff', 'admin')),
+  access      jsonb       not null default '[]'::jsonb,
   active      boolean      not null default true,
   created_at  timestamptz  not null default now()
 );
@@ -209,16 +200,6 @@ create table if not exists audit_log (
   diff       jsonb
 );
 
--- Publish history ------------------------------------------------------------
-create table if not exists publishes (
-  seq           bigserial,
-  id            text primary key,
-  published_at  timestamptz  not null default now(),
-  published_by  text        not null,
-  summary       text        not null,
-  changed_keys  jsonb        not null default '[]'::jsonb
-);
-
 -- Helpful ordering indexes (small tables, but future-proof) ------------------
 create index if not exists jobs_created_idx                 on jobs (created_at desc, seq asc);
 create index if not exists contact_submissions_created_idx  on contact_submissions (created_at desc, seq asc);
@@ -226,4 +207,3 @@ create index if not exists job_applications_created_idx      on job_applications
 create index if not exists general_applications_created_idx  on general_applications (created_at desc, seq asc);
 create index if not exists media_uploaded_idx                on media (uploaded_at desc, seq asc);
 create index if not exists audit_log_ts_idx                  on audit_log (ts desc, seq asc);
-create index if not exists publishes_published_idx           on publishes (published_at desc, seq asc);

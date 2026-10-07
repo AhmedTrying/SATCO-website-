@@ -413,7 +413,7 @@ function ApprovalSummary({
   return (
     <section className={styles.approvalPage} aria-labelledby="approval-title">
       <div className={styles.approvalBrand}>
-        <div><Emblem size={42} disc="var(--bronze-800)" land="var(--stone-500)" /><strong>SATCO</strong></div>
+        <div><Emblem size={42} /><strong>SATCO</strong></div>
         <span>{copy.finalKicker}</span>
       </div>
       <h1 id="approval-title">{copy.finalTitle}</h1>
@@ -576,7 +576,7 @@ export function DesignSelectionApp() {
     <div className={styles.selectorApp} data-hydrated={hydrated || undefined}>
       <header className={styles.selectorHeader}>
         <div className={styles.selectorIdentity}>
-          <Emblem size={34} disc="var(--bronze-800)" land="var(--stone-500)" />
+          <Emblem size={34} />
           <div>
             <span>{copy.eyebrow}</span>
             <strong>{copy.productName}</strong>

@@ -2,27 +2,14 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { contactPage } from "@/content/contact";
+import { InquiryError, sendInquiry } from "@/lib/inquiries";
 
 /*
- * Accessible contact form against a typed submit seam — the backend is
- * undecided (plan §11.3/§12 Q8: third-party form vs Supabase vs relay), so
- * submit() currently simulates success. The inquiry-type selector implements
- * the routing proposal from docx comment #22 and is marked as pending sign-off.
+ * Accessible contact form. Submissions go to the dashboard's public inquiries
+ * endpoint (lib/inquiries.ts → satco-admin /api/public/inquiries), which files
+ * them in the inbox for the chosen inquiry type and notifies that department.
+ * Success is only shown after a 2xx response; failures show a real error.
  */
-
-export interface ContactSubmission {
-  name: string;
-  email: string;
-  organization: string;
-  inquiry: string;
-  message: string;
-}
-
-// TODO(backend): replace with the chosen provider (plan §11.3) — the component
-// contract stays identical.
-async function submit(data: ContactSubmission): Promise<void> {
-  void data;
-}
 
 type Errors = Partial<Record<"name" | "email" | "message", string>>;
 
@@ -41,6 +28,8 @@ export function ContactForm() {
   const f = contactPage.form;
   const [errors, setErrors] = useState<Errors>({});
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [inquiry, setInquiry] = useState(contactPage.inquiryOptions[0].value);
   const statusRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -63,19 +52,20 @@ export function ContactForm() {
   }, [errors]);
 
   useEffect(() => {
-    if (sent) statusRef.current?.focus();
-  }, [sent]);
+    if (sent || submitError) statusRef.current?.focus();
+  }, [sent, submitError]);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
-    const values: ContactSubmission = {
+    const values = {
       name: String(data.get("name") ?? "").trim(),
       email: String(data.get("email") ?? "").trim(),
       organization: String(data.get("organization") ?? "").trim(),
       inquiry,
       message: String(data.get("message") ?? "").trim(),
+      website: String(data.get("website") ?? ""),
     };
     const nextErrors: Errors = {};
     if (!values.name) nextErrors.name = f.nameError;
@@ -83,14 +73,28 @@ export function ContactForm() {
       nextErrors.email = f.emailError;
     if (!values.message) nextErrors.message = f.messageError;
     setErrors(nextErrors);
+    setSubmitError(null);
     if (Object.keys(nextErrors).length > 0) {
       setSent(false);
       return;
     }
-    await submit(values);
-    form.reset();
-    setInquiry(contactPage.inquiryOptions[0].value);
-    setSent(true);
+    setSending(true);
+    try {
+      await sendInquiry(values);
+      form.reset();
+      setInquiry(contactPage.inquiryOptions[0].value);
+      setSent(true);
+    } catch (err) {
+      setSent(false);
+      // Server-side field validation maps back onto the same field errors.
+      if (err instanceof InquiryError && err.field === "email") {
+        setErrors({ email: f.emailError });
+      } else {
+        setSubmitError(f.submitError);
+      }
+    } finally {
+      setSending(false);
+    }
   };
 
   const errorProps = (key: keyof Errors) => ({
@@ -112,6 +116,17 @@ export function ContactForm() {
         >
           <span aria-hidden="true" className="mt-1.5 h-2.5 w-2.5 flex-none rounded-[50%] bg-success" />
           <p className="m-0 text-[14.5px] leading-[1.55] text-[#2F5122]">{f.successMessage}</p>
+        </div>
+      )}
+      {submitError && (
+        <div
+          ref={statusRef}
+          role="alert"
+          tabIndex={-1}
+          className="mb-[22px] flex items-start gap-3 rounded-md border border-error/40 bg-error/5 px-[18px] py-4"
+        >
+          <span aria-hidden="true" className="mt-1.5 h-2.5 w-2.5 flex-none rounded-[50%] bg-error" />
+          <p className="m-0 text-[14.5px] leading-[1.55] text-error">{submitError}</p>
         </div>
       )}
       <p className="mb-3 mt-0 text-[13px] text-stone-600">{f.requiredNote}</p>
@@ -226,12 +241,27 @@ export function ContactForm() {
             </span>
           )}
         </div>
+        {/* Honeypot: hidden from people and assistive tech; bots that fill it are
+            silently accepted and discarded by the endpoint. */}
+        <div className="hidden" aria-hidden="true">
+          <label htmlFor={`${id}-website`}>Website</label>
+          <input
+            id={`${id}-website`}
+            name="website"
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            defaultValue=""
+          />
+        </div>
         {/* Arrow-gap widening mirrors the ArrowLink hover signature */}
         <button
           type="submit"
-          className="inline-flex cursor-pointer items-center gap-2 justify-self-start rounded-sm border-none bg-primary px-[26px] py-3.5 text-[15px] font-semibold text-white shadow-xs transition-[background-color,gap,box-shadow] duration-[var(--dur-base)] hover:gap-3 hover:bg-primary-hover hover:shadow-md sm:col-span-2"
+          disabled={sending}
+          aria-busy={sending || undefined}
+          className="inline-flex cursor-pointer items-center gap-2 justify-self-start rounded-sm border-none bg-primary px-[26px] py-3.5 text-[15px] font-semibold text-white shadow-xs transition-[background-color,gap,box-shadow] duration-[var(--dur-base)] hover:gap-3 hover:bg-primary-hover hover:shadow-md disabled:cursor-progress disabled:opacity-70 sm:col-span-2"
         >
-          {f.submitLabel}{" "}
+          {sending ? f.sendingLabel : f.submitLabel}{" "}
           <span aria-hidden="true" className="rtl:-scale-x-100">
             →
           </span>

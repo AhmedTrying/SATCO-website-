@@ -4,35 +4,33 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-import { roleCan } from "@satco/shared";
-
 import { signOutAction } from "@/app/actions/auth";
 import { Emblem } from "@/components/ui/Emblem";
-import { NAV } from "@/lib/nav";
+import type { NavSection } from "@/lib/nav";
 import type { Session } from "@/lib/adapters";
-
-import { RoleSwitcher } from "./RoleSwitcher";
 
 function isActive(pathname: string, href: string): boolean {
   return pathname === href || pathname.startsWith(href + "/");
 }
 
+const ROLE_LABEL: Record<Session["role"], string> = {
+  staff: "Staff",
+  admin: "Admin",
+};
+
 export function Shell({
   session,
+  sections,
   backend,
   children,
 }: {
   session: Session;
+  sections: NavSection[];
   backend: string;
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-
-  const sections = NAV.map((s) => ({
-    ...s,
-    links: s.links.filter((l) => !l.cap || roleCan(session.role, l.cap)),
-  })).filter((s) => s.links.length > 0);
 
   return (
     <div className="min-h-screen">
@@ -56,7 +54,7 @@ export function Shell({
           <div className="leading-tight">
             <div className="text-base font-bold tracking-[0.16em] text-white">SATCO</div>
             <div className="text-[0.65rem] uppercase tracking-wide text-stone-500">
-              Control dashboard
+              Operations dashboard
             </div>
           </div>
         </div>
@@ -122,7 +120,7 @@ export function Shell({
           </button>
 
           <div className="ms-auto flex items-center gap-3">
-            <RoleSwitcher role={session.role} />
+            <span className="badge badge-stone">{ROLE_LABEL[session.role]}</span>
             <div className="hidden text-end leading-tight sm:block">
               <div className="text-xs font-medium text-strong">{session.name}</div>
               <div className="text-[0.65rem] text-muted">{session.email}</div>

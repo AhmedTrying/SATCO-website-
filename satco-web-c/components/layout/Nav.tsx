@@ -6,9 +6,10 @@ import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { primaryNav } from "@/content/navigation";
 import type { NavItem } from "@/lib/types";
 import { isActivePath } from "@/lib/utils";
-import { Emblem } from "@/components/ui/Emblem";
+import { LogoLockup } from "@/components/ui/LogoLockup";
 import { site } from "@/content/site";
 import { MobileNav } from "./MobileNav";
+import { useLogoDock } from "./useLogoDock";
 
 const itemClass =
   "inline-flex rounded-md px-3 py-[9px] text-[15px] font-medium text-[var(--navfg)] no-underline transition-colors hover:text-[var(--navfg)] hover:underline hover:decoration-bronze-400 hover:decoration-2 hover:underline-offset-[7px]";
@@ -60,7 +61,7 @@ function NavDropdown({
 
   return (
     <li
-      className="relative"
+      className="relative flex items-center"
       onMouseEnter={() => {
         if (!hoverCapable()) return;
         window.clearTimeout(closeTimer.current);
@@ -76,12 +77,21 @@ function NavDropdown({
         if (!e.currentTarget.contains(e.relatedTarget as Node | null)) onClose();
       }}
     >
+      <Link
+        href={item.href ?? "/"}
+        aria-current={isActivePath(pathname, item.href) ? "page" : undefined}
+        className={itemClass + " !pe-1"}
+        onClick={() => onClose()}
+      >
+        {item.label}
+      </Link>
       <button
         ref={buttonRef}
         type="button"
+        aria-label={item.label}
         aria-expanded={open}
         aria-controls={panelId}
-        className="relative inline-flex cursor-pointer items-center gap-[5px] rounded-md border-none bg-transparent px-3 py-[9px] text-[15px] font-medium text-[var(--navfg)] transition-colors"
+        className="relative inline-flex h-11 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md border-none bg-transparent text-[var(--navfg)] transition-colors"
         onClick={() => (open ? onClose() : onOpen())}
         onKeyDown={(e) => {
           if (e.key === "ArrowDown") {
@@ -97,7 +107,6 @@ function NavDropdown({
           }
         }}
       >
-        {item.label}{" "}
         <span aria-hidden="true" className="text-[11px] opacity-85">
           ▾
         </span>
@@ -109,7 +118,9 @@ function NavDropdown({
       <ul
         ref={panelRef}
         id={panelId}
-        className={`absolute start-0 top-[calc(100%+8px)] m-0 list-none rounded-md border border-border bg-surface p-2 shadow-md transition-[opacity,transform,visibility] duration-200 ${
+        // OPT-02 (Option C): dark translucent, the footer's charcoal at 85%.
+        // `on-dark` switches the focus ring to the light variant.
+        className={`on-dark absolute start-0 top-[calc(100%+8px)] m-0 list-none rounded-md border border-white/15 bg-[#181512]/85 p-2 shadow-lg transition-[opacity,transform,visibility] duration-200 ${
           item.wide ? "min-w-[340px]" : "min-w-[300px]"
         } ${
           open
@@ -138,7 +149,7 @@ function NavDropdown({
             <Link
               href={child.href ?? "/"}
               aria-current={isActivePath(pathname, child.href) ? "page" : undefined}
-              className="block rounded-md px-[13px] py-[11px] text-[14.5px] text-stone-700 no-underline transition-colors hover:bg-bronze-50 hover:text-bronze-800"
+              className="block rounded-md px-[13px] py-[11px] text-[14.5px] text-stone-100 no-underline transition-colors hover:bg-white/10 hover:text-white"
               onClick={() => onClose()}
             >
               {child.label}
@@ -153,13 +164,24 @@ function NavDropdown({
 export function Nav() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  const [footerVisible, setFooterVisible] = useState(false);
+  // Near the top the header always shows: on a short page (e.g. Contact on a
+  // tall screen) the footer is in view from the start, and hiding the header
+  // there left the page with no menu and no way to scroll it back.
+  const [nearTop, setNearTop] = useState(true);
+  const headerHidden = footerVisible && !nearTop;
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const burgerRef = useRef<HTMLButtonElement>(null);
   const headerRef = useRef<HTMLElement>(null);
+  const homeLinkRef = useRef<HTMLAnchorElement>(null);
+  const logoRef = useRef<HTMLSpanElement>(null);
 
   const isHome = pathname === "/";
   const solid = !isHome || scrolled;
+  // Option C: at the top of home the logo sits in the hero; it docks here
+  // whenever the header is solid.
+  useLogoDock(solid, homeLinkRef, logoRef);
 
   // Close menus on route change (render-time state adjustment — no effect)
   const [prevPathname, setPrevPathname] = useState(pathname);
@@ -170,11 +192,37 @@ export function Nav() {
   }
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    // Solid past 60px, transparent again under 40px: a page resting near the
+    // line can't flicker the header (or bounce the docking logo).
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled((was) => (was ? y > 40 : y > 60));
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    const onScroll = () => setNearTop(window.scrollY < 80);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Keep the header's layout space so hiding it cannot move the footer and
+  // repeatedly toggle visibility at the boundary. Reobserve on client navigation.
+  useEffect(() => {
+    const footer = document.getElementById("site-footer");
+    if (!footer) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      const visible = entry.isIntersecting;
+      setFooterVisible(visible);
+      if (visible && window.scrollY >= 80) setOpenDropdown(null);
+    });
+    observer.observe(footer);
+    return () => observer.disconnect();
+  }, [pathname]);
 
   // Outside click + document-level Escape (a hover-opened panel must be
   // dismissible without keyboard focus in it — WCAG 1.4.13)
@@ -208,6 +256,9 @@ export function Nav() {
       <header
         ref={headerRef}
         data-solid={solid || undefined}
+        data-footer-visible={headerHidden || undefined}
+        inert={headerHidden}
+        aria-hidden={headerHidden || undefined}
         className="nav-chrome sticky top-0 z-[60]"
       >
         <nav
@@ -215,14 +266,12 @@ export function Nav() {
           className="mx-auto flex h-[var(--nav-h)] max-w-[var(--container-max)] items-center justify-between gap-5 px-[var(--container-x)]"
         >
           <Link
+            ref={homeLinkRef}
             href="/"
             aria-label={`${site.name} — home`}
-            className="inline-flex flex-none items-center gap-[11px] no-underline"
+            className="nav-home inline-flex flex-none items-center no-underline"
           >
-            <Emblem size={34} />
-            <span className="font-display text-[23px] font-bold tracking-[0.16em] text-[var(--wordmark)] transition-colors">
-              {site.name}
-            </span>
+            <LogoLockup ref={logoRef} className="nav-logo" />
           </Link>
 
           <ul className="m-0 hidden list-none items-center gap-0.5 p-0 nav:flex">

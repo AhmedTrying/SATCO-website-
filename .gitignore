@@ -27,3 +27,7 @@ Thumbs.db
 .DS_Store
 
 .vercel
+
+# Client feedback material and raw source imagery (large, personal data) — kept out of git
+Feedbacks/
+Images/AI Generated Pics/

@@ -34,7 +34,7 @@ function fail(e: unknown): JobResult {
 
 export async function saveJob(data: unknown): Promise<JobResult> {
   try {
-    const session = await requireCapability("edit");
+    const session = await requireCapability("manageJobs");
     const parsed = jobInputSchema.parse(data) as JobInput;
     const input: JobInput = {
       ...parsed,

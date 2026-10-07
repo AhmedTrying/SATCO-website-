@@ -1,69 +1,67 @@
 /*
- * Adapter interfaces — the seams every hosted service sits behind
- * (dashboard kickoff §3). One local implementation ships now; a documented
- * // TODO(supabase) implementation lands later. Selection is by env
- * (DATA_BACKEND=local now → supabase later) in ./index.ts.
+ * Adapter interfaces — the seams every hosted service sits behind.
+ * Two implementations ship: local (JSON files under data/) and Neon (Postgres),
+ * selected by DATA_BACKEND in ./index.ts. Nothing in the UI imports a concrete
+ * store directly, so swapping the backend is a drop-in, not a rewrite.
  *
- * Nothing in the UI imports a concrete store directly — everything goes through
- * these interfaces, so swapping the backend is a drop-in, not a rewrite.
+ * Scope (2026-10-07): the dashboard manages runtime data only — jobs and
+ * applications (Careers), contact inquiries (one inbox per inquiry type) and
+ * staff accounts. Page copy lives in the sites' content/*.json and is edited in
+ * code, so there is no content store or publish service any more.
  */
 
 import type {
+  AccessPage,
   AuditEntry,
+  InquiryType,
   ContactSubmission,
-  ContentBundle,
   GeneralApplication,
   JobApplication,
   JobRecord,
   JobState,
   MediaBucket,
   MediaItem,
-  PublishRecord,
   Role,
   UserAccount,
 } from "@satco/shared";
 
 /* --------------------------------- Auth ---------------------------------- */
 
+/** The signed-in user as seen by every screen. Re-read from the user store on
+ *  each request, so role / inbox changes apply immediately. */
 export interface Session {
   userId: string;
   name: string;
   email: string;
   role: Role;
+  /** Pages this user may open (admins: every page). */
+  access: AccessPage[];
 }
 
-export interface AuthProvider {
-  /** Current session from the request (cookie now, Supabase Auth later), or null. */
-  getSession(): Promise<Session | null>;
-  /** Mock dev login: resolve a seeded staff account by email. Must run in a server action. */
-  signIn(email: string): Promise<Session>;
-  /** Clear the session. Must run in a server action. */
-  signOut(): Promise<void>;
-  /** Role switcher (mock only) — preview permissions without new accounts. Server action. */
-  setRole(role: Role): Promise<Session>;
+/* ------------------------------- UserStore ------------------------------- */
+
+export interface UserStore {
   /** Staff directory. */
-  listUsers(): Promise<UserAccount[]>;
-  /** Invite/create a staff account (admin). Supabase: an invite flow. */
-  createUser(input: { name: string; email: string; role: Role }): Promise<UserAccount>;
-  /** Change a user's role or active state (admin). */
-  updateUser(
+  list(): Promise<UserAccount[]>;
+  /** Account by email (case-insensitive), active or not, or undefined. */
+  getByEmail(email: string): Promise<UserAccount | undefined>;
+  getById(id: string): Promise<UserAccount | undefined>;
+  /** Create a staff account (admin). Sign-in is by Google account with this email. */
+  create(input: {
+    name: string;
+    email: string;
+    role: Role;
+    access: AccessPage[];
+  }): Promise<UserAccount>;
+  /** Change a user's name, role, page access or active state (admin). */
+  update(
     id: string,
-    patch: Partial<Pick<UserAccount, "role" | "active">>,
+    patch: Partial<Pick<UserAccount, "name" | "role" | "access" | "active">>,
   ): Promise<UserAccount>;
 }
 
-/* ------------------------------ ContentStore ----------------------------- */
-
-export interface ContentStore {
-  /** The working draft (editable). Seeded from satco-web/content on first read. */
-  getDraft(): Promise<ContentBundle>;
-  /** Persist the full draft bundle. */
-  saveDraft(bundle: ContentBundle): Promise<void>;
-  /** The last published snapshot (what the live site currently reflects). */
-  getPublished(): Promise<ContentBundle>;
-}
-
 /* ------------------------------ MediaStore ------------------------------- */
+// Kept for the private CV bucket only (applications attach a CV).
 
 export interface NewMedia {
   filename: string;
@@ -81,7 +79,6 @@ export interface NewMedia {
 export interface MediaStore {
   list(bucket?: MediaBucket): Promise<MediaItem[]>;
   get(id: string): Promise<MediaItem | undefined>;
-  /** Alt text is REQUIRED for public media (a11y) — enforced here. */
   add(item: NewMedia, uploadedBy: string): Promise<MediaItem>;
   updateAlt(id: string, alt: string): Promise<MediaItem>;
   remove(id: string): Promise<void>;
@@ -107,8 +104,18 @@ export type NewJobApplication = Omit<
   "id" | "status" | "createdAt"
 >;
 
+/** What the public contact form provides; the store adds id, status, routing. */
+export type NewContactSubmission = Pick<
+  ContactSubmission,
+  "name" | "email" | "organization" | "inquiryType" | "message"
+>;
+
 export interface SubmissionStore {
-  listContact(): Promise<ContactSubmission[]>;
+  /** Newest first. `inbox` narrows to one inquiry type. */
+  listContact(inbox?: InquiryType): Promise<ContactSubmission[]>;
+  getContact(id: string): Promise<ContactSubmission | undefined>;
+  /** Insert from the public contact endpoint. */
+  createContact(input: NewContactSubmission): Promise<ContactSubmission>;
   updateContact(
     id: string,
     patch: Partial<Pick<ContactSubmission, "status" | "assignee" | "internalNote">>,
@@ -135,35 +142,12 @@ export interface AuditLog {
   list(limit?: number): Promise<AuditEntry[]>;
 }
 
-/* ----------------------------- PublishService ---------------------------- */
-
-export interface PublishDiffEntry {
-  /** Top-level ContentBundle key, e.g. "sectors", "flags". */
-  key: string;
-  label: string;
-  changed: boolean;
-}
-
-export interface PublishService {
-  /** Field-level diff of draft vs last published. */
-  diff(): Promise<PublishDiffEntry[]>;
-  /**
-   * Publish: snapshot draft → published, write the site's generated JSON, record
-   * an audit entry. Rebuild is manual (`npm run build` in satco-web) for now;
-   * later this flips status + fires a debounced deploy hook. (kickoff §3)
-   */
-  publish(actor: string): Promise<PublishRecord>;
-  history(limit?: number): Promise<PublishRecord[]>;
-}
-
 /* ------------------------------- The bundle ------------------------------ */
 
 export interface Adapters {
-  auth: AuthProvider;
-  content: ContentStore;
+  users: UserStore;
   media: MediaStore;
   jobs: JobStore;
   submissions: SubmissionStore;
   audit: AuditLog;
-  publish: PublishService;
 }

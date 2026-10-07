@@ -301,13 +301,32 @@ export const mediaItemSchema = z.object({
 
 /* ------------------------------- Users ----------------------------------- */
 
-export const roleSchema = z.enum(["viewer", "editor", "publisher", "admin"]);
+export const roleSchema = z.enum(["staff", "admin"]);
+
+export const accessPageSchema = z.enum([
+  "jobs",
+  "partnerships",
+  "opportunities",
+  "procurement",
+  "careers",
+  "general",
+]);
 
 export const userAccountSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
   email: z.string().email(),
   role: roleSchema,
+  access: z.array(accessPageSchema),
   active: z.boolean(),
   createdAt: z.string(),
+});
+
+/** What the public contact form may submit (the dashboard adds id/status/routing). */
+export const newInquirySchema = z.object({
+  name: z.string().trim().min(1).max(160),
+  email: z.string().trim().email().max(254),
+  organization: z.string().trim().max(200).optional(),
+  inquiryType: inquiryTypeSchema,
+  message: z.string().trim().min(1).max(5000),
 });

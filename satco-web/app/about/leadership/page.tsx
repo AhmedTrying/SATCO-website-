@@ -22,10 +22,6 @@ const functionalLeaders = orderedLeadership.filter(
   (member) => member.level === "functional" || !member.level,
 );
 
-function displayNumber(order: number) {
-  return String(order).padStart(2, "0");
-}
-
 function EmptyLeadership() {
   const placeholders = Array.from({ length: leadershipPage.placeholderCount });
 
@@ -59,11 +55,6 @@ export default function LeadershipPage() {
   return (
     <>
       <PageHeader
-        crumbs={[
-          { label: "Home", href: "/" },
-          { label: "About us", href: "/about" },
-          { label: "Key people & leadership" },
-        ]}
         title={leadershipPage.title}
         headingId="leadership-h"
         lead={leadershipPage.subline}
@@ -91,10 +82,7 @@ export default function LeadershipPage() {
                   {principals.map((member, index) => (
                     <li key={member.id} className="h-full">
                       <Reveal delay={index * 90} className="h-full">
-                        <PrincipalLeadershipCard
-                          member={member}
-                          number={displayNumber(member.order)}
-                        />
+                        <PrincipalLeadershipCard member={member} />
                       </Reveal>
                     </li>
                   ))}
@@ -121,10 +109,7 @@ export default function LeadershipPage() {
                   {executives.map((member, index) => (
                     <li key={member.id} className="h-full">
                       <Reveal delay={(index % 4) * 70} className="h-full">
-                        <ExecutiveLeadershipCard
-                          member={member}
-                          number={displayNumber(member.order)}
-                        />
+                        <ExecutiveLeadershipCard member={member} />
                       </Reveal>
                     </li>
                   ))}
@@ -154,10 +139,7 @@ export default function LeadershipPage() {
                   {functionalLeaders.map((member, index) => (
                     <li key={member.id} className="h-full">
                       <Reveal delay={(index % 4) * 55} className="h-full">
-                        <FunctionalLeadershipCard
-                          member={member}
-                          number={displayNumber(member.order)}
-                        />
+                        <FunctionalLeadershipCard member={member} />
                       </Reveal>
                     </li>
                   ))}

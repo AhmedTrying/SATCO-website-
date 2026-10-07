@@ -8,7 +8,7 @@ import { JobsManager } from "@/components/careers/JobsManager";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Tabs } from "@/components/ui/Tabs";
 import { adapters } from "@/lib/adapters";
-import { can, requireSession } from "@/lib/auth";
+import { can, requireCapability } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -17,9 +17,10 @@ export default async function CareersPage({
 }: {
   searchParams: Promise<{ tab?: string; job?: string }>;
 }) {
-  const session = await requireSession();
-  const canEdit = can(session, "edit");
+  // Careers needs the "jobs" page grant (applications are personal data).
+  const session = await requireCapability("manageJobs");
   const canManage = can(session, "manageJobs");
+  const canEdit = canManage;
   const canDownloadCv = can(session, "downloadCv");
   const canDelete = can(session, "admin");
 

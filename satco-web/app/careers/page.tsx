@@ -22,7 +22,6 @@ export default async function CareersPage() {
   return (
     <>
       <PageHeader
-        crumbs={[{ label: "Home", href: "/" }, { label: "Careers" }]}
         title={careersPage.title}
         headingId="careers-h"
         lead={careersPage.intro[0]}

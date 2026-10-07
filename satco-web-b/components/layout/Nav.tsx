@@ -60,7 +60,7 @@ function NavDropdown({
 
   return (
     <li
-      className="relative"
+      className="relative flex items-center"
       onMouseEnter={() => {
         if (!hoverCapable()) return;
         window.clearTimeout(closeTimer.current);
@@ -76,12 +76,21 @@ function NavDropdown({
         if (!e.currentTarget.contains(e.relatedTarget as Node | null)) onClose();
       }}
     >
+      <Link
+        href={item.href ?? "/"}
+        aria-current={isActivePath(pathname, item.href) ? "page" : undefined}
+        className={itemClass + " !pe-1"}
+        onClick={() => onClose()}
+      >
+        {item.label}
+      </Link>
       <button
         ref={buttonRef}
         type="button"
+        aria-label={item.label}
         aria-expanded={open}
         aria-controls={panelId}
-        className="relative inline-flex cursor-pointer items-center gap-[5px] rounded-md border-none bg-transparent px-3 py-[9px] text-[15px] font-medium text-[var(--navfg)] transition-colors"
+        className="relative inline-flex h-11 w-8 shrink-0 cursor-pointer items-center justify-center rounded-md border-none bg-transparent text-[var(--navfg)] transition-colors"
         onClick={() => (open ? onClose() : onOpen())}
         onKeyDown={(e) => {
           if (e.key === "ArrowDown") {
@@ -97,7 +106,6 @@ function NavDropdown({
           }
         }}
       >
-        {item.label}{" "}
         <span aria-hidden="true" className="text-[11px] opacity-85">
           ▾
         </span>
@@ -109,7 +117,9 @@ function NavDropdown({
       <ul
         ref={panelRef}
         id={panelId}
-        className={`absolute start-0 top-[calc(100%+8px)] m-0 list-none rounded-md border border-border bg-surface p-2 shadow-md transition-[opacity,transform,visibility] duration-200 ${
+        // OPT-02 (Option B): frosted glass. Needs the header's own blur on
+        // ::before (globals.css), or this panel could only blur the header.
+        className={`absolute start-0 top-[calc(100%+8px)] m-0 list-none rounded-md border border-white/60 bg-white/70 p-2 shadow-[0_16px_40px_-12px_rgb(29_26_22/0.35)] backdrop-blur-xl backdrop-saturate-150 transition-[opacity,transform,visibility] duration-200 ${
           item.wide ? "min-w-[340px]" : "min-w-[300px]"
         } ${
           open
@@ -138,7 +148,7 @@ function NavDropdown({
             <Link
               href={child.href ?? "/"}
               aria-current={isActivePath(pathname, child.href) ? "page" : undefined}
-              className="block rounded-md px-[13px] py-[11px] text-[14.5px] text-stone-700 no-underline transition-colors hover:bg-bronze-50 hover:text-bronze-800"
+              className="block rounded-md px-[13px] py-[11px] text-[14.5px] text-stone-800 no-underline transition-colors hover:bg-bronze-50/80 hover:text-bronze-800"
               onClick={() => onClose()}
             >
               {child.label}
@@ -153,6 +163,12 @@ function NavDropdown({
 export function Nav() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  const [footerVisible, setFooterVisible] = useState(false);
+  // Near the top the header always shows: on a short page (e.g. Contact on a
+  // tall screen) the footer is in view from the start, and hiding the header
+  // there left the page with no menu and no way to scroll it back.
+  const [nearTop, setNearTop] = useState(true);
+  const headerHidden = footerVisible && !nearTop;
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const burgerRef = useRef<HTMLButtonElement>(null);
@@ -175,6 +191,27 @@ export function Nav() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    const onScroll = () => setNearTop(window.scrollY < 80);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Keep the header's layout space so hiding it cannot move the footer and
+  // repeatedly toggle visibility at the boundary. Reobserve on client navigation.
+  useEffect(() => {
+    const footer = document.getElementById("site-footer");
+    if (!footer) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      const visible = entry.isIntersecting;
+      setFooterVisible(visible);
+      if (visible && window.scrollY >= 80) setOpenDropdown(null);
+    });
+    observer.observe(footer);
+    return () => observer.disconnect();
+  }, [pathname]);
 
   // Outside click + document-level Escape (a hover-opened panel must be
   // dismissible without keyboard focus in it — WCAG 1.4.13)
@@ -208,6 +245,9 @@ export function Nav() {
       <header
         ref={headerRef}
         data-solid={solid || undefined}
+        data-footer-visible={headerHidden || undefined}
+        inert={headerHidden}
+        aria-hidden={headerHidden || undefined}
         className="nav-chrome sticky top-0 z-[60]"
       >
         <nav

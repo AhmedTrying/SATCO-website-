@@ -27,6 +27,8 @@ import type {
 /* -------------------------------------------------------------------------- */
 
 export interface HomeContent {
+  /** eyebrow + headline show on Option A only; B and C lead each slide with
+   *  the sector title (FIX-16). */
   hero: { eyebrow: string; headline: string; explore: string; regionLabel: string };
   /** Proof-section copy, including the two visual group labels. */
   statBand: {
@@ -36,8 +38,8 @@ export interface HomeContent {
     groups: { communities: string; aviation: string };
   };
   whoWeAre: {
+    /** Section title ("Who we are"); there is no separate headline (FIX-07). */
     eyebrow: string;
-    heading: string;
     body: string;
     cta: string;
     imageCard: { value: string; label: string };
@@ -53,7 +55,6 @@ export interface CompanyContent {
   heading: string;
   facts: { value: string; label: string }[];
   image: ImageRef;
-  sectorsLinkHeading: string;
 }
 
 export interface CertificationsPageCopy {
@@ -139,6 +140,10 @@ export interface ContactPageCopy {
     messageLabel: string;
     messageError: string;
     submitLabel: string;
+    /** Button label while the message is being sent. */
+    sendingLabel: string;
+    /** Shown when the inquiries endpoint rejects or cannot be reached. */
+    submitError: string;
   };
   inquiryOptions: ContactInquiryOption[];
   details: {
@@ -146,6 +151,9 @@ export interface ContactPageCopy {
     officeLabel: string;
     phoneLabel: string;
     phone: string;
+    /** Head-office fax (letterhead, FIX-33). Optional: older published bundles have none. */
+    faxLabel?: string;
+    fax?: string;
     emailLabel: string;
     hoursLabel: string;
     hours: string;

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { careersPage } from "@/content/careers";
 import { getJobs } from "@/lib/jobs";
 import { Container } from "@/components/layout/Container";
-import { PageHeader } from "@/components/ui/PageHeader";
 import { Parallax } from "@/components/motion/Parallax";
 import { Reveal } from "@/components/motion/Reveal";
 import { ButtonLink } from "@/components/ui/ButtonLink";
@@ -16,34 +15,108 @@ export const metadata: Metadata = {
     "Work on complex, large-scale projects that support national development — explore open roles across SATCO's four operating sectors.",
 };
 
+/* The three values named in the intro's second sentence, set in bronze. */
+const values = /execution|accountability|collaboration/g;
+
+/* Four photos for the people wall (B shares A's image set). */
+const peopleWall = [
+  { image: "team-2", position: "center 35%" },
+  { image: "construction-3", position: "center 40%" },
+  { image: "apron-1", position: "center 60%" },
+  { image: "construction-1", position: "center 40%" },
+];
+
+/**
+ * Wrap the parts of a verbatim string that match `pattern` in an accent span.
+ * Words and order never change — only their styling.
+ */
+function accent(text: string, pattern: RegExp, className: string) {
+  const out: React.ReactNode[] = [];
+  let last = 0;
+  for (const match of text.matchAll(pattern)) {
+    const start = match.index ?? 0;
+    if (start > last) out.push(text.slice(last, start));
+    out.push(
+      <span key={start} className={className}>
+        {match[0]}
+      </span>,
+    );
+    last = start + match[0].length;
+  }
+  if (last < text.length) out.push(text.slice(last));
+  return out;
+}
+
 /* Careers — copy verbatim docx; no PDFs, no email-only workflows (locked). */
 export default async function CareersPage() {
   const jobs = await getJobs();
   return (
     <>
-      <PageHeader
-        crumbs={[{ label: "Home", href: "/" }, { label: "Careers" }]}
-        title={careersPage.title}
-        headingId="careers-h"
-        lead={careersPage.intro[0]}
-      >
-        <p className="mb-0 mt-3 max-w-[68ch] text-[15.5px] leading-[1.65] text-stone-600">
-          {careersPage.intro[1]}
-        </p>
-      </PageHeader>
+      {/* Option B — careers hero, "people wall". A light editorial band: big
+          title, the intro and two actions on the left; the values line as a
+          deep-bronze quote card on the right (its three values in bronze);
+          then a staggered strip of four photos across the width (decorative,
+          scrolls sideways on phones). Copy verbatim (styling only). A keeps
+          the plain PageHeader + photo band. */}
+      <section aria-labelledby="careers-h" className="overflow-hidden border-b border-border bg-sand">
+        <Container className="pb-[clamp(3rem,6vw,5rem)] pt-[clamp(2.75rem,5.5vw,4.5rem)]">
+          <div className="grid gap-x-[clamp(2.5rem,5vw,5rem)] gap-y-8 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-end">
+            <div>
+              <h1
+                id="careers-h"
+                className="m-0 font-display text-[clamp(2.75rem,6vw,5rem)] font-bold leading-[0.98] tracking-[-0.035em] text-strong"
+              >
+                {careersPage.title}
+              </h1>
+              <p className="mb-0 mt-6 max-w-[62ch] text-[clamp(1.02rem,1.4vw,1.15rem)] leading-[1.68] text-stone-700">
+                {careersPage.intro[0]}
+              </p>
+              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+                <a
+                  href="#roles-h"
+                  className="inline-flex items-center gap-2 rounded-sm bg-primary px-6 py-3.5 text-[15px] font-semibold text-white no-underline transition-[gap,background-color] duration-[var(--dur-base)] hover:gap-[13px] hover:bg-primary-hover hover:text-white"
+                >
+                  {careersPage.roles.heading}
+                  <span aria-hidden="true">↓</span>
+                </a>
+              </div>
+            </div>
+            <div className="on-dark relative overflow-hidden rounded-lg bg-bronze-900 p-[clamp(1.75rem,3vw,2.5rem)] shadow-md">
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute -top-6 end-4 select-none font-display text-[9rem] font-bold leading-none text-bronze-400/25"
+              >
+                ”
+              </span>
+              <div aria-hidden="true" className="mb-5 h-[3px] w-12 bg-bronze-300" />
+              <p className="relative m-0 font-display text-[clamp(1.25rem,1.9vw,1.6rem)] font-medium leading-[1.4] tracking-[-0.01em] text-white">
+                {accent(careersPage.intro[1], values, "text-bronze-300")}
+              </p>
+            </div>
+          </div>
 
-      {/* Cinematic band under the header (UCC-reference rhythm). Decorative
-          stock imagery — neutral, no SATCO claim — so it is hidden from AT. */}
-      <div aria-hidden="true" className="relative overflow-hidden border-b border-border">
-        <Parallax strength={40} scale={1.14}>
-          <Picture
-            image={{ src: "team-2", alt: "" }}
-            sizes="100vw"
-            imgClassName="w-full object-cover object-[center_40%]"
-            style={{ height: "clamp(240px,36vw,440px)" }}
-          />
-        </Parallax>
-      </div>
+          {/* People wall: staggered heights on md+, a swipeable row on phones */}
+          <div aria-hidden="true" className="-mx-[var(--container-x)] mt-[clamp(2.5rem,5vw,4rem)] overflow-x-auto px-[var(--container-x)] [scrollbar-width:none] md:mx-0 md:overflow-visible md:px-0">
+            <div className="flex gap-4 md:grid md:grid-cols-4 md:items-start">
+              {peopleWall.map((photo, i) => (
+                <div
+                  key={photo.image}
+                  className={`w-[72%] flex-none overflow-hidden rounded-lg shadow-sm md:w-auto ${
+                    i % 2 === 1 ? "md:mt-10" : ""
+                  }`}
+                >
+                  <Picture
+                    image={{ src: photo.image, alt: "" }}
+                    sizes="(min-width: 768px) 25vw, 72vw"
+                    imgClassName="block w-full object-cover"
+                    style={{ height: "clamp(220px,26vw,340px)", objectPosition: photo.position }}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </Container>
+      </section>
 
       <section aria-labelledby="life-h" className="border-b border-border bg-surface">
         <Container className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] items-center gap-[clamp(2rem,4vw,3.5rem)] pb-[clamp(4.5rem,8vw,7rem)] pt-[clamp(3.5rem,7vw,6rem)]">
@@ -70,7 +143,7 @@ export default async function CareersPage() {
                 <Picture
                   image={{
                     src: "team-1",
-                    alt: "Engineers reviewing construction drawings on site",
+                    alt: "SATCO site crew working on a foundation pour",
                   }}
                   sizes="(min-width: 1024px) 560px, 100vw"
                   imgClassName="w-full object-cover"
@@ -100,7 +173,7 @@ export default async function CareersPage() {
           <Reveal>
             <h2
               id="roles-h"
-              className="mb-2 mt-0 font-display text-[clamp(1.7rem,3.2vw,2.3rem)] font-bold leading-[1.14] tracking-[-0.015em] text-strong"
+              className="mb-2 mt-0 scroll-mt-[calc(var(--nav-h)+1.5rem)] font-display text-[clamp(1.7rem,3.2vw,2.3rem)] font-bold leading-[1.14] tracking-[-0.015em] text-strong"
             >
               {careersPage.roles.heading}
             </h2>
@@ -155,7 +228,7 @@ export default async function CareersPage() {
       <section
         id="general-application"
         aria-labelledby="genapp-h"
-        className="on-dark relative overflow-hidden bg-bronze-950"
+        className="on-dark relative scroll-mt-[var(--nav-h)] overflow-hidden bg-bronze-950"
       >
         {/* Background drifts slower than the scroll (scale hides the edges) */}
         <Parallax strength={40} scale={1.12} className="absolute inset-0">

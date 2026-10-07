@@ -1,7 +1,6 @@
 /*
- * Local SubmissionStore — contact submissions + job/general applications as JSON,
- * seeded with sample inbox data. TODO(supabase): insert-from-site (anon, RLS) +
- * inbox reads (publisher/admin). Interface unchanged.
+ * Local SubmissionStore — contact inquiries + job/general applications as JSON,
+ * seeded with clearly synthetic sample inbox data.
  */
 
 import type {
@@ -10,7 +9,8 @@ import type {
   JobApplication,
 } from "@satco/shared";
 
-import type { NewJobApplication, SubmissionStore } from "../types";
+import type { NewContactSubmission, NewJobApplication, SubmissionStore } from "../types";
+import { routeFor } from "../../routing";
 import { makeId, readStore, writeStore } from "./store";
 
 const CONTACT = "submissions.json";
@@ -39,8 +39,29 @@ async function patchItem<T extends { id: string }>(
 }
 
 export const localSubmissionStore: SubmissionStore = {
-  listContact(): Promise<ContactSubmission[]> {
-    return readStore<ContactSubmission[]>(CONTACT);
+  async listContact(inbox): Promise<ContactSubmission[]> {
+    const items = await readStore<ContactSubmission[]>(CONTACT);
+    return inbox ? items.filter((item) => item.inquiryType === inbox) : items;
+  },
+  async getContact(id): Promise<ContactSubmission | undefined> {
+    return (await readStore<ContactSubmission[]>(CONTACT)).find((item) => item.id === id);
+  },
+  async createContact(input: NewContactSubmission): Promise<ContactSubmission> {
+    const items = await readStore<ContactSubmission[]>(CONTACT);
+    const record: ContactSubmission = {
+      id: makeId("sub"),
+      name: input.name,
+      email: input.email,
+      organization: input.organization,
+      inquiryType: input.inquiryType,
+      message: input.message,
+      assignedDept: routeFor(input.inquiryType),
+      status: "new",
+      createdAt: new Date().toISOString(),
+    };
+    items.unshift(record);
+    await writeStore(CONTACT, items);
+    return record;
   },
   updateContact(id, patch): Promise<ContactSubmission> {
     return patchItem<ContactSubmission>(CONTACT, id, {

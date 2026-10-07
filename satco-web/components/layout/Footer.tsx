@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { contactPage } from "@/content/contact";
-import { footerColumns } from "@/content/navigation";
+import { footerColumns, footerContactColumn } from "@/content/navigation";
 import { footerContent, site } from "@/content/site";
 import { Emblem } from "@/components/ui/Emblem";
 import { Year } from "@/components/ui/Year";
@@ -11,6 +11,8 @@ const columnTitle =
   "mb-4 font-display text-[12px] font-semibold uppercase tracking-[0.14em] text-bronze-300";
 const footerLink =
   "text-[14px] leading-[1.45] text-stone-300 no-underline transition-colors hover:text-white";
+const footerCta =
+  "inline-flex items-center gap-2 border-b border-bronze-300 pb-1 font-display text-[14px] font-semibold text-bronze-300 no-underline transition-colors hover:text-white";
 
 function LinkedInIcon() {
   return (
@@ -54,7 +56,7 @@ export function Footer() {
         <div className="grid gap-x-[clamp(2rem,4vw,5rem)] gap-y-10 xl:grid-cols-[minmax(14rem,0.78fr)_minmax(34rem,1.6fr)_minmax(18rem,0.9fr)]">
           <div>
             <div className="inline-flex items-center gap-3.5">
-              <Emblem size={42} disc="var(--bronze-300)" land="var(--stone-400)" />
+              <Emblem size={42} />
               <span className="font-display text-[clamp(1.45rem,1.8vw,1.85rem)] font-bold tracking-[0.18em] text-white">
                 {site.name}
               </span>
@@ -101,15 +103,25 @@ export function Footer() {
                 {site.contact.email}
               </a>
             </address>
-            <a
-              href={directionsHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-5 inline-flex items-center gap-2 border-b border-bronze-300 pb-1 font-display text-[14px] font-semibold text-bronze-300 no-underline transition-colors hover:text-white"
-            >
-              {footerContent.directionsLabel}
-              <span aria-hidden="true">→</span>
-            </a>
+            {/* The header hides while the footer is in view, so the footer
+                carries its own route to the Contact page (FIX-11). */}
+            <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3">
+              {footerContactColumn.links.map((link) => (
+                <Link key={link.label} href={link.href} className={footerCta}>
+                  {link.label}
+                  <span aria-hidden="true">→</span>
+                </Link>
+              ))}
+              <a
+                href={directionsHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={footerCta}
+              >
+                {footerContent.directionsLabel}
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
           </div>
         </div>
 

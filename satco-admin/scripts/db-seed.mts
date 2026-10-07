@@ -5,7 +5,6 @@
  *
  * Idempotent: every row is inserted with `on conflict (id) do nothing`, so re-running
  * never clobbers edits made in the dashboard. To reset a table, TRUNCATE it first.
- * Regenerate the seed JSON itself from the site content with `npm run seed`.
  */
 
 import { readFileSync } from "node:fs";
@@ -57,6 +56,7 @@ await seedTable(
     ["name", "name"],
     ["email", "email"],
     ["role", "role"],
+    ["access", "access", true],
     ["active", "active"],
     ["created_at", "createdAt"],
   ],
@@ -200,21 +200,6 @@ await seedTable(
   ],
   readJson("audit.json"),
 );
-
-// Content bundle: seed BOTH draft and published from the committed content seed so a
-// fresh DB reflects the live site (the Publish center shows no phantom diff).
-const content = readJson("content.json");
-for (const status of ["draft", "published"]) {
-  await sql.query(
-    `insert into content_bundle (status, data, updated_by) values ($1, $2::jsonb, $3)
-     on conflict (status) do nothing`,
-    [status, JSON.stringify(content), "seed"],
-  );
-}
-const [{ count: cb }] = await sql.query(
-  "select count(*)::int as count from content_bundle",
-);
-console.log(`  content_bundle         -> ${cb} rows (draft + published)`);
 
 console.log("db:seed — done.");
 

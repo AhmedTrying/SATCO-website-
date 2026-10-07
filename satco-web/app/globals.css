@@ -176,13 +176,12 @@
 
 @layer components {
   /* Scroll-aware nav chrome: transparent over the home hero, solid elsewhere/after scroll.
-     Colour swap runs through CSS variables so the emblem/wordmark follow automatically. */
+     Navigation and wordmark colours adapt; the emblem retains its brand colours. */
   .nav-chrome {
     --navfg: var(--stone-50);
     --navmut: rgb(251 250 248 / 0.85);
-    --wordmark: var(--stone-50);
-    --emblem-disc: var(--bronze-300);
-    --emblem-land: var(--stone-300);
+    --wordmark: #ffffff;
+    --nav-visibility-delay: 0s;
     /* transparent state sits over the dark hero — light focus ring */
     --focus-ring-color: var(--bronze-300);
     background: transparent;
@@ -190,7 +189,25 @@
     transition:
       background var(--dur-base) ease,
       box-shadow var(--dur-base) ease,
-      border-color var(--dur-base) ease;
+      border-color var(--dur-base) ease,
+      opacity var(--dur-base) ease,
+      transform var(--dur-base) ease,
+      visibility 0s linear var(--nav-visibility-delay);
+  }
+  /* FIX-33: the footer supplies navigation here. Retain header dimensions
+     and remove its controls from pointer, keyboard and assistive access. */
+  .nav-chrome[data-footer-visible] {
+    --nav-visibility-delay: var(--dur-base);
+    transform: translateY(-16px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-chrome[data-footer-visible] {
+      --nav-visibility-delay: 0s;
+      transform: none;
+    }
   }
   .nav-chrome[data-solid] {
     background: rgb(251 250 248 / 0.9);
@@ -201,8 +218,6 @@
     --navfg: var(--ink);
     --navmut: var(--stone-700);
     --wordmark: var(--bronze-800);
-    --emblem-disc: var(--bronze-800);
-    --emblem-land: var(--stone-600);
     --focus-ring-color: var(--focus-ring);
   }
 
@@ -220,15 +235,20 @@
   }
 
   /* Hero: autoplay progress fill inside the active dot. 6s = AUTO_MS — keep in
-     sync with SectorSlider.tsx. Paused exactly when autoplay is paused:
-     hover/focus anywhere in the region, or the explicit pause control. */
+     sync with SectorSlider.tsx. Paused exactly when autoplay is paused
+     (hover/focus). */
   .dot-progress {
     animation: slide-progress 6s linear forwards;
   }
-  #hero:hover .dot-progress,
-  #hero:focus-within .dot-progress,
   #hero[data-paused] .dot-progress {
     animation-play-state: paused;
+  }
+
+  /* Full-screen home hero (as in Option C): fills the first screen exactly
+     (svh = the viewport with mobile browser bars showing). */
+  .hero-fullscreen {
+    min-height: 100vh;
+    min-height: 100svh;
   }
 
   /* Sector ticker: continuous marquee. The track holds two identical copies,
@@ -260,6 +280,25 @@
     visibility: visible;
     transition: transform 0.3s var(--ease-standard);
   }
+
+  /* ——— Option A intro: slide-through (2026-10-04) ———
+     Runs from first paint of the server-rendered overlay. The lockup slides in
+     from the left (1000ms incl. delay = ENTER_MS in LoadingScreen.tsx), holds,
+     then the whole panel slides off to the right from --intro-exit-at (1000ms
+     = EXIT_MS), uncovering the site from left to right. Mirrored in RTL.
+     Reduced motion never shows the intro. */
+  .intro-slide {
+    animation: intro-exit-end 1000ms var(--ease-in-out) var(--intro-exit-at) forwards;
+  }
+  .intro-slide-in {
+    animation: intro-enter-start 900ms var(--ease-out-expo) 100ms both;
+  }
+  [dir="rtl"] .intro-slide {
+    animation-name: intro-exit-end-rtl;
+  }
+  [dir="rtl"] .intro-slide-in {
+    animation-name: intro-enter-start-rtl;
+  }
 }
 
 /* Keyframes for the §7 motion accents (see @layer components above) */
@@ -284,5 +323,40 @@
 @keyframes ticker {
   to {
     transform: translateX(-50%);
+  }
+}
+
+/* Keyframes for the Option A intro (slide-through) */
+@keyframes intro-enter-start {
+  from {
+    opacity: 0;
+    transform: translateX(-50vw);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes intro-enter-start-rtl {
+  from {
+    opacity: 0;
+    transform: translateX(50vw);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes intro-exit-end {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes intro-exit-end-rtl {
+  to {
+    transform: translateX(-100%);
   }
 }

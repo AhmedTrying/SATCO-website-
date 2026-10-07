@@ -1,5 +1,6 @@
 /*
- * db:migrate — apply satco-admin/db/schema.sql to the Neon database (idempotent).
+ * db:migrate — apply satco-admin/db/schema.sql, then every db/migrations/*.sql in
+ * name order, to the Neon database. All files are idempotent, so re-running is safe.
  *
  * Run:  npm run db:migrate       (from repo root; uses tsx)
  *
@@ -8,7 +9,7 @@
  * dollar-quoted bodies), so splitting on ';' after stripping line comments is safe.
  */
 
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 import { neon } from "@neondatabase/serverless";
@@ -24,22 +25,33 @@ if (!url) {
 
 const sql = neon(url);
 
-const schemaPath = fileURLToPath(new URL("../db/schema.sql", import.meta.url));
-const statements = readFileSync(schemaPath, "utf8")
-  .split("\n")
-  .map((line) => line.replace(/--.*$/, ""))
-  .join("\n")
-  .split(";")
-  .map((s) => s.trim())
-  .filter(Boolean);
-
-let applied = 0;
-for (const statement of statements) {
-  await sql.query(statement);
-  applied += 1;
+function statementsOf(path: string): string[] {
+  return readFileSync(path, "utf8")
+    .split("\n")
+    .map((line) => line.replace(/--.*$/, ""))
+    .join("\n")
+    .split(";")
+    .map((s) => s.trim())
+    .filter(Boolean);
 }
 
-console.log(`db:migrate — applied ${applied} statements to Neon.`);
+const schemaPath = fileURLToPath(new URL("../db/schema.sql", import.meta.url));
+const migrationsDir = fileURLToPath(new URL("../db/migrations/", import.meta.url));
+const files: [string, string][] = [["schema.sql", schemaPath]];
+for (const name of readdirSync(migrationsDir).filter((f) => f.endsWith(".sql")).sort()) {
+  files.push([`migrations/${name}`, migrationsDir + name]);
+}
+
+for (const [label, path] of files) {
+  let applied = 0;
+  for (const statement of statementsOf(path)) {
+    await sql.query(statement);
+    applied += 1;
+  }
+  console.log(`db:migrate — ${label}: applied ${applied} statements.`);
+}
+
+console.log("db:migrate — done.");
 
 /** Load KEY=VALUE pairs from satco-admin/.env.local without overriding ambient env. */
 function loadEnvLocal() {

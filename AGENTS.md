@@ -8,9 +8,9 @@ Corporate website for SATCO (Saudi Arabian Trading & Construction Co.) **plus it
 
 - `satco-web/` — the public site (Next.js static export) = **Option A (original)**.
 - `satco-web-b/`, `satco-web-c/` — **Options B and C**: copies of A for the client's per-option detail edits (ports 3001/3002, content shared with A). **Read `docs/VARIANTS.md` before editing any site**: every edit must name its option, and every difference from A goes in its change log.
-- `satco-admin/` — the authenticated control dashboard (Next.js App Router server app — **not** static export; runs on `:3100`).
+- `satco-admin/` — the operations dashboard: careers, inquiry inboxes, users (Next.js App Router server app — **not** static export; runs on `:3100`). See `docs/DASHBOARD.md`.
 - `packages/shared/` — `@satco/shared`: the content-model types (moved from `satco-web/lib/types.ts`), page-copy + CMS types, zod schemas (`@satco/shared/schemas`). Consumed as TS source via `transpilePackages`. Both apps and the Neon schema (`satco-admin/db/schema.sql`) agree on these shapes.
-- `docs/NEON-SWAP.md` — the **Neon (Vercel + Postgres)** backend: what's wired (schema, `neon/` adapters, seed) and what remains for production. This is the chosen backend. (`docs/SUPABASE-SWAP.md` is the earlier Supabase plan, kept for reference.)
+- `docs/DASHBOARD.md` — the dashboard's scope, roles, Google sign-in, inquiries endpoint and Neon migration. `docs/NEON-SWAP.md` / `docs/SUPABASE-SWAP.md` are the earlier backend plans, kept for history (their content-publishing parts no longer apply).
 
 Everything else at the repo root is **source material, not code**:
 
@@ -36,12 +36,12 @@ npm run build:admin                  # dashboard production build
 npm --workspace satco-web run typecheck    # tsc --noEmit (per app)
 npm --workspace satco-admin run typecheck
 npm --workspace satco-web run lint         # ESLint (per app; also lint:admin)
-npm run seed                         # regenerate satco-admin/data/seed/*.json from satco-web/content
+npm run db:migrate / db:seed         # apply satco-admin/db/schema.sql / load data/seed/*.json into Neon
 ```
 
 There are no tests yet.
 
-**Dashboard ↔ site link (DA3):** the dashboard's Publish writes `satco-web/content/generated/*.json` (per-section); `satco-web/content/*.ts` are thin loaders that re-export those JSON slices with the same names/types, so components are unchanged. A committed snapshot ships as the offline fallback. Edit in the dashboard → Publish → `npm run build:web` → live. Everything sits behind typed adapters in `satco-admin/lib/adapters/` (`DATA_BACKEND=local` = JSON files → `neon` = Postgres; see `docs/NEON-SWAP.md`). Verified: the loader refactor is byte-for-byte identical to the pre-refactor build.
+**Dashboard ↔ site (since 2026-10-07):** page copy is edited directly in `satco-web/content/generated/*.json` (the `content/*.ts` loaders re-export those slices; B and C copy A's files on `predev`/`prebuild`). The dashboard no longer publishes content — it only holds runtime data (jobs, applications, inquiries, users). Jobs still reach the static site through the public jobs API at build time (`scripts/fetch-content.mts`) and an optional Careers deploy hook.
 
 ## Critical environment quirks
 
@@ -57,7 +57,7 @@ There are no tests yet.
 ## Architecture
 
 - **Static export**: `output: 'export'`, `trailingSlash: true`, `images.unoptimized: true`. No server runtime — nothing may depend on request-time APIs. Compare paths with `isActivePath()` (`lib/utils.ts`), never `===` (trailing slashes).
-- **Content is data, not JSX**: every user-facing string lives in typed `content/*.ts`, which now re-export from `content/generated/*.json` (published by the dashboard); shapes live in `@satco/shared` (re-exported by `lib/types.ts`). Components import copy; no words hard-coded in JSX. Transcribe docx copy verbatim (em-dashes, "as well as" phrasing included). `content/jobs.ts` stays a mock (jobs are runtime data, not in the content bundle). Feature flags read from `content/flags.ts` (`generated/flags.json`).
+- **Content is data, not JSX**: every user-facing string lives in typed `content/*.ts`, which re-export from `content/generated/*.json` (edited in code and committed); shapes live in `@satco/shared` (re-exported by `lib/types.ts`). Components import copy; no words hard-coded in JSX. Transcribe docx copy verbatim (em-dashes, "as well as" phrasing included). `content/jobs.ts` stays a mock (jobs are runtime data, not in the content bundle). Feature flags read from `content/flags.ts` (`generated/flags.json`), edited in code like the rest.
 - **Tokens**: `styles/tokens.css` holds raw brand tokens (`--bronze-*`, `--stone-*`, semantic aliases, motion, `--nav-h`); the `@theme` blocks in `app/globals.css` map them into Tailwind v4 (CSS-first config — there is **no** `tailwind.config.ts`). Tailwind's default palette is disabled (`--color-*: initial`); only bronze/stone/semantic colors exist. Custom breakpoint `nav:` = 820px (desktop-nav collapse, from the design).
 - **RTL seam**: logical properties/utilities only (`start-`/`end-`/`ps-`/`pe-`; v4's `px-`/`mx-` are already logical). Where no logical form exists (transforms, `origin-*`), pair with an `rtl:` variant or `[dir="rtl"]` override. `<html dir="ltr">` is the flip point; do not build Arabic now.
 - **Nav chrome**: `.nav-chrome` (globals.css) swaps colors via CSS variables — transparent over the home hero, solid (`data-solid`) after 60px scroll or off-home. The home hero pulls itself under the sticky nav with `-mt-[var(--nav-h)]`.
@@ -67,8 +67,11 @@ There are no tests yet.
 
 ## Dashboard (`satco-admin/`)
 
-- **Not static export** — App Router server app with server actions + local file I/O (Node `fs`), reusing the site's bronze/stone tokens (denser/utilitarian). Everything hosted sits behind typed **adapter interfaces** (`lib/adapters/types.ts`) with two impls — **local** (`lib/adapters/local/`, JSON files) and **Neon** (`lib/adapters/neon/`, Postgres via `@neondatabase/serverless`) — selected by `DATA_BACKEND` in `lib/adapters/index.ts` (`local` | `neon`). Switching backends flips the env var; no screen changes. See `docs/NEON-SWAP.md`.
-- **Local stores** live in `satco-admin/data/`: committed `seed/*.json` (generated from `satco-web/content` via `npm run seed`) + gitignored runtime `store/*.json` (write-through; reads fall back to seed). Uploads go to gitignored `public/uploads/`.
-- **Auth is mocked** (`MockAuth`, cookie session) with a **role switcher** in the top bar to preview viewer/editor/publisher/admin. Route gating is real: pages call `requireCapability()` server-side (redirects to `/denied`), and nav visibility is filtered by `roleCan()`. This all stays when Supabase Auth lands.
-- **Publish** (`lib/adapters/local/publish-service.ts`) writes `satco-web/content/generated/*.json` via `splitBundle()` (the single source of truth for the per-section file layout — mirror it if you add content sections), snapshots draft→published, and audits. Rebuild is manual (`npm run build:web`).
-- **Enforced locks** (do not weaken): loading duration cap ≤1500ms + fade-only; `loadingText` frozen; Selected Clients grayscale/unlinked/max-30; stat #3 stays null; apply URLs reject PDF/mailto; verbatim copy is never auto-transformed. AA applies here too (labels associated, focus rings, keyboard, no horizontal scroll at 375px).
+**Simplified 2026-10-07 — see `docs/DASHBOARD.md`.** The dashboard manages runtime data only: **Careers** (jobs, applications, CVs), **Inquiries** (one page per contact-form inquiry type, each with its own per-user access grant) and **Users & access**. Page copy is edited in code (`content/generated/*.json`); there is no content editor, media library, feature-flag screen or publish center any more (retired code archived at `D:\satco-dev\retired-cms-2026-10-07\`).
+
+- **Not static export** — App Router server app with server actions, reusing the site's bronze/stone tokens. Everything hosted sits behind typed **adapter interfaces** (`lib/adapters/types.ts`: `users`, `jobs`, `submissions`, `media` (CVs only), `audit`) with two impls — **local** (`lib/adapters/local/`, JSON files) and **Neon** (`lib/adapters/neon/`, Postgres) — selected by `DATA_BACKEND` in `lib/adapters/index.ts`.
+- **Local stores** live in `satco-admin/data/`: committed `seed/*.json` + gitignored runtime `store/*.json` (write-through; reads fall back to seed). CVs go to gitignored `data/private-uploads/` locally, Vercel Blob in production.
+- **Auth is real:** Google sign-in (`lib/auth/google.ts`, no library) + a signed session cookie (`lib/auth/session.ts`). Google proves the email; the `users` store decides who enters, with which role (`staff` | `admin`) and which pages (`users.access`: Jobs & applications and/or each inquiry inbox). Without Google credentials a demo account picker appears, never in production. Pages call `requireCapability()` / `requireInbox()` server-side (redirect to `/denied`); the sidebar is built per session by `lib/nav.ts`.
+- **Public endpoints** (CORS against `PUBLIC_SITE_ORIGINS`, localhost 3000/3001/3002 always allowed, rate-limited, honeypot): `POST /api/public/inquiries` (contact form, all three sites), `POST /api/public/job-applications`, `GET /api/public/jobs`. New inquiries can email a department via Resend (`lib/notify.ts`, env-driven, optional).
+- **Enforced locks (dashboard side):** apply URLs reject PDF/mailto; publishing a job needs `manageJobs`. The site-side locks (loading duration, stat #3, Selected Clients rules, verbatim copy) are now code-review rules on the JSON.
+- **Neon:** `db/schema.sql` for fresh databases; existing ones also need `db/migrations/2026-10-07-operations-dashboard.sql` (roles mapped to staff/admin, `users.access`, content tables dropped); `npm run db:migrate` applies both. Hosted Neon migrated 2026-10-07.

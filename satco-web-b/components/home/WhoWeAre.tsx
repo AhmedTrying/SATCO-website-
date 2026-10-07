@@ -3,57 +3,70 @@ import { Container } from "@/components/layout/Container";
 import { Parallax } from "@/components/motion/Parallax";
 import { Reveal } from "@/components/motion/Reveal";
 import { ArrowLink } from "@/components/ui/ArrowLink";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Picture } from "@/components/ui/Picture";
 
+/*
+ * Option B — "Panorama" (2026-10-04, see docs/VARIANTS.md). A wide, high-
+ * resolution photo band (a SATCO boarding bridge at dusk), a white text card
+ * overlapping its lower edge, and the founding year ("Established 1975") set
+ * large beside the card. All copy is the
+ * shared, verbatim content; FIX-07 holds: "Who we are" is the heading, no
+ * added headline.
+ */
 export function WhoWeAre() {
   return (
     <section aria-labelledby="who-h" className="bg-sand">
-      <Container className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] items-center gap-[clamp(2.5rem,5vw,4.5rem)] py-[clamp(4rem,8vw,7rem)]">
+      <Container className="py-[var(--home-section-y)]">
+        {/* Panorama band — the image drifts behind its frame (depth). */}
         <Reveal>
-          <Eyebrow className="mb-4">{home.whoWeAre.eyebrow}</Eyebrow>
-          <h2
-            id="who-h"
-            className="mb-6 mt-0 max-w-[16ch] font-display text-[clamp(1.9rem,3.6vw,2.6rem)] font-bold leading-[1.12] tracking-[-0.015em] text-strong [text-wrap:balance]"
-          >
-            {home.whoWeAre.heading}
-          </h2>
-          <p className="mb-7 mt-0 max-w-[62ch] text-[clamp(1rem,1.4vw,1.1rem)] leading-[1.7] text-stone-700">
-            {home.whoWeAre.body}
-          </p>
-          <ArrowLink href="/about">{home.whoWeAre.cta}</ArrowLink>
-        </Reveal>
-        <Reveal delay={120} className="relative">
-          {/* Image drifts down-to-up behind its frame; the 1975 card drifts the
-              opposite way (depth). The card's positioning classes stay on the
-              outer div — Parallax owns only the inner transform, so Framer
-              never fights the CSS translate. */}
           <div className="overflow-hidden rounded-lg">
-            <Parallax strength={26} scale={1.1}>
+            <Parallax strength={30} scale={1.12}>
               <Picture
                 image={{
-                  src: "construction-1",
-                  alt: "Aerial view of a SATCO-built integrated residential community",
+                  src: "who-panorama",
+                  alt: "A SATCO passenger boarding bridge at an airport terminal at dusk",
                 }}
-                sizes="(min-width: 1024px) 560px, 100vw"
+                // Band width × 1.12 parallax scale, so dense screens fetch 2200/2800.
+                sizes="(min-width: 1440px) 1530px, 112vw"
                 imgClassName="w-full object-cover"
-                style={{ height: "clamp(280px,38vw,440px)" }}
+                style={{ height: "clamp(260px,40vw,520px)", objectPosition: "center 45%" }}
               />
             </Parallax>
           </div>
-          <div className="absolute bottom-0 start-0 translate-y-[28%] ltr:-translate-x-[8%] rtl:translate-x-[8%]">
-            <Parallax strength={-12}>
-              <div className="rounded-md bg-bronze-800 px-6 py-[18px] text-white shadow-lg">
-                <div className="font-display text-[28px] font-bold leading-none tabular-nums">
-                  {home.whoWeAre.imageCard.value}
-                </div>
-                <div className="mt-1.5 text-[12.5px] tracking-[0.04em] text-bronze-200">
-                  {home.whoWeAre.imageCard.label}
-                </div>
-              </div>
-            </Parallax>
-          </div>
         </Reveal>
+
+        {/* Card + year: the card climbs over the band's lower edge; the year
+            sits on the sand to its side (below it on small screens). On lg the
+            year is pushed down by the card's overlap plus a gap, so it always
+            starts below the photo however short the card gets on wide screens
+            (aligning it to the card's bottom let it ride up onto the image). */}
+        <div className="relative z-[2] -mt-[clamp(3rem,9vw,8rem)] grid items-start gap-x-[clamp(2rem,5vw,4.5rem)] gap-y-10 px-[clamp(0.75rem,3vw,2.5rem)] lg:grid-cols-12">
+          <Reveal delay={90} className="lg:col-span-7">
+            <div className="rounded-lg border-t-[3px] border-bronze-700 bg-surface p-[clamp(1.6rem,3.6vw,3rem)] shadow-lg">
+              <h2
+                id="who-h"
+                className="mb-4 mt-0 font-display text-[13px] font-semibold uppercase tracking-[0.14em] text-bronze-700"
+              >
+                {home.whoWeAre.eyebrow}
+              </h2>
+              <p className="mb-7 mt-0 text-[clamp(1.05rem,1.45vw,1.2rem)] leading-[1.7] text-stone-800">
+                {home.whoWeAre.body}
+              </p>
+              <ArrowLink href="/about">{home.whoWeAre.cta}</ArrowLink>
+            </div>
+          </Reveal>
+
+          <Reveal delay={180} className="lg:col-span-5 lg:mt-[calc(clamp(3rem,9vw,8rem)+1.75rem)]">
+            <div className="border-s-[3px] border-bronze-700 ps-[clamp(1.1rem,2.4vw,1.75rem)]">
+              <div className="mb-3 font-display text-[12.5px] font-semibold uppercase leading-none tracking-[0.16em] text-bronze-700">
+                {home.whoWeAre.imageCard.label}
+              </div>
+              <div className="font-display text-[clamp(4.25rem,9vw,7.5rem)] font-bold leading-[0.9] tracking-[-0.03em] text-bronze-800 tabular-nums">
+                {home.whoWeAre.imageCard.value}
+              </div>
+            </div>
+          </Reveal>
+        </div>
       </Container>
     </section>
   );

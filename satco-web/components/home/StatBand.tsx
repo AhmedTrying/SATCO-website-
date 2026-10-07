@@ -24,6 +24,17 @@ type ProofIcon =
   | "aircrafts"
   | "airports";
 
+// Vertical nudge that centres each drawing in the 64-unit frame, so icons of
+// different heights line up across a row.
+const centreY: Record<ProofIcon, number> = {
+  population: 1.5,
+  environments: 0,
+  communities: -4.5,
+  assets: -3.5,
+  aircrafts: 0.5,
+  airports: -0.5,
+};
+
 function StatIcon({ id }: { id: ProofIcon }) {
   const paths: Record<ProofIcon, React.ReactNode> = {
     population: (
@@ -35,16 +46,25 @@ function StatIcon({ id }: { id: ProofIcon }) {
         <path d="M4 50v-4c0-8 4-13 11-13 3 0 5 1 7 3M60 50v-4c0-8-4-13-11-13-3 0-5 1-7 3" />
       </>
     ),
+    // Floor-plan square with dimension lines and "m²" drawn as strokes.
     environments: (
       <>
-        <path d="M9 54V29h18v25M27 54V12h24v42M51 54V32h8v22M4 54h56" />
-        <path d="M15 36h5M15 43h5M34 20h5M43 20h2M34 29h5M43 29h2M34 38h5M43 38h2M34 47h5M43 47h2" />
+        <path d="M20 8h36v36H20Z" />
+        <path d="M11 8v36M8 8h6M8 44h6M20 53h36M20 50v6M56 50v6" />
+        <path d="M25 34V23M25 27.5c0-2.8 1.8-4.5 4.25-4.5S33.5 24.7 33.5 27.5V34M33.5 27.5c0-2.8 1.8-4.5 4.25-4.5S42 24.7 42 27.5V34" />
+        <path
+          strokeWidth="2"
+          d="M45 20c.35-1.6 1.55-2.5 3-2.5 1.7 0 3 1.15 3 2.7 0 1.2-.6 2-1.5 2.9L45 25.5h6.2"
+        />
       </>
     ),
+    // Village: a pitched-roof house in front of two smaller neighbours.
     communities: (
       <>
-        <circle cx="32" cy="32" r="25" />
-        <path d="M7 32h50M32 7c8 8 12 16 12 25S40 49 32 57M32 7c-8 8-12 16-12 25s4 17 12 25M13 17c6 4 12 6 19 6s13-2 19-6M13 47c6-4 12-6 19-6s13 2 19 6" />
+        <path d="M3 55h58" />
+        <path d="M18 32 32 18l14 14M21 29v26M43 29v26M28 55V45h8v10M29 33h6v6h-6Z" />
+        <path d="M3 41l9-9 9 9M6 38v17M10.5 44h5v5h-5Z" />
+        <path d="M61 41l-9-9-9 9M58 38v17M48.5 44h5v5h-5Z" />
       </>
     ),
     assets: (
@@ -53,15 +73,27 @@ function StatIcon({ id }: { id: ProofIcon }) {
         <path d="M12 31v-7h10v7M34 24h6M46 24h3M34 33h6M46 33h3M34 42h6M46 42h3M13 39h6M13 47h6" />
       </>
     ),
+    // Front-view airliner, echoing the plane in the aviation illustration:
+    // tapered fin, long tailplanes, rising wings with winglets.
     aircrafts: (
-      <g transform="translate(2 2) scale(2.45)">
-        <path d="m6.36 17.4-2.36-.4-2-4 1.1-.55a2 2 0 0 1 1.8.02l2.86 1.43 4.73-2.37-3.32-5.18 1.25-.63a2 2 0 0 1 2.58.66l4 4 2.08-1.04a2.5 2.5 0 0 1 2.66 4.23L12 18.43a2 2 0 0 1-1.8.04Z" />
-      </g>
+      <>
+        <circle cx="32" cy="35" r="9" />
+        <path d="M30.8 26.1 31.5 11.5h1l.7 14.6" />
+        <path d="M24 31l-8.5-1.5M40 31l8.5-1.5M26.8 32.5h3.7M33.5 32.5h3.7" />
+        <path d="M23.4 37.5 5 33l20.2 7.9M5 33l-1-3M40.6 37.5 59 33l-20.2 7.9M59 33l1-3" />
+        <circle cx="15" cy="42" r="3.8" />
+        <circle cx="49" cy="42" r="3.8" />
+        <path d="M28 43v5M36 43v5" />
+        <rect x="26" y="48" width="4" height="3.5" rx="1.2" />
+        <rect x="34" y="48" width="4" height="3.5" rx="1.2" />
+      </>
     ),
+    // Terminal with a vaulted roof beside a control tower.
     airports: (
       <>
-        <path d="M18 18h28l-5 20H23L18 18ZM25 38v17M39 38v17M18 55h28M32 18V8M26 8h12" />
-        <path d="M23 18v-7h18v7" />
+        <path d="M4 56h56" />
+        <path d="M5 42Q23 31 41 42M8 40.3V56M38 40.3V56M8 46h30M15.5 46v10M23 46v10M30.5 46v10" />
+        <path d="M47 56V29M53 56V29M46 29h8l4-8H42l4 8ZM44 21l2-4h8l2 4M50 17V9M47.5 21v8M52.5 21v8" />
       </>
     ),
   };
@@ -77,7 +109,7 @@ function StatIcon({ id }: { id: ProofIcon }) {
       strokeLinejoin="round"
       className="h-14 w-14 shrink-0 text-bronze-700"
     >
-      {paths[id]}
+      <g transform={`translate(0 ${centreY[id]})`}>{paths[id]}</g>
     </svg>
   );
 }

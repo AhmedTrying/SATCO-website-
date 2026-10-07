@@ -34,12 +34,8 @@ function OptionButton({ children, light = false }: { children: React.ReactNode; 
 function PreviewBrand({ dark }: { dark: boolean }) {
   return (
     <div className={styles.previewBrand}>
-      <Emblem
-        size={34}
-        disc={dark ? "var(--ds-accent-light)" : "var(--ds-accent)"}
-        land={dark ? "var(--ds-muted)" : "#8f8570"}
-      />
-      <span>{site.name}</span>
+      <Emblem size={34} />
+      <span style={dark ? { color: "#fff" } : undefined}>{site.name}</span>
     </div>
   );
 }
@@ -199,7 +195,7 @@ function CompanyImage() {
 function CompanyCopy() {
   return (
     <div className={styles.figmaCompanyCopy}>
-      <h2>{home.whoWeAre.heading}</h2>
+      <h2>{home.whoWeAre.eyebrow}</h2>
       <p>{home.whoWeAre.body}</p>
       <div className={styles.figmaCompanyFacts}>
         <span><strong>{site.established}</strong>{copy.preview.founded}</span>

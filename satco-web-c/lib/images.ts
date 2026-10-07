@@ -4,27 +4,37 @@
  * Keep in sync with public/images/.
  */
 const VARIANTS: Record<string, number[]> = {
-  "airport-1": [640, 1080, 1600, 2200],
-  "airport-3": [640, 1080, 1600, 2200],
-  "airport-4": [640, 1080, 1600, 2200],
+  // Option C trial: AI-generated set (docs/AI-IMAGE-BRIEF.md), built by
+  // scripts/import-ai-images.mjs. Sources are ~1670px wide, so no 2200 variant.
+  "airport-1": [640, 1080, 1600],
+  "airport-3": [640, 1080, 1448],
+  "airport-4": [640, 1080, 1600],
+  "apron-1": [640, 1080, 1600],
+  "tower-1": [640, 1080, 1600],
   "construction-1": [640, 1080, 1600],
+  "construction-2": [640, 1080, 1600],
+  "construction-3": [640, 1080, 1600],
+  "team-1": [640, 1080, 1448],
+  "team-2": [640, 1080, 1600],
   "ls-1": [640, 1080, 1600],
-  // ⚠ small portrait source (886×1195) — flagged as an imagery gap (plan §12 Q9)
-  maintenance: [640, 886],
+  "plant-1": [640, 1080, 1600],
+  maintenance: [640, 1080],
   neom: [640, 1080, 1600],
-  // Unsplash set (free license, 2026-08)
+  "highway-1": [640, 1080, 1600],
+  "riyadh-1": [640, 1080, 1600],
+  "riyadh-2": [640, 1080, 1600],
+  // New optional slots (S6, O4, O5), not placed in any gallery yet
+  "baggage-1": [640, 1080, 1600],
+  "landscape-1": [640, 1080, 1600],
+  "catering-1": [640, 1080, 1600],
+  // Unsplash set (free license, 2026-08) — no AI replacement yet
   "terminal-1": [640, 1080, 1600, 2200],
   "terminal-2": [640, 1080, 1600, 2200],
-  "apron-1": [640, 1080, 1600, 2200],
-  "tower-1": [640, 1080, 1600, 2200],
-  "construction-2": [640, 1080, 1600, 2200],
-  "construction-3": [640, 1080, 1600, 2200],
-  "team-1": [640, 1080, 1600, 2200],
-  "team-2": [640, 1080, 1600, 2200],
-  "riyadh-1": [640, 1080, 1600, 2200],
-  "riyadh-2": [640, 1080, 1600],
-  "highway-1": [640, 1080, 1600, 2200],
-  "plant-1": [640, 1080, 1600, 2200],
+  // SATCO photos leading the Construction / Operations / PPP galleries
+  // (client folder, 2026-10-04; masters in img/, scripts/optimize-images.mjs)
+  "satco-construction": [640, 1080, 1600, 2200],
+  "satco-operations": [640, 1080, 1600],
+  "satco-ppp": [640, 1080, 1600],
 };
 
 export function widthsFor(base: string): number[] {

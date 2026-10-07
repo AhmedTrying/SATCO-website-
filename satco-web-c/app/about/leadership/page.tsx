@@ -1,13 +1,9 @@
 import type { Metadata } from "next";
+import { leadershipDocument, leadershipExampleBios, leadershipExampleCopy } from "@satco/shared";
 import { leadership, leadershipPage } from "@/content/leadership";
-import {
-  ExecutiveLeadershipCard,
-  FunctionalLeadershipCard,
-  PrincipalLeadershipCard,
-} from "@/components/about/LeadershipCard";
+import { LeadershipProfileCard } from "@/components/about/LeadershipCard";
 import { Container } from "@/components/layout/Container";
 import { Reveal } from "@/components/motion/Reveal";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PageHeader } from "@/components/ui/PageHeader";
 
 export const metadata: Metadata = {
@@ -15,158 +11,80 @@ export const metadata: Metadata = {
   description: leadershipPage.subline,
 };
 
-const orderedLeadership = [...leadership].sort((a, b) => a.order - b.order);
-const principals = orderedLeadership.filter((member) => member.level === "principal");
-const executives = orderedLeadership.filter((member) => member.level === "executive");
-const functionalLeaders = orderedLeadership.filter(
-  (member) => member.level === "functional" || !member.level,
-);
+/*
+ * Option C — FIX-22: exactly the people in Bandar's Leadership document, in
+ * its order and under its two headings (Chairman, Leadership Team), with its
+ * names, titles and biographies verbatim (@satco/shared leadership-example).
+ * Every person uses the same card; no numbering. Portraits come from the
+ * dashboard entry with the same id once they are supplied.
+ */
+const photoById = new Map(leadership.map((member) => [member.id, member.photo]));
 
-function displayNumber(order: number) {
-  return String(order).padStart(2, "0");
-}
+const groups = leadershipDocument.groups.map((group) => ({
+  id: group.id,
+  heading: group.heading,
+  people: group.memberIds.map((id) => ({
+    id,
+    ...leadershipDocument.members[id],
+    bio: leadershipExampleBios[id] ?? [],
+    photo: photoById.get(id),
+  })),
+}));
 
-function EmptyLeadership() {
-  const placeholders = Array.from({ length: leadershipPage.placeholderCount });
-
-  return (
-    <Container className="py-[clamp(3.5rem,7vw,6rem)]">
-      <Reveal>
-        <div
-          role="status"
-          className="mb-9 flex max-w-[640px] items-center gap-3 rounded-md border border-bronze-100 bg-bronze-50 px-5 py-4"
-        >
-          <span aria-hidden="true" className="h-2.5 w-2.5 flex-none rounded-full bg-bronze-500" />
-          <p className="m-0 text-[14.5px] text-stone-700">{leadershipPage.pendingNote}</p>
-        </div>
-      </Reveal>
-      <ul className="m-0 grid list-none grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-[22px] p-0">
-        {placeholders.map((_, index) => (
-          <li key={index} className="overflow-hidden rounded-lg border border-border bg-surface">
-            <div aria-hidden="true" className="aspect-[4/3] bg-stone-100" />
-            <div className="p-6">
-              <div aria-hidden="true" className="mb-3 h-3 w-2/3 rounded-sm bg-stone-200" />
-              <div aria-hidden="true" className="h-2.5 w-2/5 rounded-sm bg-stone-100" />
-            </div>
-          </li>
-        ))}
-      </ul>
-    </Container>
-  );
-}
+const portraitsPending = groups.some((group) => group.people.some((person) => !person.photo));
 
 export default function LeadershipPage() {
   return (
     <>
       <PageHeader
-        crumbs={[
-          { label: "Home", href: "/" },
-          { label: "About us", href: "/about" },
-          { label: "Key people & leadership" },
-        ]}
         title={leadershipPage.title}
         headingId="leadership-h"
         lead={leadershipPage.subline}
       />
 
-      {orderedLeadership.length === 0 ? (
-        <EmptyLeadership />
-      ) : (
-        <>
-          {principals.length > 0 ? (
-            <section aria-labelledby="principal-leadership-h" className="bg-surface">
-              <Container className="py-[clamp(3.75rem,7vw,6.5rem)]">
-                <Reveal>
-                  <div className="mb-[clamp(2rem,4vw,3.25rem)] grid gap-5 sm:grid-cols-[minmax(0,0.7fr)_minmax(280px,1.3fr)] sm:items-end">
-                    <Eyebrow>{leadershipPage.featuredEyebrow}</Eyebrow>
-                    <h2
-                      id="principal-leadership-h"
-                      className="m-0 max-w-[22ch] font-display text-[clamp(1.9rem,4vw,3.35rem)] font-bold leading-[1.04] tracking-[-0.03em] text-strong [text-wrap:balance]"
-                    >
-                      {leadershipPage.featuredHeading}
-                    </h2>
-                  </div>
-                </Reveal>
-                <ul className="m-0 grid list-none gap-[22px] p-0 lg:grid-cols-2">
-                  {principals.map((member, index) => (
-                    <li key={member.id} className="h-full">
-                      <Reveal delay={index * 90} className="h-full">
-                        <PrincipalLeadershipCard
-                          member={member}
-                          number={displayNumber(member.order)}
-                        />
-                      </Reveal>
-                    </li>
-                  ))}
-                </ul>
-              </Container>
-            </section>
-          ) : null}
+      <Container className="py-[clamp(3rem,6vw,5.5rem)]">
+        {portraitsPending ? (
+          <p className="mb-8 mt-0 text-[13.5px] text-stone-600">{leadershipExampleCopy.portraitsPendingNote}</p>
+        ) : null}
 
-          {executives.length > 0 ? (
-            <section aria-labelledby="executive-leadership-h" className="border-y border-border bg-sand">
-              <Container className="py-[clamp(3.75rem,7vw,6rem)]">
-                <Reveal>
-                  <div className="mb-9 flex items-end justify-between gap-6 border-b border-stone-300 pb-5">
-                    <h2
-                      id="executive-leadership-h"
-                      className="m-0 font-display text-[clamp(1.55rem,3vw,2.2rem)] font-bold leading-[1.12] tracking-[-0.02em] text-strong"
-                    >
-                      {leadershipPage.executiveHeading}
-                    </h2>
-                    <span aria-hidden="true" className="hidden h-px w-24 bg-bronze-500 sm:block" />
-                  </div>
-                </Reveal>
-                <ul className="m-0 grid list-none gap-[18px] p-0 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                  {executives.map((member, index) => (
-                    <li key={member.id} className="h-full">
-                      <Reveal delay={(index % 4) * 70} className="h-full">
-                        <ExecutiveLeadershipCard
-                          member={member}
-                          number={displayNumber(member.order)}
-                        />
-                      </Reveal>
-                    </li>
-                  ))}
-                </ul>
-              </Container>
-            </section>
-          ) : null}
-
-          {functionalLeaders.length > 0 ? (
-            <section aria-labelledby="functional-leadership-h" className="bg-surface">
-              <Container className="grid gap-[clamp(2rem,5vw,5rem)] py-[clamp(3.75rem,7vw,6rem)] lg:grid-cols-[minmax(240px,0.65fr)_minmax(0,1.35fr)]">
-                <Reveal>
-                  <div className="lg:sticky lg:top-[calc(var(--nav-h)+2rem)]">
-                    <Eyebrow className="mb-4">{leadershipPage.functionalEyebrow}</Eyebrow>
-                    <h2
-                      id="functional-leadership-h"
-                      className="mb-4 mt-0 max-w-[16ch] font-display text-[clamp(1.65rem,3vw,2.35rem)] font-bold leading-[1.1] tracking-[-0.025em] text-strong"
-                    >
-                      {leadershipPage.functionalHeading}
-                    </h2>
-                    <p className="m-0 max-w-[42ch] text-[15px] leading-[1.7] text-stone-600">
-                      {leadershipPage.functionalSubline}
-                    </p>
-                  </div>
-                </Reveal>
-                <ul className="m-0 grid list-none gap-3 p-0 sm:grid-cols-2">
-                  {functionalLeaders.map((member, index) => (
-                    <li key={member.id} className="h-full">
-                      <Reveal delay={(index % 4) * 55} className="h-full">
-                        <FunctionalLeadershipCard
-                          member={member}
-                          number={displayNumber(member.order)}
-                        />
-                      </Reveal>
-                    </li>
-                  ))}
-                </ul>
-              </Container>
-            </section>
-          ) : null}
-        </>
-      )}
+        {groups.map((group, groupIndex) => (
+          <section
+            key={group.id}
+            aria-labelledby={`${group.id}-h`}
+            className={groupIndex > 0 ? "mt-[clamp(3rem,6vw,4.5rem)]" : undefined}
+          >
+            <Reveal>
+              <div className="mb-6 flex items-center gap-4">
+                <h2
+                  id={`${group.id}-h`}
+                  className="m-0 font-display text-[13px] font-semibold uppercase tracking-[0.14em] text-bronze-700"
+                >
+                  {group.heading}
+                </h2>
+                <span aria-hidden="true" className="h-px flex-1 bg-border" />
+              </div>
+            </Reveal>
+            <ul className="m-0 grid list-none gap-[22px] p-0 lg:grid-cols-2">
+              {group.people.map((person, index) => (
+                <li
+                  key={person.id}
+                  // A lone card (the Chairman) is centred at the same width as the
+                  // two-column cards below, so every card keeps one size.
+                  className={
+                    group.people.length === 1
+                      ? "lg:col-span-2 lg:mx-auto lg:w-[calc((100%-22px)/2)]"
+                      : "h-full"
+                  }
+                >
+                  <Reveal delay={(index % 2) * 80} className="h-full">
+                    <LeadershipProfileCard {...person} />
+                  </Reveal>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </Container>
     </>
   );
 }

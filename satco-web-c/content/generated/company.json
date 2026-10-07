@@ -7,20 +7,27 @@
     {
       "label": "Operating sectors",
       "value": "4"
+    },
+    {
+      "label": "Employees",
+      "value": "5,000+"
+    },
+    {
+      "label": "Countries of operation",
+      "value": "3"
     }
   ],
   "image": {
     "alt": "Aerial view of a SATCO integrated development",
     "src": "neom"
   },
-  "title": "Company information",
-  "eyebrow": "Our story",
+  "title": "Company Information",
+  "eyebrow": "Our Story",
   "heading": "Five decades of building at national scale",
   "paragraphs": [
-    "SATCO is a Saudi-owned infrastructure and services company delivering complex projects that support the Kingdom’s long-term development. Established in 1975, SATCO has evolved from a traditional contractor into a fully integrated operating platform with the scale, expertise, and partnerships required to deliver, operate, as well as sustain critical assets.",
-    "Today, SATCO operates across four core platforms: Airport Infrastructure & Operations, Construction, Integrated Operations & Support Services, and Public–Private Partnerships (PPP). Together, these capabilities enable SATCO to provide end-to-end solutions spanning development, construction, long-term operations, as well as asset stewardship.",
-    "Grounded in deep local market knowledge and strengthened through decades of collaboration with leading international firms, SATCO combines global best practices with a practical understanding of regional dynamics. This balance allows the company to navigate complex regulatory environments, manage large as well as diverse workforces, and deliver reliably at scale.",
-    "SATCO’s longevity is defined not simply by time, but by adaptability—its ability to respond to changing economic cycles, evolving client needs, and increasingly sophisticated infrastructure requirements. This resilience, coupled with disciplined execution as well as a long-term partnership mindset, has positioned SATCO as a trusted partner to public and private stakeholders across the region."
-  ],
-  "sectorsLinkHeading": "One group, four connected sectors"
+    "Saudi Arabian Trading & Construction Company was founded in 1975 in general contracting, landscaping, catering, and airport support. Its first construction contract — prefabricated schools in Hofuf — was delivered in the company's first years, and by the early 1980s SATCO was installing and maintaining baggage and boarding systems at King Khalid International Airport, where it has worked without interruption since.",
+    "Through the construction boom, SATCO grew in joint ventures with international firms. When the boom ended in 1985 and those partners left the Kingdom, SATCO acquired their assets and brought their people into its own divisions. That decision turned a trading and contracting company into an operating one, and it is the origin of the model SATCO still runs: build the asset, then operate it.",
+    "The model has been tested at scale. In 2012 SATCO took on the passenger boarding bridges at King Khalid International Airport under a build-transfer-operate concession — 43 bridges with ground power and pre-conditioned air, designed, installed, and operated by SATCO until 2026 — and long-term concessions of the same kind now run at Abha, Arar, and Tabuk airports. In 2019 NEOM appointed SATCO to design, finance, build, and operate a village for 10,000 residents; the village opened within three years, and SATCO ran it through 2025.",
+    "Today the group works across four sectors under one management — airport infrastructure and operations, construction, integrated operations and support services, and public–private partnerships, the last through SkyBridge — so that design, construction, financing, and long-term operations are planned together. It is classified at the highest level by the Ministry of Municipalities and Housing for construction, operations and maintenance, landscaping, and catering; holds a GACAR Part 151 airside license; and is certified to five ISO management standards. Fifty years on, SATCO remains privately owned and Saudi-owned."
+  ]
 }

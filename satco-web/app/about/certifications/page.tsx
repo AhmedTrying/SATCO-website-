@@ -31,11 +31,6 @@ export default function CertificationsPage() {
   return (
     <>
       <PageHeader
-        crumbs={[
-          { label: "Home", href: "/" },
-          { label: "About us", href: "/about" },
-          { label: "Classifications, licenses & certifications" },
-        ]}
         title="Classifications, licenses & certifications"
         headingId="cert-h"
         lead={page.intro[0]}

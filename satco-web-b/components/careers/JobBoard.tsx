@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useId, useState } from "react";
 import { careersPage } from "@/content/careers";
+import { jobApplicationCopy } from "@/content/job-application";
 import { sectors } from "@/content/sectors";
 import {
   emptyFilters,
@@ -13,6 +14,7 @@ import {
 import type { Job, SectorSlug } from "@/lib/types";
 import { Reveal } from "@/components/motion/Reveal";
 import { Pill } from "@/components/ui/Pill";
+import { useLiveJobs } from "@/components/careers/useLiveJobs";
 
 /*
  * Job filters + list — locked facets (docx comment #42): keyword, location,
@@ -38,8 +40,9 @@ const fieldClass =
   "w-full rounded-sm border border-stone-500 bg-surface px-3 py-[11px] text-[14.5px] text-strong focus:border-bronze-800";
 const labelClass = "text-[13px] font-semibold text-strong";
 
-export function JobBoard({ jobs }: { jobs: Job[] }) {
+export function JobBoard({ jobs: initialJobs }: { jobs: Job[] }) {
   const id = useId();
+  const { jobs, status } = useLiveJobs(initialJobs);
   const [filters, setFilters] = useState<JobFilterState>(emptyFilters);
   const visible = filterJobs(jobs, filters);
 
@@ -126,6 +129,11 @@ export function JobBoard({ jobs }: { jobs: Job[] }) {
       </Reveal>
 
       <Reveal delay={80}>
+        {status === "error" && (
+          <p role="status" className="mb-4 text-sm text-stone-700">
+            {jobApplicationCopy.jobsUnavailable}
+          </p>
+        )}
         <p aria-live="polite" className="mb-4 mt-0 text-[13px] text-stone-600">
           Showing {visible.length} of {jobs.length} role{jobs.length === 1 ? "" : "s"}
         </p>
@@ -153,7 +161,7 @@ export function JobBoard({ jobs }: { jobs: Job[] }) {
                   </div>
                 </div>
                 <Link
-                  href={`/careers/${job.slug}`}
+                  href={`/careers/role?slug=${encodeURIComponent(job.slug)}`}
                   className="inline-flex flex-none items-center gap-[7px] text-[15px] font-semibold text-bronze-800 no-underline transition-[gap] duration-[var(--dur-base)] group-hover:gap-3 hover:gap-3 hover:text-bronze-700"
                 >
                   View role{" "}

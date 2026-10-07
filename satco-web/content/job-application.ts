@@ -42,6 +42,7 @@ export const jobApplicationCopy = {
   successHeading: "Application received",
   successMessage: "Thank you. Your application has been sent to the SATCO recruitment team.",
   errorMessage: "We could not submit your application. Please try again.",
+  backToCareers: "Back to careers",
   backToRole: "Back to role details",
   roleSummaryHeading: "Role",
   locationLabel: "Location",

@@ -1,12 +1,7 @@
 import Link from "next/link";
-import {
-  pendingExperienceCard,
-  sectors,
-  showPendingExperience,
-} from "@/content/sectors";
+import { pendingExperienceCard, showPendingExperience } from "@/content/sectors";
 import type { Sector } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { Container } from "@/components/layout/Container";
 import { Parallax } from "@/components/motion/Parallax";
 import { Reveal } from "@/components/motion/Reveal";
@@ -22,8 +17,6 @@ function paragraphs(text: string) {
 
 /** Full L2 sector template per the approved design; all body copy verbatim docx. */
 export function SectorL2({ sector }: { sector: Sector }) {
-  const number = String(sector.order).padStart(2, "0");
-  const total = String(sectors.length).padStart(2, "0");
   const experiencePublished =
     sector.experience.status === "confirmed" || showPendingExperience;
   const gallery = sector.gallery ?? [];
@@ -32,9 +25,8 @@ export function SectorL2({ sector }: { sector: Sector }) {
 
   return (
     <>
-      {/* Hero — parallax depth on the imagery, staggered text reveal, and a
-          decorative oversized sector numeral (aria-hidden; the visible
-          "Operating sector NN / NN" line carries the meaning). */}
+      {/* Hero — parallax depth on the imagery and a staggered text reveal.
+          No sector numbering (FIX-10): the label reads "Operating sector". */}
       <div className="on-dark relative overflow-hidden bg-stone-950">
         <Parallax strength={26} scale={1.15} className="absolute inset-0">
           <Picture
@@ -50,25 +42,10 @@ export function SectorL2({ sector }: { sector: Sector }) {
           aria-hidden="true"
           className="absolute inset-0 bg-[linear-gradient(90deg,rgb(53_30_3/0.9),rgb(53_30_3/0.6)_55%,rgb(35_31_26/0.28))] rtl:bg-[linear-gradient(270deg,rgb(53_30_3/0.9),rgb(53_30_3/0.6)_55%,rgb(35_31_26/0.28))]"
         />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute bottom-[-0.1em] end-[2%] z-[1] hidden select-none font-display text-[clamp(7rem,17vw,13rem)] font-bold leading-none text-white/[0.07] md:block"
-        >
-          {number}
-        </div>
         <Container className="relative z-[2] pb-[clamp(3.5rem,7vw,6rem)] pt-[clamp(2.75rem,5.5vw,4.5rem)]">
-          <Breadcrumbs
-            onDark
-            className="mb-[22px]"
-            items={[
-              { label: "Home", href: "/" },
-              { label: "Operating sectors", href: "/sectors" },
-              { label: sector.shortName },
-            ]}
-          />
           <Reveal>
             <p className="mb-3.5 mt-0 font-display text-[12.5px] font-semibold uppercase tracking-[0.16em] text-bronze-200">
-              Operating sector {number} / {total}
+              Operating sector
             </p>
           </Reveal>
           <Reveal delay={70}>

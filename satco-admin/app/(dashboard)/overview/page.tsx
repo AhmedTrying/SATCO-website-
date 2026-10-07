@@ -1,10 +1,12 @@
 import Link from "next/link";
-import { isJobDeadlineOpen } from "@satco/shared";
+import { accessibleInboxes, isJobDeadlineOpen } from "@satco/shared";
 
 import { PageHeader } from "@/components/ui/PageHeader";
 import { adapters } from "@/lib/adapters";
-import { requireSession } from "@/lib/auth";
+import { can, requireSession } from "@/lib/auth";
 import { formatDate, statusBadgeClass, titleCase } from "@/lib/format";
+import { inboxHref } from "@/lib/nav";
+import { INQUIRY_LABELS } from "@/lib/routing";
 
 export const dynamic = "force-dynamic";
 
@@ -12,92 +14,84 @@ function StatCard({
   label,
   value,
   href,
+  hint,
 }: {
   label: string;
   value: number | string;
   href: string;
+  hint?: string;
 }) {
   return (
     <Link href={href} className="card p-4 transition-colors hover:border-bronze-300">
       <div className="text-2xl font-semibold text-strong">{value}</div>
       <div className="mt-0.5 text-xs text-muted">{label}</div>
+      {hint && <div className="mt-1 text-[0.7rem] text-muted">{hint}</div>}
     </Link>
   );
 }
 
 export default async function OverviewPage() {
   const session = await requireSession();
-  const [jobs, submissions, applications, media, diff, history] = await Promise.all([
-    adapters.jobs.list(),
-    adapters.submissions.listContact(),
-    adapters.submissions.listApplications(),
-    adapters.media.list(),
-    adapters.publish.diff(),
-    adapters.publish.history(1),
+  const careers = can(session, "manageJobs");
+  const inboxes = accessibleInboxes(session);
+
+  const [jobs, applications, submissions] = await Promise.all([
+    careers ? adapters.jobs.list() : Promise.resolve([]),
+    careers ? adapters.submissions.listApplications() : Promise.resolve([]),
+    inboxes.length > 0 ? adapters.submissions.listContact() : Promise.resolve([]),
   ]);
 
-  const openJobs = jobs.filter((j) => j.state === "published" && isJobDeadlineOpen(j.applicationDeadline)).length;
-  const newSubs = submissions.filter((s) => s.status === "new").length;
+  // Only the inboxes this user may open — never counts for other departments.
+  const mine = submissions.filter((s) => inboxes.includes(s.inquiryType));
+  const openJobs = jobs.filter(
+    (j) => j.state === "published" && isJobDeadlineOpen(j.applicationDeadline),
+  ).length;
   const newApps = applications.filter((a) => a.status === "new").length;
-  const changed = diff.filter((d) => d.changed);
-  const changedGroups = [...new Set(changed.map((d) => d.label))];
-  const recent = submissions.slice(0, 5);
-  const lastPublish = history[0];
+  const recent = mine.slice(0, 6);
 
   return (
     <>
       <PageHeader
         title={`Welcome, ${session.name.split(" ")[0]}`}
-        description="Snapshot of website content, careers and contact activity from the connected dashboard services."
+        description="What needs attention across careers and your inquiry inboxes."
       />
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <StatCard label="Open roles" value={openJobs} href="/careers" />
-        <StatCard label="New submissions" value={newSubs} href="/contact" />
-        <StatCard label="New applications" value={newApps} href="/careers" />
-        <StatCard label="Media assets" value={media.length} href="/media" />
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+        {careers && <StatCard label="Open roles" value={openJobs} href="/careers" />}
+        {careers && (
+          <StatCard label="New applications" value={newApps} href="/careers?tab=applications" />
+        )}
+        {inboxes.map((inbox) => {
+          const items = mine.filter((s) => s.inquiryType === inbox);
+          const fresh = items.filter((s) => s.status === "new").length;
+          return (
+            <StatCard
+              key={inbox}
+              label={INQUIRY_LABELS[inbox]}
+              value={fresh}
+              hint={`new of ${items.length} inquir${items.length === 1 ? "y" : "ies"}`}
+              href={inboxHref(inbox)}
+            />
+          );
+        })}
       </div>
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-2">
-        {/* Unpublished changes */}
-        <section className="card p-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-strong">
-              Unpublished changes
-            </h2>
-            <Link href="/publish" className="text-xs text-primary hover:underline">
-              Publish center →
-            </Link>
-          </div>
-          {changedGroups.length === 0 ? (
-            <p className="mt-3 text-sm text-muted">
-              Draft matches the last publish — nothing to deploy.
-            </p>
-          ) : (
-            <ul className="mt-3 space-y-1.5">
-              {changedGroups.map((g) => (
-                <li key={g} className="flex items-center gap-2 text-sm">
-                  <span className="badge badge-amber">changed</span>
-                  {g}
-                </li>
-              ))}
-            </ul>
-          )}
-          <p className="mt-3 text-[0.7rem] text-muted">
-            {lastPublish
-              ? `Last published ${formatDate(lastPublish.publishedAt)} by ${lastPublish.publishedBy}.`
-              : "Never published from the dashboard yet."}
-          </p>
-        </section>
+      {!careers && inboxes.length === 0 && (
+        <p className="card mt-4 p-6 text-sm text-muted">
+          Your account has no pages yet. Ask an admin to grant you Jobs &amp;
+          applications or an inquiry inbox under Users &amp; access.
+        </p>
+      )}
 
-        {/* Recent submissions */}
-        <section className="card p-4">
+      {inboxes.length > 0 && (
+        <section className="card mt-4 p-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-strong">
-              Recent contact submissions
-            </h2>
-            <Link href="/contact" className="text-xs text-primary hover:underline">
-              Inbox →
+            <h2 className="text-sm font-semibold text-strong">Latest inquiries</h2>
+            <Link
+              href={inboxes.length > 1 ? "/inquiries" : inboxHref(inboxes[0])}
+              className="text-xs text-primary hover:underline"
+            >
+              Open inbox →
             </Link>
           </div>
           <div className="mt-2 overflow-x-auto">
@@ -105,7 +99,7 @@ export default async function OverviewPage() {
               <thead>
                 <tr>
                   <th>From</th>
-                  <th>Type</th>
+                  <th>Inbox</th>
                   <th>Status</th>
                 </tr>
               </thead>
@@ -113,24 +107,29 @@ export default async function OverviewPage() {
                 {recent.map((s) => (
                   <tr key={s.id}>
                     <td>
-                      <div className="font-medium text-strong">{s.name}</div>
-                      <div className="text-[0.7rem] text-muted">
-                        {formatDate(s.createdAt)}
-                      </div>
+                      <Link href={inboxHref(s.inquiryType)} className="font-medium text-strong hover:text-primary">
+                        {s.name}
+                      </Link>
+                      <div className="text-[0.7rem] text-muted">{formatDate(s.createdAt)}</div>
                     </td>
-                    <td className="capitalize">{s.inquiryType}</td>
+                    <td>{INQUIRY_LABELS[s.inquiryType]}</td>
                     <td>
-                      <span className={statusBadgeClass(s.status)}>
-                        {titleCase(s.status)}
-                      </span>
+                      <span className={statusBadgeClass(s.status)}>{titleCase(s.status)}</span>
                     </td>
                   </tr>
                 ))}
+                {recent.length === 0 && (
+                  <tr>
+                    <td colSpan={3} className="py-6 text-center text-muted">
+                      No inquiries yet.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
         </section>
-      </div>
+      )}
     </>
   );
 }

@@ -29,7 +29,7 @@ export function CareersTeaser() {
         aria-hidden="true"
         className="absolute inset-0 bg-[linear-gradient(90deg,rgb(29_26_22/0.9),rgb(53_30_3/0.62)_55%,rgb(53_30_3/0.35))] rtl:bg-[linear-gradient(270deg,rgb(29_26_22/0.9),rgb(53_30_3/0.62)_55%,rgb(53_30_3/0.35))]"
       />
-      <Container className="relative z-[2] py-[clamp(4rem,8vw,7rem)]">
+      <Container className="relative z-[2] py-[var(--home-section-y)]">
         <Reveal className="max-w-[620px]">
           <Eyebrow onDark className="mb-4">
             {home.careersTeaser.eyebrow}

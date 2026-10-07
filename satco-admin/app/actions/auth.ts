@@ -1,28 +1,27 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-import { roleSchema } from "@satco/shared/schemas";
-
 import { adapters } from "@/lib/adapters";
+import { authMode } from "@/lib/auth";
+import { clearSession, createSession } from "@/lib/auth/session";
 
-/** Mock dev sign-in by email (one of the seeded staff accounts). */
-export async function signInAction(formData: FormData): Promise<void> {
+/**
+ * Mock sign-in by email — one of the staff accounts in the user store.
+ * Refused outright unless the mock mode is active (never in production unless
+ * ALLOW_MOCK_AUTH=true). Real sign-in is Google: /api/auth/google.
+ */
+export async function mockSignInAction(formData: FormData): Promise<void> {
+  if (authMode() !== "mock") redirect("/login?error=mock-disabled");
   const email = String(formData.get("email") ?? "").trim();
-  if (!email) return;
-  await adapters.auth.signIn(email);
+  if (!email) redirect("/login?error=no-account");
+  const user = await adapters.users.getByEmail(email);
+  if (!user || !user.active) redirect("/login?error=no-account");
+  await createSession(user.id);
   redirect("/overview");
 }
 
 export async function signOutAction(): Promise<void> {
-  await adapters.auth.signOut();
+  await clearSession();
   redirect("/login");
-}
-
-/** Role switcher (mock only) — preview permissions across roles. */
-export async function setRoleAction(role: string): Promise<void> {
-  const parsed = roleSchema.parse(role);
-  await adapters.auth.setRole(parsed);
-  revalidatePath("/", "layout");
 }
