@@ -57,6 +57,13 @@ back to `localhost:3100` in dev). The endpoint checks the origin against
 drops honeypot submissions, validates with `newInquirySchema`, stores the inquiry in its
 inbox, audits it, and emails the department.
 
+**Rate limit (both public POST endpoints, `lib/public-api.ts`):** 5 *accepted* submissions
+per client IP per 10 minutes. Only stored records count — a validation error, a honeypot
+hit or a server error never locks a visitor (or an office behind one IP) out. Hits are
+rows in `public_rate_hits` on the Neon backend, so the limit holds across Vercel
+instances; under the local backend, or if that table is unreachable, an in-memory map is
+used and a warning is logged.
+
 **Department email (optional, free):** set `RESEND_API_KEY` and `NOTIFY_FROM` (a sender on
 a domain verified in Resend), then one recipient list per type
 (`INQUIRY_NOTIFY_PROCUREMENT=procurement@satco.sa`, …) with `INQUIRY_NOTIFY_DEFAULT` as the
@@ -70,6 +77,9 @@ fallback. With no key the inquiry is still stored and shown; only the email is s
 schema.sql and then every file in `db/migrations/`): it maps the old roles to
 staff/admin (former publishers keep the Jobs page), adds `users.access`, and drops the
 `content_bundle` and `publishes` tables. Applied to the hosted Neon database on 2026-10-07.
+`db/migrations/2026-10-07-public-rate-hits.sql` adds the `public_rate_hits` table for the
+durable rate limit (see above); **not yet applied to hosted Neon** — run `npm run db:migrate`
+once. Until then the endpoints log a warning per request and fall back to the in-memory limit.
 
 ## Environment
 

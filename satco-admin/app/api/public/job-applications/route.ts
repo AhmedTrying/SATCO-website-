@@ -2,6 +2,13 @@ import type { Job, JobApplication, ScreeningAnswer } from "@satco/shared";
 import { isJobDeadlineOpen } from "@satco/shared";
 
 import { adapters } from "@/lib/adapters";
+import {
+  allowedOrigins,
+  corsHeaders,
+  jsonResponse,
+  rateLimitExceeded,
+  recordAcceptedSubmission,
+} from "@/lib/public-api";
 
 export const runtime = "nodejs";
 
@@ -11,66 +18,14 @@ const ALLOWED_CV_TYPES = new Set([
   "application/msword",
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 ]);
-const WINDOW_MS = 10 * 60 * 1000;
-const MAX_REQUESTS_PER_WINDOW = 5;
+// Only ACCEPTED applications count (lib/public-api.ts): a rejected form never
+// locks a visitor — or a whole office behind one IP — out for ten minutes.
+const RATE = { max: 5, windowMs: 10 * 60 * 1000 };
 
-const globalRateLimit = globalThis as typeof globalThis & {
-  satcoApplicationRateLimit?: Map<string, number[]>;
-};
-
-const rateLimit =
-  globalRateLimit.satcoApplicationRateLimit ??
-  (globalRateLimit.satcoApplicationRateLimit = new Map<string, number[]>());
-
-function allowedOrigins(): Set<string> {
-  const origins = new Set(
-    (process.env.PUBLIC_SITE_ORIGINS ?? "")
-      .split(",")
-      .map((origin) => origin.trim())
-      .filter(Boolean),
-  );
-  // The public site runs on port 3000 locally while the admin API runs on
-  // port 3100. Keep that first-party development pairing available even when
-  // the API is started with `next start` (which sets NODE_ENV to production).
-  // Design variants B and C (docs/VARIANTS.md) run on 3001 and 3002.
-  for (const port of [3000, 3001, 3002]) {
-    origins.add(`http://localhost:${port}`);
-    origins.add(`http://127.0.0.1:${port}`);
-  }
-  return origins;
-}
-
-function corsHeaders(origin: string | null): HeadersInit {
-  if (!origin || !allowedOrigins().has(origin)) return { Vary: "Origin" };
-  return {
-    "Access-Control-Allow-Origin": origin,
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
-    Vary: "Origin",
-  };
-}
-
-function json(
-  body: Record<string, unknown>,
-  status: number,
-  origin: string | null,
-): Response {
-  return Response.json(body, { status, headers: corsHeaders(origin) });
-}
+const json = jsonResponse;
 
 function text(form: FormData, key: string, maxLength: number): string {
   return String(form.get(key) ?? "").trim().slice(0, maxLength);
-}
-
-function isRateLimited(request: Request): boolean {
-  const forwarded = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
-  const key = forwarded || request.headers.get("x-real-ip") || "local";
-  const now = Date.now();
-  const recent = (rateLimit.get(key) ?? []).filter((time) => now - time < WINDOW_MS);
-  if (recent.length >= MAX_REQUESTS_PER_WINDOW) return true;
-  recent.push(now);
-  rateLimit.set(key, recent);
-  return false;
 }
 
 function publicJob(job: Awaited<ReturnType<typeof adapters.jobs.list>>[number]): Job {
@@ -109,7 +64,7 @@ export async function POST(request: Request): Promise<Response> {
   if (origin && !allowedOrigins().has(origin)) {
     return json({ error: "Origin not allowed." }, 403, origin);
   }
-  if (isRateLimited(request)) {
+  if (await rateLimitExceeded(request, "job-applications", RATE)) {
     return json(
       { error: "Too many applications were submitted. Please try again later." },
       429,
@@ -239,6 +194,7 @@ export async function POST(request: Request): Promise<Response> {
       screeningAnswers,
       criteriaMatch: criteriaMatch(screeningAnswers),
     });
+    await recordAcceptedSubmission(request, "job-applications", RATE);
 
     await adapters.audit.append({
       actor: "public-careers-form",

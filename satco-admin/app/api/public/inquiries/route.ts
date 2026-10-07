@@ -2,7 +2,13 @@ import { newInquirySchema } from "@satco/shared/schemas";
 
 import { adapters } from "@/lib/adapters";
 import { notifyNewInquiry } from "@/lib/notify";
-import { isRateLimited, jsonResponse, originAllowed, corsHeaders } from "@/lib/public-api";
+import {
+  corsHeaders,
+  jsonResponse,
+  originAllowed,
+  rateLimitExceeded,
+  recordAcceptedSubmission,
+} from "@/lib/public-api";
 
 export const runtime = "nodejs";
 
@@ -11,9 +17,10 @@ const RATE = { max: 5, windowMs: 10 * 60 * 1000 };
 /**
  * Public contact-form endpoint. Called by the sites' ContactForm (all three
  * options). Accepts JSON or form-encoded bodies; rejects disallowed origins,
- * rate-limits per IP, swallows honeypot submissions, validates with the shared
- * zod schema, stores the inquiry in its inbox, audits, and notifies the
- * department mailbox (if configured).
+ * rate-limits per IP (only accepted inquiries count — validation failures and
+ * honeypot hits never lock a visitor out), swallows honeypot submissions,
+ * validates with the shared zod schema, stores the inquiry in its inbox, audits,
+ * and notifies the department mailbox (if configured).
  */
 export function OPTIONS(request: Request): Response {
   const origin = request.headers.get("origin");
@@ -38,7 +45,7 @@ async function readBody(request: Request): Promise<Record<string, unknown>> {
 export async function POST(request: Request): Promise<Response> {
   const origin = request.headers.get("origin");
   if (!originAllowed(origin)) return jsonResponse({ error: "Origin not allowed." }, 403, origin);
-  if (isRateLimited(request, "inquiries", RATE)) {
+  if (await rateLimitExceeded(request, "inquiries", RATE)) {
     return jsonResponse(
       { error: "Too many messages were sent from this connection. Please try again later." },
       429,
@@ -78,6 +85,7 @@ export async function POST(request: Request): Promise<Response> {
     }
 
     const submission = await adapters.submissions.createContact(parsed.data);
+    await recordAcceptedSubmission(request, "inquiries", RATE);
     await adapters.audit.append({
       actor: "public-contact-form",
       action: "inquiry.create",

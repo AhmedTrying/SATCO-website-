@@ -200,6 +200,19 @@ create table if not exists audit_log (
   diff       jsonb
 );
 
+-- Public-endpoint rate limit -------------------------------------------------
+-- One row per ACCEPTED public submission (contact inquiry, job application),
+-- keyed by endpoint bucket + client IP. lib/public-api.ts counts rows inside the
+-- window before accepting and prunes rows older than the window on insert, so
+-- the limit holds across Vercel instances instead of living in one process.
+create table if not exists public_rate_hits (
+  seq     bigserial    primary key,
+  bucket  text         not null,
+  client  text         not null,
+  at      timestamptz  not null default now()
+);
+create index if not exists public_rate_hits_lookup_idx on public_rate_hits (bucket, client, at desc);
+
 -- Helpful ordering indexes (small tables, but future-proof) ------------------
 create index if not exists jobs_created_idx                 on jobs (created_at desc, seq asc);
 create index if not exists contact_submissions_created_idx  on contact_submissions (created_at desc, seq asc);
