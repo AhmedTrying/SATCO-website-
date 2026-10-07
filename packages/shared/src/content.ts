@@ -172,7 +172,15 @@ export interface CareersPageCopy {
   title: string;
   intro: string[];
   life: { eyebrow: string; heading: string; paragraphs: string[] };
-  roles: { heading: string; note: string; emptyMessage: string; emptyLinkLabel: string };
+  roles: {
+    heading: string;
+    emptyMessage: string;
+    emptyLinkLabel: string;
+    /** Option B: "Show more roles" batch button under the list. */
+    showMoreLabel: string;
+    /** Option C: numbered pages under the list. */
+    pagination: { label: string; previous: string; next: string; page: string };
+  };
   howWeHire: {
     heading: string;
     paragraphs: string[];

@@ -173,12 +173,10 @@ export default async function CareersPage() {
           <Reveal>
             <h2
               id="roles-h"
-              className="mb-2 mt-0 scroll-mt-[calc(var(--nav-h)+1.5rem)] font-display text-[clamp(1.7rem,3.2vw,2.3rem)] font-bold leading-[1.14] tracking-[-0.015em] text-strong"
+              className="mb-7 mt-0 scroll-mt-[calc(var(--nav-h)+1.5rem)] font-display text-[clamp(1.7rem,3.2vw,2.3rem)] font-bold leading-[1.14] tracking-[-0.015em] text-strong"
             >
               {careersPage.roles.heading}
             </h2>
-            {/* ⚠ Mock listings — live LinkedIn/ATS feed is a TODO seam (lib/jobs.ts) */}
-            <p className="mb-7 mt-0 text-sm text-stone-600">{careersPage.roles.note}</p>
           </Reveal>
           <JobBoard jobs={jobs} />
         </Container>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { careersPage } from "@/content/careers";
 import { jobApplicationCopy } from "@/content/job-application";
 import { sectors } from "@/content/sectors";
@@ -40,14 +40,45 @@ const fieldClass =
   "w-full rounded-sm border border-stone-500 bg-surface px-3 py-[11px] text-[14.5px] text-strong focus:border-bronze-800";
 const labelClass = "text-[13px] font-semibold text-strong";
 
+/*
+ * Option B (docs/VARIANTS.md): the list shows the first BATCH roles that match
+ * the filters and a "Show more roles" button reveals the next batch in place —
+ * the filters stay put and the URL never changes. Changing any filter resets
+ * the list to the first batch. After a click, focus moves to the first newly
+ * revealed card's link so keyboard and screen-reader users land on new content.
+ */
+const BATCH = 10;
+
 export function JobBoard({ jobs: initialJobs }: { jobs: Job[] }) {
   const id = useId();
   const { jobs, status } = useLiveJobs(initialJobs);
   const [filters, setFilters] = useState<JobFilterState>(emptyFilters);
+  const [shown, setShown] = useState(BATCH);
+  const listRef = useRef<HTMLUListElement>(null);
+  const focusIndex = useRef<number | null>(null);
   const visible = filterJobs(jobs, filters);
+  const listed = visible.slice(0, shown);
+  const remaining = visible.length - listed.length;
 
-  const set = (key: keyof JobFilterState) => (value: string) =>
+  const set = (key: keyof JobFilterState) => (value: string) => {
     setFilters((f) => ({ ...f, [key]: value }));
+    setShown(BATCH);
+  };
+
+  const showMore = () => {
+    focusIndex.current = listed.length;
+    setShown((n) => n + BATCH);
+  };
+
+  // Runs after the new cards are in the DOM.
+  useEffect(() => {
+    const index = focusIndex.current;
+    if (index === null) return;
+    focusIndex.current = null;
+    listRef.current
+      ?.querySelector<HTMLAnchorElement>(`li:nth-child(${index + 1}) a`)
+      ?.focus({ preventScroll: false });
+  }, [shown]);
 
   const selects: Array<{
     key: keyof JobFilterState;
@@ -135,11 +166,11 @@ export function JobBoard({ jobs: initialJobs }: { jobs: Job[] }) {
           </p>
         )}
         <p aria-live="polite" className="mb-4 mt-0 text-[13px] text-stone-600">
-          Showing {visible.length} of {jobs.length} role{jobs.length === 1 ? "" : "s"}
+          Showing {listed.length} of {visible.length} role{visible.length === 1 ? "" : "s"}
         </p>
 
-        <ul className="m-0 flex list-none flex-col gap-3.5 p-0">
-          {visible.map((job) => (
+        <ul ref={listRef} className="m-0 flex list-none flex-col gap-3.5 p-0">
+          {listed.map((job) => (
             <li
               key={job.id}
               className="group relative overflow-hidden rounded-lg border border-border bg-surface transition-[translate,border-color,box-shadow] duration-[var(--dur-slow)] ease-[var(--ease-standard)] focus-within:border-bronze-300 hover:-translate-y-1 hover:border-bronze-300 hover:shadow-md"
@@ -173,6 +204,20 @@ export function JobBoard({ jobs: initialJobs }: { jobs: Job[] }) {
             </li>
           ))}
         </ul>
+
+        {remaining > 0 && (
+          <div className="mt-7 flex justify-center">
+            <button
+              type="button"
+              onClick={showMore}
+              className="inline-flex cursor-pointer items-center gap-2 rounded-sm border border-bronze-700 bg-transparent px-6 py-3 text-[15px] font-semibold text-bronze-800 transition-colors duration-[var(--dur-base)] hover:bg-bronze-50 hover:text-bronze-900"
+            >
+              {careersPage.roles.showMoreLabel}
+              <span className="text-stone-600 font-normal">({remaining})</span>
+              <span aria-hidden="true">↓</span>
+            </button>
+          </div>
+        )}
 
         {visible.length === 0 && (
           <p className="m-0 rounded-lg border border-dashed border-stone-300 bg-stone-50 p-7 text-center text-[15px] text-stone-600">

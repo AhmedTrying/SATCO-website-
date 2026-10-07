@@ -12,10 +12,16 @@
     "We seek individuals who value execution, accountability, as well as collaboration—and who want to contribute to projects that matter."
   ],
   "roles": {
-    "note": "Live roles are published via SATCO’s ATS / LinkedIn. Listings below are illustrative.",
     "heading": "Current opportunities",
     "emptyMessage": "No roles match your filters. Try broadening your search or",
-    "emptyLinkLabel": "submit a general application"
+    "emptyLinkLabel": "submit a general application",
+    "showMoreLabel": "Show more roles",
+    "pagination": {
+      "label": "Roles pages",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page"
+    }
   },
   "title": "Careers",
   "detail": {

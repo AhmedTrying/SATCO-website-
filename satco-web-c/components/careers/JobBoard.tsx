@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { careersPage } from "@/content/careers";
 import { jobApplicationCopy } from "@/content/job-application";
 import { sectors } from "@/content/sectors";
@@ -40,14 +40,55 @@ const fieldClass =
   "w-full rounded-sm border border-stone-500 bg-surface px-3 py-[11px] text-[14.5px] text-strong focus:border-bronze-800";
 const labelClass = "text-[13px] font-semibold text-strong";
 
+/*
+ * Option C (docs/VARIANTS.md): the matching roles are split into numbered pages
+ * of PAGE_SIZE with Previous / 1 2 3 / Next controls under the list. Changing a
+ * filter returns to page 1; if the live feed shrinks, the page clamps to the
+ * last one. A page change scrolls back to the top of the results (under the
+ * sticky header) and moves focus to the result count, which also announces it.
+ */
+const PAGE_SIZE = 10;
+
+const pageButtonClass =
+  "inline-flex h-10 min-w-10 cursor-pointer items-center justify-center rounded-sm border px-3 text-[14.5px] font-semibold transition-colors duration-[var(--dur-base)] disabled:cursor-default disabled:opacity-40";
+
 export function JobBoard({ jobs: initialJobs }: { jobs: Job[] }) {
   const id = useId();
   const { jobs, status } = useLiveJobs(initialJobs);
   const [filters, setFilters] = useState<JobFilterState>(emptyFilters);
+  const [page, setPage] = useState(1);
+  const countRef = useRef<HTMLParagraphElement>(null);
+  const pendingScroll = useRef(false);
   const visible = filterJobs(jobs, filters);
+  const pageCount = Math.max(1, Math.ceil(visible.length / PAGE_SIZE));
+  const current = Math.min(page, pageCount);
+  const start = (current - 1) * PAGE_SIZE;
+  const listed = visible.slice(start, start + PAGE_SIZE);
+  const pages = Array.from({ length: pageCount }, (_, i) => i + 1);
 
-  const set = (key: keyof JobFilterState) => (value: string) =>
+  const set = (key: keyof JobFilterState) => (value: string) => {
     setFilters((f) => ({ ...f, [key]: value }));
+    setPage(1);
+  };
+
+  const goTo = (next: number) => {
+    pendingScroll.current = true;
+    setPage(Math.min(Math.max(1, next), pageCount));
+  };
+
+  // After a page change: bring the results back under the sticky header and
+  // put focus on the (aria-live) count so the new page is announced.
+  useEffect(() => {
+    if (!pendingScroll.current) return;
+    pendingScroll.current = false;
+    const el = countRef.current;
+    if (!el) return;
+    const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--nav-h")) || 72;
+    const top = el.getBoundingClientRect().top + window.scrollY - navH - 24;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top, behavior: reduce ? "auto" : "smooth" });
+    el.focus({ preventScroll: true });
+  }, [current]);
 
   const selects: Array<{
     key: keyof JobFilterState;
@@ -134,12 +175,19 @@ export function JobBoard({ jobs: initialJobs }: { jobs: Job[] }) {
             {jobApplicationCopy.jobsUnavailable}
           </p>
         )}
-        <p aria-live="polite" className="mb-4 mt-0 text-[13px] text-stone-600">
-          Showing {visible.length} of {jobs.length} role{jobs.length === 1 ? "" : "s"}
+        <p
+          ref={countRef}
+          tabIndex={-1}
+          aria-live="polite"
+          className="mb-4 mt-0 text-[13px] text-stone-600 outline-none"
+        >
+          {visible.length === 0
+            ? `Showing 0 of ${jobs.length} role${jobs.length === 1 ? "" : "s"}`
+            : `Showing ${start + 1}–${start + listed.length} of ${visible.length} role${visible.length === 1 ? "" : "s"}`}
         </p>
 
         <ul className="m-0 flex list-none flex-col gap-3.5 p-0">
-          {visible.map((job) => (
+          {listed.map((job) => (
             <li
               key={job.id}
               className="group relative overflow-hidden rounded-lg border border-border bg-surface transition-[translate,border-color,box-shadow] duration-[var(--dur-slow)] ease-[var(--ease-standard)] focus-within:border-bronze-300 hover:-translate-y-1 hover:border-bronze-300 hover:shadow-md"
@@ -173,6 +221,52 @@ export function JobBoard({ jobs: initialJobs }: { jobs: Job[] }) {
             </li>
           ))}
         </ul>
+
+        {pageCount > 1 && (
+          <nav aria-label={careersPage.roles.pagination.label} className="mt-7">
+            <ul className="m-0 flex list-none flex-wrap items-center justify-center gap-2 p-0">
+              <li>
+                <button
+                  type="button"
+                  onClick={() => goTo(current - 1)}
+                  disabled={current === 1}
+                  className={`${pageButtonClass} border-stone-400 bg-transparent text-stone-800 hover:border-bronze-700 hover:text-bronze-800`}
+                >
+                  <span aria-hidden="true" className="rtl:-scale-x-100">←</span>{" "}
+                  {careersPage.roles.pagination.previous}
+                </button>
+              </li>
+              {pages.map((n) => (
+                <li key={n}>
+                  <button
+                    type="button"
+                    onClick={() => goTo(n)}
+                    aria-current={n === current ? "page" : undefined}
+                    aria-label={`${careersPage.roles.pagination.page} ${n}`}
+                    className={`${pageButtonClass} ${
+                      n === current
+                        ? "border-bronze-800 bg-bronze-800 text-white"
+                        : "border-stone-400 bg-transparent text-stone-800 hover:border-bronze-700 hover:text-bronze-800"
+                    }`}
+                  >
+                    {n}
+                  </button>
+                </li>
+              ))}
+              <li>
+                <button
+                  type="button"
+                  onClick={() => goTo(current + 1)}
+                  disabled={current === pageCount}
+                  className={`${pageButtonClass} border-stone-400 bg-transparent text-stone-800 hover:border-bronze-700 hover:text-bronze-800`}
+                >
+                  {careersPage.roles.pagination.next}{" "}
+                  <span aria-hidden="true" className="rtl:-scale-x-100">→</span>
+                </button>
+              </li>
+            </ul>
+          </nav>
+        )}
 
         {visible.length === 0 && (
           <p className="m-0 rounded-lg border border-dashed border-stone-300 bg-stone-50 p-7 text-center text-[15px] text-stone-600">
