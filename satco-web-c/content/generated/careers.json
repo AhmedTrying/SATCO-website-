@@ -11,8 +11,59 @@
     "SATCO offers opportunities to work on complex, large-scale projects that support national development and long-term infrastructure performance. Operating across construction, airport infrastructure, operations and support services, as well as public–private partnerships, SATCO provides professionals with exposure to challenging environments, multidisciplinary teams, and long-term career growth.",
     "We seek individuals who value execution, accountability, as well as collaboration—and who want to contribute to projects that matter."
   ],
+  "hero": {
+    "heading": "Build your career with SATCO",
+    "paragraphs": [
+      "Be part of the teams that build and keep essential infrastructure working across Saudi Arabia. At SATCO, engineers, technicians, project teams and business support colleagues contribute to work that people rely on every day.",
+      "Whether you bring years of experience or are looking for your next step, explore where your skills could make a difference."
+    ],
+    "primaryCta": "View current opportunities",
+    "secondaryCta": "Register your interest"
+  },
+  "value": {
+    "heading": "Work you can see the value of",
+    "body": "Our people help bring new communities into use, keep airport systems operating and support the everyday needs of the facilities we manage. Working across construction and operational services creates opportunities to solve practical problems and see the results of your contribution."
+  },
+  "contribute": {
+    "heading": "Where you could contribute",
+    "items": [
+      {
+        "title": "Engineering and project delivery",
+        "body": "help plan, build and complete projects with colleagues, clients and specialist partners."
+      },
+      {
+        "title": "Technical and operational services",
+        "body": "install and maintain equipment and keep essential services running."
+      },
+      {
+        "title": "Community and site services",
+        "body": "support the people who live and work in the environments we manage."
+      },
+      {
+        "title": "Commercial and business support",
+        "body": "contribute through finance, procurement, contracts, people services and technology."
+      }
+    ]
+  },
+  "people": {
+    "heading": "The people we are looking for",
+    "paragraphs": [
+      "We value people who take responsibility for their work, work safely and treat colleagues with respect. We look for sound judgement, a willingness to learn and the ability to work with others to get things done.",
+      "Our roles are based in offices, project sites and operational facilities. Each vacancy explains the location, responsibilities and experience required."
+    ]
+  },
+  "hire": {
+    "heading": "How we hire",
+    "body": "Apply for a role that matches your experience. Our recruitment team reviews applications against the position’s requirements and contacts shortlisted candidates about the next steps. Depending on the role, this may include interviews and a technical assessment. If you receive an offer, we will explain the terms and joining arrangements."
+  },
+  "register": {
+    "heading": "Register your interest",
+    "body": "If you do not see a suitable vacancy, you can share your CV and the type of work you are interested in. We may contact you if a relevant opportunity becomes available.",
+    "cta": "Register your interest"
+  },
   "roles": {
     "heading": "Current opportunities",
+    "intro": "Explore our current vacancies by role, location or area of work. Each listing explains the requirements and how to apply.",
     "emptyMessage": "No roles match your filters. Try broadening your search or",
     "emptyLinkLabel": "submit a general application",
     "showMoreLabel": "Show more roles",

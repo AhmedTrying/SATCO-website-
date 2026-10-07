@@ -5,6 +5,9 @@ const variants = {
   primary:
     "bg-primary text-white hover:bg-primary-hover hover:text-white",
   onImage: "bg-white text-bronze-800 hover:bg-bronze-50 hover:text-bronze-800",
+  /** Outlined bronze, for a second action beside a primary one (careers hero). */
+  secondary:
+    "border border-bronze-700 bg-transparent text-bronze-800 hover:bg-bronze-50 hover:text-bronze-900",
 } as const;
 
 /** Solid CTA link; the arrow gap widens on hover (design signature). */

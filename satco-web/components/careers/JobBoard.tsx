@@ -177,7 +177,7 @@ export function JobBoard({ jobs: initialJobs }: { jobs: Job[] }) {
         {visible.length === 0 && (
           <p className="m-0 rounded-lg border border-dashed border-stone-300 bg-stone-50 p-7 text-center text-[15px] text-stone-600">
             {careersPage.roles.emptyMessage}{" "}
-            <Link href="/careers#general-application" className="font-semibold text-bronze-800 no-underline hover:underline">
+            <Link href="/careers#register-interest" className="font-semibold text-bronze-800 no-underline hover:underline">
               {careersPage.roles.emptyLinkLabel}
             </Link>
             .

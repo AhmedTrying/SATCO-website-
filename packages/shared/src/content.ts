@@ -172,8 +172,21 @@ export interface CareersPageCopy {
   title: string;
   intro: string[];
   life: { eyebrow: string; heading: string; paragraphs: string[] };
+  /*
+   * "Suggested Careers copy" (client, 2026-10-07) — rendered by Option A's
+   * careers page. B and C still render title/intro/life/howWeHire/
+   * generalApplication with their own layouts until the client decides.
+   */
+  hero: { heading: string; paragraphs: string[]; primaryCta: string; secondaryCta: string };
+  value: { heading: string; body: string };
+  contribute: { heading: string; items: { title: string; body: string }[] };
+  people: { heading: string; paragraphs: string[] };
+  hire: { heading: string; body: string };
+  register: { heading: string; body: string; cta: string };
   roles: {
     heading: string;
+    /** One-sentence intro under the heading (Option A). */
+    intro: string;
     emptyMessage: string;
     emptyLinkLabel: string;
     /** Option B: "Show more roles" batch button under the list. */

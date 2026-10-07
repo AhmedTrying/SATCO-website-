@@ -2,34 +2,65 @@ import type { Metadata } from "next";
 import { careersPage } from "@/content/careers";
 import { getJobs } from "@/lib/jobs";
 import { Container } from "@/components/layout/Container";
-import { PageHeader } from "@/components/ui/PageHeader";
 import { Parallax } from "@/components/motion/Parallax";
 import { Reveal } from "@/components/motion/Reveal";
 import { ButtonLink } from "@/components/ui/ButtonLink";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Picture } from "@/components/ui/Picture";
 import { JobBoard } from "@/components/careers/JobBoard";
 
 export const metadata: Metadata = {
   title: "Careers",
-  description:
-    "Work on complex, large-scale projects that support national development — explore open roles across SATCO's four operating sectors.",
+  description: careersPage.hero.paragraphs[0],
 };
 
-/* Careers — copy verbatim docx; no PDFs, no email-only workflows (locked). */
+/*
+ * Careers (Option A) — the client's "Suggested Careers copy" of 2026-10-07,
+ * verbatim, in the order it was written: hero with two actions, "Work you can
+ * see the value of", "Where you could contribute", "The people we are looking
+ * for", the live roles list, "How we hire" and "Register your interest".
+ * Employee stories and development/life-at-SATCO detail are to follow once the
+ * client has them; nothing is invented here. No PDFs, no email-only workflows
+ * (locked). The register CTA goes to the contact form until a dedicated
+ * general-application form exists.
+ */
+const h2Class =
+  "mb-5 mt-0 font-display text-[clamp(1.7rem,3.2vw,2.3rem)] font-bold leading-[1.14] tracking-[-0.015em] text-strong";
+const bodyClass = "mb-4 mt-0 max-w-[62ch] text-base leading-[1.72] text-stone-700 last:mb-0";
+
 export default async function CareersPage() {
   const jobs = await getJobs();
+  const { hero, value, contribute, people, roles, hire, register } = careersPage;
   return (
     <>
-      <PageHeader
-        title={careersPage.title}
-        headingId="careers-h"
-        lead={careersPage.intro[0]}
-      >
-        <p className="mb-0 mt-3 max-w-[68ch] text-[15.5px] leading-[1.65] text-stone-600">
-          {careersPage.intro[1]}
-        </p>
-      </PageHeader>
+      {/* Hero: sand header band (site pattern) with the two actions from the copy */}
+      <div className="border-b border-border bg-sand">
+        <Container className="pb-[clamp(2.5rem,5vw,3.5rem)] pt-[clamp(2.5rem,5vw,4rem)]">
+          <h1
+            id="careers-h"
+            className="m-0 max-w-[18ch] font-display text-[clamp(2.2rem,4.4vw,3.2rem)] font-bold leading-[1.08] tracking-[-0.018em] text-strong [text-wrap:balance]"
+          >
+            {hero.heading}
+          </h1>
+          {hero.paragraphs.map((paragraph, i) => (
+            <p
+              key={paragraph.slice(0, 24)}
+              className={
+                i === 0
+                  ? "mb-0 mt-5 max-w-[66ch] text-[clamp(1.05rem,1.6vw,1.2rem)] leading-[1.6] text-stone-700"
+                  : "mb-0 mt-3 max-w-[66ch] text-[15.5px] leading-[1.65] text-stone-600"
+              }
+            >
+              {paragraph}
+            </p>
+          ))}
+          <div className="mt-7 flex flex-wrap gap-3">
+            <ButtonLink href="#roles-h">{hero.primaryCta}</ButtonLink>
+            <ButtonLink href="#register-interest" variant="secondary">
+              {hero.secondaryCta}
+            </ButtonLink>
+          </div>
+        </Container>
+      </div>
 
       {/* Cinematic band under the header (UCC-reference rhythm). Decorative
           stock imagery — neutral, no SATCO claim — so it is hidden from AT. */}
@@ -44,21 +75,14 @@ export default async function CareersPage() {
         </Parallax>
       </div>
 
-      <section aria-labelledby="life-h" className="border-b border-border bg-surface">
+      {/* Work you can see the value of — text beside layered site imagery */}
+      <section aria-labelledby="value-h" className="border-b border-border bg-surface">
         <Container className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] items-center gap-[clamp(2rem,4vw,3.5rem)] pb-[clamp(4.5rem,8vw,7rem)] pt-[clamp(3.5rem,7vw,6rem)]">
           <Reveal>
-            <Eyebrow className="mb-4">{careersPage.life.eyebrow}</Eyebrow>
-            <h2
-              id="life-h"
-              className="mb-5 mt-0 max-w-[20ch] font-display text-[clamp(1.5rem,2.8vw,2rem)] font-bold leading-[1.16] tracking-[-0.015em] text-strong"
-            >
-              {careersPage.life.heading}
+            <h2 id="value-h" className={`${h2Class} max-w-[18ch]`}>
+              {value.heading}
             </h2>
-            {careersPage.life.paragraphs.map((p) => (
-              <p key={p.slice(0, 24)} className="mb-4 mt-0 max-w-[60ch] text-base leading-[1.72] text-stone-700 last:mb-0">
-                {p}
-              </p>
-            ))}
+            <p className={bodyClass}>{value.body}</p>
           </Reveal>
           <Reveal delay={120} className="relative">
             {/* Layered depth (WhoWeAre pattern): the main image drifts up while
@@ -94,65 +118,91 @@ export default async function CareersPage() {
         </Container>
       </section>
 
+      {/* Where you could contribute — the four areas as a card grid */}
+      <section aria-labelledby="contribute-h" className="border-b border-border bg-sand">
+        <Container className="py-[clamp(3.5rem,7vw,6rem)]">
+          <Reveal>
+            <h2 id="contribute-h" className={h2Class}>
+              {contribute.heading}
+            </h2>
+          </Reveal>
+          <ul className="m-0 mt-2 grid list-none grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-5 p-0">
+            {contribute.items.map((item, i) => (
+              <li key={item.title} className="h-full">
+                <Reveal delay={i * 90} className="h-full">
+                  <div className="relative h-full rounded-lg border border-border bg-surface p-6 pt-7 shadow-xs">
+                    <span
+                      aria-hidden="true"
+                      className="absolute start-6 top-0 h-[3px] w-12 bg-bronze-700"
+                    />
+                    <h3 className="mb-2.5 mt-0 font-display text-[1.12rem] font-bold leading-[1.3] text-strong">
+                      {item.title}
+                    </h3>
+                    <p className="m-0 text-[15px] leading-[1.65] text-stone-700">
+                      {item.body}
+                    </p>
+                  </div>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </section>
+
+      {/* The people we are looking for — heading beside the two paragraphs */}
+      <section aria-labelledby="people-h" className="border-b border-border bg-surface">
+        <Container className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-x-[clamp(2rem,5vw,4.5rem)] gap-y-6 py-[clamp(3.5rem,7vw,6rem)] lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+          <Reveal>
+            <h2 id="people-h" className={`${h2Class} mb-0 max-w-[16ch]`}>
+              {people.heading}
+            </h2>
+            <span aria-hidden="true" className="mt-5 block h-[3px] w-14 bg-bronze-700" />
+          </Reveal>
+          <Reveal delay={100}>
+            {people.paragraphs.map((paragraph) => (
+              <p key={paragraph.slice(0, 24)} className={bodyClass}>
+                {paragraph}
+              </p>
+            ))}
+          </Reveal>
+        </Container>
+      </section>
+
+      {/* Current opportunities — the live roles list */}
       <section aria-labelledby="roles-h" className="bg-bg">
         <Container className="py-[var(--section-y)]">
           <Reveal>
             <h2
               id="roles-h"
-              className="mb-7 mt-0 font-display text-[clamp(1.7rem,3.2vw,2.3rem)] font-bold leading-[1.14] tracking-[-0.015em] text-strong"
+              className={`${h2Class} mb-3 scroll-mt-[calc(var(--nav-h)+1.5rem)]`}
             >
-              {careersPage.roles.heading}
+              {roles.heading}
             </h2>
+            <p className="mb-7 mt-0 max-w-[62ch] text-base leading-[1.65] text-stone-700">
+              {roles.intro}
+            </p>
           </Reveal>
           <JobBoard jobs={jobs} />
         </Container>
       </section>
 
+      {/* How we hire — one paragraph with a bronze rule */}
       <section aria-labelledby="hire-h" className="border-t border-border bg-sand">
         <Container className="py-[clamp(3.5rem,7vw,6rem)]">
-          <Reveal>
-            <h2
-              id="hire-h"
-              className="mb-4 mt-0 font-display text-[clamp(1.7rem,3.2vw,2.3rem)] font-bold leading-[1.14] tracking-[-0.015em] text-strong"
-            >
-              {careersPage.howWeHire.heading}
+          <Reveal className="max-w-[72ch] border-s-[3px] border-bronze-700 ps-6 sm:ps-8">
+            <h2 id="hire-h" className={`${h2Class} mb-4`}>
+              {hire.heading}
             </h2>
-            {careersPage.howWeHire.paragraphs.map((p) => (
-              <p key={p.slice(0, 24)} className="mb-3.5 mt-0 max-w-[70ch] text-base leading-[1.68] text-stone-700">
-                {p}
-              </p>
-            ))}
+            <p className="m-0 max-w-[68ch] text-base leading-[1.72] text-stone-700">{hire.body}</p>
           </Reveal>
-          {/* Numbered rhythm: hairline + bronze tick + ghost numeral per step.
-              Order is conveyed by the <ol>; the numerals are decorative. */}
-          <ol className="m-0 mt-[clamp(2rem,4vw,3rem)] grid list-none grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-x-7 gap-y-9 p-0">
-            {careersPage.howWeHire.steps.map((step, i) => (
-              <li key={step.title}>
-                <Reveal delay={i * 90} className="h-full">
-                  <div className="relative h-full border-t border-stone-300 pt-5">
-                    <span aria-hidden="true" className="absolute -top-px start-0 h-[2px] w-12 bg-bronze-700" />
-                    <div
-                      aria-hidden="true"
-                      className="mb-3 font-display text-[clamp(2.2rem,3.4vw,2.8rem)] font-bold leading-none text-bronze-300 tabular-nums"
-                    >
-                      {String(i + 1).padStart(2, "0")}
-                    </div>
-                    <h3 className="mb-2 mt-0 font-display text-[1.1rem] font-bold text-strong">
-                      {step.title}
-                    </h3>
-                    <p className="m-0 text-[14.5px] leading-[1.6] text-body">{step.body}</p>
-                  </div>
-                </Reveal>
-              </li>
-            ))}
-          </ol>
         </Container>
       </section>
 
+      {/* Register your interest — dark band with the single action */}
       <section
-        id="general-application"
-        aria-labelledby="genapp-h"
-        className="on-dark relative overflow-hidden bg-bronze-950"
+        id="register-interest"
+        aria-labelledby="register-h"
+        className="on-dark relative scroll-mt-[var(--nav-h)] overflow-hidden bg-bronze-950"
       >
         {/* Background drifts slower than the scroll (scale hides the edges) */}
         <Parallax strength={40} scale={1.12} className="absolute inset-0">
@@ -171,16 +221,16 @@ export default async function CareersPage() {
         <Container className="relative z-[2] py-[clamp(4rem,8vw,7rem)] text-center">
           <Reveal>
             <h2
-              id="genapp-h"
+              id="register-h"
               className="mb-3.5 mt-0 font-display text-[clamp(1.6rem,3vw,2.2rem)] font-bold leading-[1.16] tracking-[-0.015em] text-white [text-wrap:balance]"
             >
-              {careersPage.generalApplication.heading}
+              {register.heading}
             </h2>
-            <p className="mx-auto mb-7 mt-0 max-w-[52ch] text-base leading-[1.6] text-bronze-200">
-              {careersPage.generalApplication.body}
+            <p className="mx-auto mb-7 mt-0 max-w-[56ch] text-base leading-[1.6] text-bronze-200">
+              {register.body}
             </p>
             <ButtonLink href="/contact" variant="onImage">
-              {careersPage.generalApplication.cta}
+              {register.cta}
             </ButtonLink>
           </Reveal>
         </Container>
