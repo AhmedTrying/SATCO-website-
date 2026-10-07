@@ -78,8 +78,7 @@ schema.sql and then every file in `db/migrations/`): it maps the old roles to
 staff/admin (former publishers keep the Jobs page), adds `users.access`, and drops the
 `content_bundle` and `publishes` tables. Applied to the hosted Neon database on 2026-10-07.
 `db/migrations/2026-10-07-public-rate-hits.sql` adds the `public_rate_hits` table for the
-durable rate limit (see above); **not yet applied to hosted Neon** — run `npm run db:migrate`
-once. Until then the endpoints log a warning per request and fall back to the in-memory limit.
+durable rate limit (see above). Applied to the hosted Neon database on 2026-10-07.
 
 ## Environment
 
