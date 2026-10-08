@@ -416,3 +416,13 @@
     transform: rotate(360deg);
   }
 }
+
+/* Hash targets used by the A/B/C review board (satco-review/) land below the
+   sticky header instead of under it. */
+#who-h,
+#stat-h,
+#sectors-h,
+#contact-teaser-h,
+#careers-teaser-h {
+  scroll-margin-top: calc(var(--nav-h) + 1.5rem);
+}

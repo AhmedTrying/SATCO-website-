@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="color-scheme" content="dark">
+  <title>SATCO website — A / B / C review board</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-focus="false">
+  <header class="bar">
+    <div class="brand">
+      <!-- SATCO emblem, same paths as satco-web/components/ui/Emblem.tsx -->
+      <svg width="34" height="34" viewBox="32 116 74 74" fill="none" aria-hidden="true">
+        <path fill="#704000" d="M103 160 C90 159 82 162 74 169 C68 175 64 179 60 180 L48 180 C34.4 169.7 31.2 151 39.8 136.4 C48.3 121.7 66.2 115.3 82.1 121.2 C98.1 127.1 107.5 143.5 104.4 160.3 Z"/>
+        <path fill="#726a5a" d="M102 168 C98 177.4 90 184.5 80.2 187.5 C72 187 64 187 60 187 C70 181 80 175 88 168 C94 168 99 168 102 168 Z"/>
+      </svg>
+      <div>
+        <span>SATCO website</span>
+        <strong>A / B / C review board</strong>
+      </div>
+    </div>
+    <div class="bar-mid">
+      <span class="badge" id="env">…</span>
+      <span class="progress" id="progress"></span>
+    </div>
+    <div class="bar-actions">
+      <button type="button" class="btn" id="btn-focus" aria-pressed="false" title="Hide the rail and the option notes (F)">Focus <kbd>F</kbd></button>
+      <button type="button" class="btn" id="btn-summary" aria-pressed="false" title="All decisions on one page (Esc)">Summary <kbd>Esc</kbd></button>
+      <button type="button" class="btn" id="btn-settings">Reviewers</button>
+      <button type="button" class="btn" id="btn-export-md">Export Markdown</button>
+      <button type="button" class="btn" id="btn-export-json">Export JSON</button>
+      <label class="btn" for="import">Import JSON<input type="file" id="import" accept="application/json,.json" hidden></label>
+      <button type="button" class="btn danger" id="btn-reset">Reset</button>
+    </div>
+  </header>
+
+  <div class="body">
+    <aside class="rail" id="rail" aria-label="Sections"></aside>
+    <main class="stage" id="stage"></main>
+  </div>
+
+  <section class="summary" id="summary" hidden aria-label="Decision summary"></section>
+
+  <dialog id="settings" aria-labelledby="settings-title">
+    <form id="settings-form" method="dialog">
+      <h2 id="settings-title">Reviewers</h2>
+      <p>One opinion chip per name on every section. Votes already recorded keep their name.</p>
+      <div class="reviewer-list"></div>
+      <div class="dialog-actions">
+        <button type="button" class="btn" id="add-reviewer">Add reviewer</button>
+        <div>
+          <button type="button" class="btn" id="settings-cancel">Cancel</button>
+          <button type="submit" class="btn primary">Save</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <p class="help" aria-hidden="true"><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> option · <kbd>S</kbd> side by side · <kbd>M</kbd> mobile · <kbd>R</kbd> reload · <kbd>←</kbd> <kbd>→</kbd> section · <kbd>F</kbd> focus · <kbd>Esc</kbd> summary</p>
+
+  <script src="items.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

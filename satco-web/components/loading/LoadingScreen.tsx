@@ -52,10 +52,14 @@ export function LoadingScreen() {
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // `?intro=1` replays the intro and leaves the seen flag alone (used by the
+    // A/B/C review board, satco-review/, to replay it in a frame).
+    const replay =
+      new URLSearchParams(window.location.search).get("intro") === "1";
     let seen = false;
 
     try {
-      seen = sessionStorage.getItem(STORAGE_KEY) === "1";
+      seen = !replay && sessionStorage.getItem(STORAGE_KEY) === "1";
     } catch {
       // If storage is unavailable, show the intro once for this mount.
     }
@@ -72,7 +76,7 @@ export function LoadingScreen() {
         ),
         window.setTimeout(() => {
           try {
-            sessionStorage.setItem(STORAGE_KEY, "1");
+            if (!replay) sessionStorage.setItem(STORAGE_KEY, "1");
           } catch {
             // The animation remains usable when storage is unavailable.
           }

@@ -4,26 +4,55 @@
     {
       "name": "satco-web",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["--prefix", "satco-web", "run", "dev"],
+      "runtimeArgs": [
+        "--prefix",
+        "satco-web",
+        "run",
+        "dev"
+      ],
       "port": 3000
     },
     {
       "name": "satco-web-b",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["--prefix", "satco-web-b", "run", "dev"],
+      "runtimeArgs": [
+        "--prefix",
+        "satco-web-b",
+        "run",
+        "dev"
+      ],
       "port": 3001
     },
     {
       "name": "satco-web-c",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["--prefix", "satco-web-c", "run", "dev"],
+      "runtimeArgs": [
+        "--prefix",
+        "satco-web-c",
+        "run",
+        "dev"
+      ],
       "port": 3002
     },
     {
       "name": "satco-admin",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["--prefix", "satco-admin", "run", "dev"],
+      "runtimeArgs": [
+        "--prefix",
+        "satco-admin",
+        "run",
+        "dev"
+      ],
       "port": 3100
+    },
+    {
+      "name": "satco-review",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "satco-review/serve.mjs",
+        "3200"
+      ],
+      "port": 3200
     }
   ]
 }
