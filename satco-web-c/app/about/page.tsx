@@ -17,27 +17,32 @@ export const metadata: Metadata = {
  * Card imagery is decorative (empty alt — the card titles carry the meaning),
  * so the neutral-stock rule is satisfied without inventing captions.
  */
+/* FIX-44 (Tamer): link labels are the content document's, not a generic "Explore". */
 const cards = [
   {
     href: "/about/company",
+    cta: "View Company Information",
     title: "Company information",
     body: "An overview of SATCO’s history, evolution, and integrated operating model.",
     image: "riyadh-2",
   },
   {
     href: "/about/leadership",
+    cta: "Meet Our Leadership",
     title: "Key people & leadership",
     body: "The leadership team guiding SATCO’s strategy, governance, and long-term direction.",
     image: "team-2",
   },
   {
     href: "/about/certifications",
+    cta: "View Licenses & Certifications",
     title: "Classifications, licenses & certifications",
     body: "SATCO’s regulatory classifications and internationally recognized certifications.",
     image: "plant-1",
   },
   {
     href: "/about/clients",
+    cta: "View Clients",
     title: "Clients",
     body: "Organizations that have trusted SATCO across its operating sectors and delivery models.",
     image: "terminal-1",
@@ -155,7 +160,7 @@ export default function AboutPage() {
                     {card.body}
                   </p>
                   <span className="inline-flex items-center gap-[7px] text-[14.5px] font-semibold text-bronze-800 transition-[gap] duration-[var(--dur-base)] group-hover:gap-3">
-                    Explore{" "}
+                    {card.cta}{" "}
                     <span aria-hidden="true" className="rtl:-scale-x-100">
                       →
                     </span>

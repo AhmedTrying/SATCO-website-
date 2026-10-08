@@ -6,8 +6,10 @@ import data from "./generated/stats.json";
 export const statPendingNote: string = data.statPendingNote;
 
 /*
- * Home stat band. Stat #3 has NO figure (value null) — NEVER invent one.
- * Sourced from the generated JSON (published from the dashboard).
+ * Home stat band, from the generated JSON (edited in code since the dashboard
+ * CMS was retired). Stat #3 ("assets") carries the client's figure from
+ * "SATCO in Numbers.xlsx" (388 villas, FIX-18, 2026-10-07); figures are client
+ * data only, never invented.
  *
  * Option B: the figures and labels come from the client's "SATCO in Numbers.xlsx"
  * (website feedback folder, received 2026-10-04), wording from its "Suggested"
